@@ -11,7 +11,7 @@
  */
 class Solution { 
 private:
-    TreeNode* solve(vector<int>& pre,int &ind,int upper)
+    TreeNode* solve(vector<int>& pre,int &ind,int &upper)
     {
         if(ind==pre.size() || pre[ind]>upper)
             return  NULL;
