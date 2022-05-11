@@ -19,7 +19,6 @@ public:
         while(low<high)
         {
             int mid=(low+high)/2; 
-            cout<<mid<<" ";
             if(count(nums,mid)<=mid)
             {  
                 low=mid+1;
