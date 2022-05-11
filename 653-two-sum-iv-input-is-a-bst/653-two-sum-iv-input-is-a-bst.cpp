@@ -8,26 +8,67 @@
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
- */
-class Solution { 
+ */ 
+class BSTIterator{
     private: 
-    map<int,int>mp;
-    bool solve(TreeNode* root, int k)
+    ////false--->next
+    ////true--->  before
+    stack<TreeNode *>s;
+    bool reverse=true; 
+    void inorder(TreeNode *root,bool reverse)
     {
-        if(root==NULL) 
-            return false; 
-        bool l=solve(root->left,k); 
-        mp[root->val]++;
-         if(mp.count(k- root->val) && root->val!=k-root->val) 
-            return true;
-        bool r=solve(root->right,k);
-        mp[root->val]++;
-        return l || r;
+        while(root!=NULL)
+        {
+           if(reverse==false)
+           {
+               s.push(root);
+               root=root->left;
+           }
+            else{
+                s.push(root);
+                root=root->right;
+            }
+        }
     }
+    public:
+    BSTIterator(TreeNode *root,bool isreverse)
+    {
+        reverse=isreverse;
+        inorder(root,reverse); 
+    }
+    bool hasnext()
+    {
+        return !s.empty();
+    }
+    int next()
+    {
+        TreeNode *temp=s.top();
+        s.pop();
+        if(reverse==false)
+        {
+            inorder(temp->right,false);
+        }
+        else
+            inorder(temp->left,true);
+        return temp->val;
+    }
+};
+class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
-        if(root==NULL) 
-            return false;
-        return solve(root,k);
+        BSTIterator obj1(root,false);
+        BSTIterator   obj2(root,true);  
+        int i=obj1.next();
+        int j=obj2.next();
+        while(i<j )
+        {
+            if(i+j==k)
+                return true;
+            else if(i+j<k)
+                i=obj1.next();
+            else
+               j= obj2.next();
+        }
+        return false;
     }
 };
