@@ -36,10 +36,10 @@ class BSTIterator{
         reverse=isreverse;
         inorder(root,reverse); 
     }
-    bool hasnext()
-    {
-        return !s.empty();
-    }
+    // bool hasnext()
+    // {
+    //     return !s.empty();
+    // }
     int next()
     {
         TreeNode *temp=s.top();
