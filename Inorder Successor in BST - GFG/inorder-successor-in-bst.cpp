@@ -107,27 +107,36 @@ struct Node {
 };
 */
 
-class Solution{ 
-    private: 
-     Node *ans=NULL;
-    void solve(Node *root, Node *x)
+class Solution{  
+    private:
+    void inorder(Node *root,Node *x,Node *succ)
     {
         if(root==NULL)
-        return;
-        if(root->data>x->data)
+        return ;
+        inorder(root->left,x,succ);
+        if(root->data>x->data && !succ->left)
         {
-            ans=root;
-            solve(root->left,x);
+            succ->left=root;
+            return ;
         }
-        else
-        solve(root->right,x);
+        inorder(root->right,x,succ);
+    }
+    private:
+    Node  *solve(Node *root,Node *x)
+    { 
+        Node *succ=new  Node (0);
+        inorder(root,x,succ);
+         return succ->left;
+         
+         
     }
   public:
-    // returns the inorder successor of the Node x in BST (rooted at 'root') 
+    // returns the inorder successor of the Node x in BST (rooted at 'root')
     Node * inOrderSuccessor(Node *root, Node *x)
     {
-      solve(root,x);
-      return ans;
+      Node *ans=NULL;
+      return solve(root,x);
+      
     }
 };
 
