@@ -15,7 +15,7 @@ class Solution {
            return NULL;
         if(root->val>p->val && root->val>q->val)
           return solve(root->left,p,q);
-         if(root->val<p->val && root->val<q->val)
+        else if(root->val<p->val && root->val<q->val)
            return solve(root->right,p,q); 
         else  
           return root;
