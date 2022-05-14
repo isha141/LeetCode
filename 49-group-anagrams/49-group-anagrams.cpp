@@ -17,7 +17,7 @@ class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         map<string,vector<string>>mp;
-        for(auto itr: strs)
+        for(auto &itr: strs)
         {
             string s=counters(itr);
             mp[s].push_back(itr);
