@@ -5,8 +5,7 @@ public:
         {
             if(multiset<char>(words[i].begin(),words[i].end())==multiset<char>(words[i+1].begin(),words[i+1].end()))
             {
-                words.erase(words.begin()+i+1);
-                i--;
+                words.erase(words.begin()+1+i--);
             }
         }
         return words;
