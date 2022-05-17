@@ -8,24 +8,13 @@
  * };
  */
 
-class Solution { 
-    private:
-    void solve(TreeNode* root,TreeNode* target,TreeNode* &ans)
-    {
-        if(root==NULL)
-            return ; 
-        if(root->val==target->val)
-            ans=root;
-        solve(root->left,target,ans);
-        solve(root->right,target,ans); 
-    }
+class Solution {
 public:
-    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) { 
-        if(cloned==NULL)
+    TreeNode* getTargetCopy(TreeNode* o1, TreeNode* o2,TreeNode* target) {
+        if(!o2)
             return NULL; 
-        TreeNode* ans=NULL;
-         solve(cloned,target,ans);
-        // return ans;
-        return ans;
+        if(o1==target)
+            return o2;
+     return  (getTargetCopy(o1->left,o2->left,target)==NULL)?getTargetCopy(o1->right,o2->right,target):getTargetCopy(o1->left,o2->left,target);
     }
 };
