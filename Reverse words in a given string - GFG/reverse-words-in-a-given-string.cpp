@@ -11,27 +11,29 @@ class Solution
     //Function to reverse words in a given string.
     string reverseWords(string S) 
     { 
-       vector<string>ds;
+        stack<string>s;
         string temp="";
-        string ans="";
         for(auto itr: S)
         {
             if(itr=='.')
             {
-                ds.push_back(temp);
+                s.push(temp);
                 temp="";
             }
             else
             temp+=itr;
-        } 
-        ds.push_back(temp);
-        reverse(ds.begin(),ds.end());
-        for(auto itr: ds)
-        ans+=itr+"."; 
+        }  
+        s.push(temp);
+        string ans="";
+        while(!s.empty())
+        {
+            ans+=s.top();
+            ans+=".";
+            s.pop();
+        }
         ans.erase(ans.size()-1);
         return ans;
     } 
-    
 };
 
 // { Driver Code Starts.
