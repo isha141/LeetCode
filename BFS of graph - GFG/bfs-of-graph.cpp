@@ -5,39 +5,35 @@ using namespace std;
  // } Driver Code Ends
 class Solution { 
     private:
-    void solve(int i,vector<int>&ans,int *visited,vector<int>adj[])
-    {
-        
-    }
-  public:
-    // Function to return Breadth First Traversal of given graph.
-    vector<int> bfsOfGraph(int v, vector<int> adj[]) {
-        // Code here
-        vector<int> ans;
-        int visited[v+1]={0}; 
+    void solve(int V,vector<int> adj[],vector<int>&ans){
         queue<int>q;
-        q.push(0); 
-        visited[0]=1;
+        q.push(0);
+        bool visited[V+1]={false};
+        visited[0]=true;
         while(!q.empty())
         {
-            int temp=q.front();
-            q.pop(); 
-            ans.push_back(temp);
-            for(auto itr: adj[temp])
+            int n=q.size();
+            for(int i=0;i<n;i++)
             {
-                if(visited[itr]==0)
+                int temp=q.front();
+                q.pop();
+                ans.push_back(temp); 
+                for(auto itr: adj[temp]){
+                if(!visited[itr])
                 {
                     q.push(itr);
                     visited[itr]=1;
                 }
             }
         }
-        // for(int i=0;i<=v;i++)
-        // { 
-        //     if(!visited[i])
-        //     solve(i,ans,visited,adj);
-        // }
-        return ans;
+    } 
+    }
+  public:
+    // Function to return Breadth First Traversal of given graph.
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+      vector<int>ans;
+      solve(V,adj,ans);
+      return ans; 
     }
 };
 
