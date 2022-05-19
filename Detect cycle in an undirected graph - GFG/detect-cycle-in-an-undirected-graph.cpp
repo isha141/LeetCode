@@ -5,42 +5,31 @@ using namespace std;
  // } Driver Code Ends
 class Solution { 
     private:
-    bool iscycle(int i, vector<int>&visited,vector<int>adj[])
-    {
-        queue<pair<int,int>>q;
-        q.push({i,-1}); 
-        visited[i]=1;
-        while(!q.empty())
+    bool solve(int i,int prev,vector<int>&visited,vector<int>adj[])
+    { 
+         visited[i]=1;
+         for(auto itr: adj[i])
         {
-                auto itr=q.front();
-                int node=itr.first;
-                int prev=itr.second; 
-                q.pop();
-                for(auto &it: adj[node])
-                {
-                    if(visited[it] && it!=prev)
-                    { 
-                         return true;
-                    }
-                    else if(!visited[it])
-                    {
-                          visited[it]=1;
-                        q.push({it,node});
-                    }
-                }
+            if(!visited[itr]){
+            if(solve(itr,i,visited,adj))
+            return true; 
+            }
+            else if(itr!=prev)
+            {
+                return true;
+            }
         }
         return false;
     }
   public:
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
-       vector<int>visited(V+1,0);
+        vector<int>visited(V+1,0);
         for(int i=0;i<V;i++)
         {
-            if(!visited[i])
-            {
-                if(iscycle(i,visited,adj))
-                return true;
+            if(!visited[i]){
+            if(solve(i,-1,visited,adj))
+            return true;
             }
         }
         return false;
