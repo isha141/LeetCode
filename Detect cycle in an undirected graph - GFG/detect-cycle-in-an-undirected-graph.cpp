@@ -18,14 +18,14 @@ class Solution {
                 q.pop();
                 for(auto &it: adj[node])
                 {
-                    if(!visited[it] )
-                    {
-                        visited[it]=1;
-                        q.push({it,node});
-                    }
-                    else if(it!=prev)
-                    {
+                    if(visited[it] && it!=prev)
+                    { 
                          return true;
+                    }
+                    else if(!visited[it])
+                    {
+                          visited[it]=1;
+                        q.push({it,node});
                     }
                 }
         }
