@@ -14,7 +14,7 @@ class Solution {
                 if(color[itr]==-1)
                 {
                     q.push(itr);
-                    color[itr]=!color[temp];
+                    color[itr]=1^color[temp];
                 } 
                 else if(color[itr]!=-1)
                 {
