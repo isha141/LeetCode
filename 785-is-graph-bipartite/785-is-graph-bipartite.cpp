@@ -1,41 +1,31 @@
 class Solution { 
     private:
-    bool bfs(vector<vector<int>>& graph,int i,vector<int>&color)
+    bool solve(int i,vector<vector<int>>& graph,int m,vector<int>&visited)
     {
-        queue<int>q;
-        q.push(i);
-        color[i]=0;
-        while(!q.empty())
+        for(auto itr: graph[i])
         {
-            int temp=q.front();
-            q.pop();
-            for(auto itr: graph[temp])
+            if(visited[itr]==-1)
             {
-                if(color[itr]==-1)
-                {
-                    q.push(itr);
-                    color[itr]=1^color[temp];
-                } 
-                else if(color[itr]!=-1)
-                {
-                    if(color[itr]==color[temp])
-                        return false;
-                }
+                visited[itr]=!visited[i];
+                if(!solve(itr,graph,m,visited))
+                    return false;
             }
+            else if(visited[itr]==visited[i])
+                 return false;
         }
         return true;
     }
 public:
     bool isBipartite(vector<vector<int>>& graph) {
-        int m=graph.size();
-        int n=graph[0].size();
-        vector<int>color(m,-1);
+        int m=graph.size(); 
+        vector<int> visited(m,-1);
         for(int i=0;i<m;i++)
         {
-            if(color[i]==-1)
-            {
-                if(!bfs(graph,i,color))
-                    return false;
+            if(visited[i]==-1)
+            { 
+                visited[i]=0;
+              if(!solve(i,graph,m,visited))
+                  return false;
             }
         }
         return true;
