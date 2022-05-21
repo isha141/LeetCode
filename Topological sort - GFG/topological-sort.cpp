@@ -4,40 +4,41 @@ using namespace std;
 
  // } Driver Code Ends
 class Solution
-{ 
-    private:
-    void solve(int i,vector<int>&vis,vector<int> adj[],stack<int>&s)
-    { 
-           vis[i]=1;
-        for(auto itr: adj[i])
-        {
-            if(!vis[itr])
-            {
-                solve(itr,vis,adj,s);
-            }
-        }
-       s.push(i);
-    }
-    
+{
 	public:
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
 	    // code here 
-	    vector<int>ans; 
-	    stack<int>s;
-	    vector<int>vis(V+1,0);
+	    vector<int>ans;
+	    queue<int>q;
+	    vector<int>indegree(V,0);
 	    for(int i=0;i<V;i++)
 	    {
-	       if(!vis[i])
-	       {
-	           solve(i,vis,adj,s);
-	       }
-	    } 
-	    while(!s.empty())
+	        for(auto itr: adj[i])
+	        {
+	            indegree[itr]++;
+	        }
+	    }
+	    for(int i=0;i<V;i++)
 	    {
-	        ans.push_back(s.top());
-	        s.pop();
+	        if(indegree[i]==0)
+	        {
+	            q.push(i);
+	        }
+	    }
+	    while(!q.empty())
+	    {
+	        int temp=q.front();
+	        q.pop(); 
+	        ans.push_back(temp);
+	        for(auto itr: adj[temp])
+	        indegree[itr]--;
+	        for(auto itr: adj[temp])
+	        {
+	            if(indegree[itr]==0)
+	            q.push(itr);
+	        }
 	    }
 	    return ans;
 	}
