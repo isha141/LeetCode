@@ -7,17 +7,16 @@ class Solution
 { 
     private:
     void solve(int i,vector<int>&vis,vector<int> adj[],stack<int>&s)
-    {
+    { 
+           vis[i]=1;
         for(auto itr: adj[i])
         {
             if(!vis[itr])
             {
-                vis[itr]=1;
                 solve(itr,vis,adj,s);
-                s.push(itr);
             }
         }
-        return ;
+       s.push(i);
     }
     
 	public:
@@ -32,9 +31,7 @@ class Solution
 	    {
 	       if(!vis[i])
 	       {
-	           vis[i]=1;
 	           solve(i,vis,adj,s);
-	           s.push(i);
 	       }
 	    } 
 	    while(!s.empty())
