@@ -11,15 +11,23 @@ class Solution{
     private:
     void solve(int i,int j,vector<vector<char>> &mat)
     {
-        if(i<0 || j<0 || i>=mat.size()|| j>=mat[0].size() || mat[i][j]!='O')
+        // if(i<0 || j<0 || i>=mat.size()|| j>=mat[0].size() || mat[i][j]!='O')
+        // {
+        //     return ;
+        // }  
+        mat[i][j]='1';
+        int dx[]={1,-1,0,0};
+        int dy[]={0,0,1,-1};
+        for(int k=0;k<4;k++)
         {
-            return ;
-        }  
-        mat[i][j]='1'; 
-        solve(i-1,j,mat);
-        solve(i+1,j,mat);
-        solve(i,j+1,mat);
-        solve(i,j-1,mat);
+            int cx=i+dx[k];
+            int cy=j+dy[k];
+            if(cx>=0 && cx<mat.size() && cy>=0 && cy<mat[0].size())
+            {
+               if(mat[cx][cy]=='O')
+                solve(cx,cy,mat);
+            }
+        }
         
     }
 public:
