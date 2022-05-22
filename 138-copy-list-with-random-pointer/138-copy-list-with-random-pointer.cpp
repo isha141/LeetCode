@@ -22,33 +22,33 @@ public:
         while(head!=NULL)
         {
             Node *temp=new Node(head->val);
-            temp->next=NULL;
             temp->next=head->next;
             head->next=temp;
             head=head->next->next;
-        } 
+        }
         head=dummy->next;
         while(head!=NULL)
         {
-          Node *temp=head->next; 
-            if(head->random!=NULL)
-            temp->random=head->random->next; 
-            else
+            Node *temp=head->next; 
+            if(head->random==NULL)
                 temp->random=NULL;
+            else
+            temp->random=head->random->next;
             head=head->next->next;
-        }
-        head=dummy->next; 
+        } 
+        head=dummy->next;
         Node *iter=dummy;
-         Node *pseudo=dummy;
+        Node *psuedo =dummy; 
         while(head!=NULL)
-        { 
+        {
             Node *temp=head->next->next;
             iter->next=head->next;
+           // iter->next=temp->next;  
+            iter=iter->next;
             head->next=temp;
-            iter=iter->next; 
             head=head->next;
         }
-        return pseudo->next;
+        return dummy->next;
         
     }
 };
