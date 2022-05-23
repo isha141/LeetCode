@@ -1,18 +1,15 @@
 class Solution {
 public:
-    int reverse(int x) { 
-        if(x<=INT_MIN || x>=INT_MAX) return 0;
-        int sign=0;
-        if(x<0)
-            sign=1;
-        string s=to_string(x);
-        std::reverse(s.begin(),s.end());
-        long long  temp =stoll(s); 
-        if(temp>=INT_MAX)
-            return 0;
-        if(sign)
-            temp=temp*-1;
-        return temp;
-            
+    int reverse(int x) {
+       int ans=0;
+        while(x!=0)
+        {
+            if(ans>INT_MAX/10 || ans<INT_MIN/10)
+                return 0;
+             int temp=ans*10+ x%10;
+            ans=temp;
+            x=x/10;
+        }
+        return ans;
     }
 };
