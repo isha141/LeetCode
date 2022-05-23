@@ -4,37 +4,35 @@ using namespace std;
 
  // } Driver Code Ends
 class Solution
-{    private:
-    void solve(priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>&pq,int V,vector<vector<int>> adj[],vector<int>&dis)
-    {  
-        while(!pq.empty())
-        { 
-            int d=pq.top().first; //distance 
-            int node=pq.top().second;  //modee;
-            pq.pop();
-            for(auto itr: adj[node])
-            {
-                int e=itr[0]; //node
-                int w=itr[1]; //weight
-                if(dis[node]+w<dis[e])
-                {
-                    dis[e]=dis[node]+w;
-                    pq.push({dis[node]+w,e});
-                }
-            }
-        }
-    }
+{ 
 	public:
 	//Function to find the shortest distance of all the vertices
     //from the source vertex S.
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-        // Code here 
-        vector<int>dis(V,INT_MAX);
-       priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        pq.push({0,S}); 
+        // Code here  
+        vector<int>vis(V,0);
+        vector<int>dis(V,INT_MAX);  
         dis[S]=0;
-        solve(pq,V,adj,dis);
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        pq.push({0,S});
+        while(!pq.empty())
+        {
+            auto itr=pq.top();
+            pq.pop();  
+            int n=itr.second;// node;
+            int d=itr.first;  /// distance;
+            for(auto itt: adj[n])
+            { 
+                int node=itt[0];
+                int w=itt[1];
+                if(dis[node]>dis[n]+w)
+                {
+                    dis[node]=dis[n]+w;
+                    pq.push({dis[node],node});
+                }
+            }
+        }
         return dis;
     }
 };
