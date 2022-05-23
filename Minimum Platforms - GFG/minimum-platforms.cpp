@@ -13,34 +13,26 @@ class Solution{
     int findPlatform(int arr[], int dep[], int n)
     {
     	// Your code here 
-    	vector<pair<int,int>>v;
-    	for(int i=0;i<n;i++)
-    	v.push_back({arr[i],dep[i]});
-    	sort(v.begin(),v.end());
-    	vector<int>temp; 
-    	for(auto itr: v)
-    	{ 
-    	    int flag=0; 
-    	    int d=itr.second;
-    	    if(!temp.empty())
+    	sort(arr,arr+n);
+    	sort(dep,dep+n);
+    	int i=0;
+    	int j=0; 
+    	int ans=0;
+    	int plat=0;
+    	while(i<n && j<n)
+    	{
+    	    if(arr[i]<=dep[j])
     	    {
-    	        for(int i=0;i<temp.size();i++)
-    	        {
-    	            if(temp[i] <itr.first && temp[i]<d)
-    	            {
-    	                temp[i]=d;
-    	                flag=1;
-    	                break;
-    	            }
-    	        }
-    	    } 
-    	      if(!flag)
-    	    temp.push_back(d);
-    	   
-    	} 
-    	//for(auto itr: temp)
-    	//cout<<itr<<" ";
-    	return temp.size();
+    	       plat++;
+    	       i++;
+    	    }
+    	    else{
+    	        plat--;
+    	        j++;
+    	    }
+    	    ans=max(ans,plat);
+    	}
+    	return ans;
     }
 };
 
