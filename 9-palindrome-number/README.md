@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/palindrome-number/">9. Palindrome Number</a></h2><h3>Easy</h3><hr><div><p>Given an integer <code>x</code>, return <code>true</code> if <code>x</code> is palindrome integer.</p>
+<h2><a href="https://leetcode.com/problems/palindrome-number/solution/">9. Palindrome Number</a></h2><h3>Easy</h3><hr><div><p>Given an integer <code>x</code>, return <code>true</code> if <code>x</code> is palindrome integer.</p>
 
 <p>An integer is a <strong>palindrome</strong> when it reads the same backward as forward.</p>
 
