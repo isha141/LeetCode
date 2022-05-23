@@ -1,25 +1,26 @@
-class Solution {
+class Solution { 
+    private:
+    int getnext(int n)
+    {
+        int ans=0;
+        while(n!=0)
+        {
+            int rem=n%10;
+            ans+=rem*rem;
+            n=n/10;
+        }
+        return ans;
+    }
 public:
     bool isHappy(int n) {
-        int ans=n; 
-        set<int>s;
-        while(ans>1)
+        int slow=n;
+        int fast=getnext(n);
+        while(fast!=1 && slow !=fast)
         {
-            int temp=ans;
-            int k=0;
-            while(temp!=0)
-            {
-                int rem=temp%10;
-                k+=rem*rem;
-                temp=temp/10;
-            }
-            ans=k; 
-            if(s.find(ans)==s.end())
-                s.insert(ans);
-            else
-                return false;
+            slow=getnext(slow);
+            fast=getnext(getnext(fast));
         }
-       
-            return true;
+        return fast==1;
+        
     }
 };
