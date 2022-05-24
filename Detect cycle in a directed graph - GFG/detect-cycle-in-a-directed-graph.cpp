@@ -3,41 +3,40 @@
 using namespace std;
 
  // } Driver Code Ends
-class Solution {
+class Solution { 
+    private:
+    bool dfs(int i,vector<int> adj[],vector<int>&vis,vector<int>&dfsvis)
+    {
+        vis[i]=1;
+        dfsvis[i]=1;
+        for(auto itr: adj[i])
+        {
+            if(vis[itr]==0)
+            {
+                if(dfs(itr,adj,vis,dfsvis))
+                return true;
+            }
+            else if(dfsvis[itr]==1)
+            return true;
+        }
+        dfsvis[i]=0;
+        return false;
+    }
   public:
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
         // code here 
-        vector<int>indegree(V,0);
+        vector<int>vis(V,0);
+        vector<int>dfsvis(V,0);
         for(int i=0;i<V;i++)
         {
-            for(auto itr: adj[i])
+            if(vis[i]==0)
             {
-                indegree[itr]++;
+                if(dfs(i,adj,vis,dfsvis))
+                return true;
             }
         }
-        int count=0;
-        queue<int>q;
-        for(int i=0;i<V;i++)
-        {
-            if(indegree[i]==0)
-            q.push(i);
-        }
-        while(!q.empty())
-        {
-            int temp=q.front();
-            q.pop();
-            count++;
-            for(auto itr: adj[temp]){
-            indegree[itr]--;
-            if(indegree[itr]==0)
-             q.push(itr);
-            }
-        }
-        if(count==V)
-        return 0;
-        else
-        return 1;
+        return false;
     }
 };
 
