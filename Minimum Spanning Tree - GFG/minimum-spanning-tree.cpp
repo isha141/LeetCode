@@ -8,16 +8,19 @@ using namespace std;
 class Solution
 { 
     private:
-    void solve(vector<int>&parent,vector<int>&key,vector<int>&mst,vector<vector<int>> adj[],int V)
+    int solve(vector<int>&parent,vector<int>&key,vector<int>&mst,vector<vector<int>> adj[],int V)
     {
         key[0]=0;
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        pq.push({0,0});
+        pq.push({0,0}); 
+        int ans=0;
         while(!pq.empty())
         {
         auto itr=pq.top();
         pq.pop();
-        int temp=itr.second; 
+        int temp=itr.second;
+        if(!mst[temp])
+        ans+=itr.first;
         mst[temp]=1;
         for(auto itt: adj[temp])
         {
@@ -31,6 +34,7 @@ class Solution
             }
         }
         }
+        return ans;
     }
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
@@ -39,15 +43,8 @@ class Solution
        vector<int>parent(V,-1);
        vector<int>mst(V,0);
        vector<int>key(V,INT_MAX);
-       solve(parent,key,mst,adj,V);
-       int ans=0;
-       for(int i=0;i<V;i++)
-        { 
-            //cout<<key[i]<<" ";
-            if(key[i]!=INT_MAX)
-            ans+=key[i];
-        }
-        return ans;
+       return solve(parent,key,mst,adj,V);
+ 
     }
 };
 
