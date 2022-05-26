@@ -13,16 +13,17 @@ class Solution
         // Your code here 
         vector<pair<int,int>>v;
         for(int i=0;i<n;i++)
-        v.push_back({end[i],start[i]}); 
+        v.push_back({end[i],start[i]});
         sort(v.begin(),v.end());
         int last=0;
         int count=0;
-        for(auto itr: v)
+        for(int i=0;i<n;i++)
         {
-            if(last<itr.second){
-              last=itr.first;
-                   count++;
-        }  
+            if(last<v[i].second)
+            {
+                last=v[i].first;
+                count++;
+            }
         }
         return count;
     }
