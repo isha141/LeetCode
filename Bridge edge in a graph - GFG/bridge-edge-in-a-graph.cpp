@@ -27,7 +27,7 @@ int solve(int node,int parent,vector<int> adj[],int c,int d,vector<int>&lowest,v
         }
          }
         else{
-            lowest[node]=min(lowest[node],lowest[itr]);
+            lowest[node]=min(lowest[node],time1[itr]);
         }
      }
      return 0;
