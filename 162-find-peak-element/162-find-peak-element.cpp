@@ -1,20 +1,22 @@
 class Solution {
 public:
     int findPeakElement(vector<int>& nums) {
-        int ind=0; 
-        int n=nums.size(); 
-        if(nums.size()==1) 
-            return 0;
-        int i=1;
-        for( i=1;i<n-1;i++)
+        int low=0; 
+        int n=nums.size()-1; 
+        int high=nums.size()-1;
+        //cout<<low<<" "<<high<<endl;
+        while(low<high)
         {
-            if(nums[i]>nums[i-1] && nums[i]>nums[i+1])
-                return i;
+            int mid=(low+high)/2; 
+         //   cout<<mid<<" ";
+            if((mid==0 or nums[mid]>nums[mid-1]) && (mid==n or  nums[mid]>nums[mid+1]))
+                return mid;
+            if(mid==0 or nums[mid-1]<nums[mid])
+                low=mid+1;
+            else
+                high=mid-1; 
+           /// cout<<low<<" "<<high<<endl;
         }
-        if(n>1 && nums[0]>nums[1]) 
-            return 0;
-        else 
-            return n-1; 
-        
+        return low;
     }
 };
