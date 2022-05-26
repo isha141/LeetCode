@@ -16,18 +16,34 @@ class Solution{
     vector<long long int> productExceptSelf(vector<long long int>& nums, int n) {
        
         //code here 
-          vector<long long int> ans;
+          vector<long long int> ans(n); 
+          int flag=0;
+           long long  prod=1;
           for(int i=0;i<n;i++)
           { 
-              long long int temp=1;
-              for(int j=0;j<n;j++)
-              {
-                  if(i!=j)
-                  {
-                    temp=temp*nums[j];  
-                  }
+             if(nums[i]==0){
+                 flag++;
+             }
+             else
+             prod=prod*nums[i];
+          }
+          for(int i=0;i<n;i++)
+          {
+              if(flag>1)
+              ans[i]=0;
+              else if(flag==0)
+              { 
+                ans[i]=prod/nums[i];
               }
-              ans.push_back(temp);
+              else
+                  {
+                  if(flag==1 && nums[i]!=0)
+                  {
+                      ans[i]=0;
+                  }
+                  else
+                  ans[i]=prod;
+              }
           }
           return ans;
     }
