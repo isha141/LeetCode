@@ -8,57 +8,67 @@ using namespace std;
 class Solution
 { 
      private:  
-    int solve(int V,vector<vector<int>> adj[], vector<int>&mst, vector<int>&parent, vector<int>&key)
+     int findparent(int u,vector<int>&parent)
+     {
+         if(parent[u]==u)
+          return u;
+          return parent[u]=findparent(parent[u],parent);
+     }
+     int union1(int u,int v,vector<int>&rank, vector<int>&parent)
+     {
+         u=findparent(u,parent);
+         v=findparent(v,parent);
+         if(rank[u]<rank[v])
+         parent[u]=v;
+         else if(rank[v]<rank[u])
+         parent[v]=u;
+         else{
+             parent[u]=v;
+             v++;
+         }
+     }
+    int solve(int V,vector<vector<int>> adj[], vector<int>&rank, vector<int>&parent)
     {
-        key[0]=0; 
-        int total=0;
-        for(int count=0;count<V-1;count++){
-            int mini=INT_MAX; 
-            int u;
-            for(int i=0;i<V;i++)
+        for(int i=0;i<V;i++)
+        {
+            rank[i]=0;
+            parent[i]=i;
+        }
+      //  int ans=0; 
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>>pq;
+        for(int i=0;i<V;i++)
+        { 
+            for(auto itr: adj[i])
             {
-               if(mini>key[i] && !mst[i])
-               {
-                   mini=key[i];
-                   u=i;
-               }
-            }  
-            mst[u]=1;
-            for(auto itr: adj[u])
-            { 
-                
-              //  auto temp=itr.top();
-                int node=itr[0];
-                int weight=itr[1]; 
-                ///if(key[node]!=INT_MAX){
-                     if(!mst[node] && key[node]>weight)
-                     {
-                         key[node]=weight;
-                         parent[node]=u;
-                     }
-               // }               
+              pq.push({itr[1],{itr[0],i}});   
+            }
+        } 
+        int ans=0;
+        while(!pq.empty())
+        {
+            auto itr= pq.top();
+            pq.pop();
+            int u=itr.second.first;
+            int v=itr.second.second;
+            int w=itr.first;
+            if(findparent(u,parent)!=findparent(v,parent))
+            {
+                union1(u,v,rank,parent);
+                ans+=w;
             }
         }
-            //return total;
-            return 0;
-        }
+        return ans;
+    }
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     { 
         // n=V;
-         // code here   
-          vector<int>mst(V,0);
-        vector<int>parent(V,-1);
-        vector<int>key(V,INT_MAX);
-         solve(V,adj,mst,parent,key);  
-        int ans=0;
-        for(int i=0;i<V;i++)
-        {
-            if(key[i]!=INT_MAX)
-            ans+=key[i];
-        }
-        return ans;
+         // code here    
+         vector<int>rank(V);
+         vector<int>parent(V);
+         return solve(V,adj,rank,parent);
+          
     }
 };
 
