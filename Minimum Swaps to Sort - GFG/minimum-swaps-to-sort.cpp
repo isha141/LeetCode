@@ -23,7 +23,7 @@ class Solution
 	    int count=0;
 	    for(int i=0;i<n;i++)
 	    {
-	        if(vis[i] && v[i].second==i)
+	        if(vis[i] || v[i].second==i)
 	        continue; 
 	        int j=i; 
 	        int size=0;
@@ -33,7 +33,7 @@ class Solution
 	            j=v[j].second; 
 	            size++;
 	        } 
-	        if(size>1)
+	       //if(size>1)
 	        count+=size-1;
 	    }
 	    return count;
