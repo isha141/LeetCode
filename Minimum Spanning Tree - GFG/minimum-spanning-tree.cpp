@@ -4,70 +4,61 @@ using namespace std;
 
  // } Driver Code Ends
 
-int findparent(int u,vector<int>&parent)
-{
-    if(parent[u]==u)
-    return u;
-    return parent[u]=findparent(parent[u],parent);
-}
-void union1(int u,int v,vector<int>&parent,vector<int>&rank)
-{ 
-    u=findparent(u,parent);
-    v=findparent(v,parent);
-    if(rank[u]<rank[v])
-    {
-        parent[u]=v;
-    }
-    else if(rank[v]<rank[u])
-    parent[v]=u;
-    else{
-        parent[u]=v;
-        rank[v]++;
-    }
-}
+
 class Solution
 { 
-    private:
-    int kruskals(vector<int>&rank,vector<int>&parent,vector<vector<int>> adj[],int V)
-    { 
-        int ans=0;
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
-        for(int i=0;i<V;i++)
-        {
-            for(auto itr: adj[i])
+     private:  
+    int solve(int V,vector<vector<int>> adj[], vector<int>&mst, vector<int>&parent, vector<int>&key)
+    {
+        key[0]=0; 
+        int total=0;
+        for(int count=0;count<V-1;count++){
+            int mini=INT_MAX; 
+            int u;
+            for(int i=0;i<V;i++)
             {
-                int n=itr[0];
-                int w=itr[1];
-                pq.push({w,{i,n}});
+               if(mini>key[i] && !mst[i])
+               {
+                   mini=key[i];
+                   u=i;
+               }
+            }  
+            mst[u]=1;
+            for(auto itr: adj[u])
+            { 
+                
+              //  auto temp=itr.top();
+                int node=itr[0];
+                int weight=itr[1]; 
+                ///if(key[node]!=INT_MAX){
+                     if(!mst[node] && key[node]>weight)
+                     {
+                         key[node]=weight;
+                         parent[node]=u;
+                     }
+               // }               
             }
         }
-        while(!pq.empty())
-        {
-            auto itr=pq.top();
-            int w=itr.first;
-            int n1=itr.second.first;
-            int n2=itr.second.second; 
-            pq.pop();
-            if(findparent(n1,parent)!=findparent(n2,parent))
-            {
-                union1(n1,n2,parent,rank);
-                ans+=w;
-            }
+            //return total;
+            return 0;
         }
-        return ans;
-    }
- 	public:
+	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
-    {
-        // code here 
-        vector<int>rank(V,0);
-        vector<int>parent(V);
-        for(int i=0;i<V;i++){
-        rank[i]=0;
-        parent[i]=i;
-         } 
-         return kruskals(rank,parent,adj,V);
+    { 
+        // n=V;
+         // code here   
+          vector<int>mst(V,0);
+        vector<int>parent(V,-1);
+        vector<int>key(V,INT_MAX);
+         solve(V,adj,mst,parent,key);  
+        int ans=0;
+        for(int i=0;i<V;i++)
+        {
+            if(key[i]!=INT_MAX)
+            ans+=key[i];
+        }
+        return ans;
     }
 };
 
