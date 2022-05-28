@@ -1,5 +1,5 @@
 # Bridge edge in a graph
-##  Medium 
+## Medium 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given a&nbsp;Graph of V vertices and E edges and another edge(c -&nbsp;d), the task is to find if the given edge is a Bridge<strong>.</strong>&nbsp;i.e., removing the edge disconnects the graph.</span></p>
 
