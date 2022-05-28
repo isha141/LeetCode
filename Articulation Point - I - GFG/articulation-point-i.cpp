@@ -40,8 +40,8 @@ class Solution {
         // Code here 
         vector<int>ans(V,0);
         vector<int>vis(V,0);
-        vector<int>tim1(V,-1);
-        vector<int>low(V,-1); 
+        vector<int>tim1(V,0);
+        vector<int>low(V,0); 
         int timer=0;
         for(int i=0;i<V;i++)
         {
