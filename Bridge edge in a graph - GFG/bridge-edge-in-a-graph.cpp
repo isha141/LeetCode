@@ -5,51 +5,49 @@ using namespace std;
  // } Driver Code Ends
 class Solution
 { 
-    private: 
-int solve(int node,int parent,vector<int> adj[],int c,int d,vector<int>&lowest,vector<int>&time1,vector<int>&vis,int &timer)
-{ 
-    
-    vis[node]=1;
-   // lowest[node]++; 
-    time1[node]=lowest[node]=timer++;
-     for(auto itr: adj[node])
-     { 
-         if(itr==parent)
-         continue;
-         if(vis[itr]==0){
-         if(solve(itr,node,adj,c,d,lowest,time1,vis,timer))
-             return 1;
-         lowest[node]=min(lowest[itr],lowest[node]);
-         if(lowest[itr]>time1[node])
-        {
-            if((itr==c && node==d )|| (itr==d && node==c)) 
-            return 1;
+    private:
+    int solve(int i,int parent ,vector<int> adj[],int c,int d,vector<int>&low,vector<int>&time1,int &timer,vector<int>&vis)
+    { 
+        vis[i]=1; 
+         low[i]=time1[i]=timer++;  
+        for(auto itr: adj[i])
+        { 
+            if(itr== parent) continue;
+            if(!vis[itr])
+            {
+              if(solve(itr, i,adj,c,d,low,time1,timer,vis))
+              return true;
+              low[i]=min(low[i],low[itr]); 
+              if(low[itr]>time1[i]) 
+              {
+                  if((itr==c  && i==d)|| (itr==d && i==c))
+                  return true; 
+              }
+            }
+            else{
+                low[i]=min(low[i],low[itr]);
+            }
         }
-         }
-        else{
-            lowest[node]=min(lowest[node],time1[itr]);
-        }
-     }
-     return 0;
-}
+        return false;
+        
+    }
 	public:
     //Function to find if the given edge is a bridge in graph.
     int isBridge(int V, vector<int> adj[], int c, int d) 
     {
         // Code here 
-        vector<int>lowest(V,0);
+        vector<int>low(V,0);
         vector<int>time1(V,0);
-        vector<int>vis(V,0); 
-        int timeer=0;
+        vector<int>vis(V,0);
+         int timer=0;
         for(int i=0;i<V;i++)
-    {
-        if(!vis[i])
         { 
-            
-            if(solve(i,-1,adj,c,d,lowest,time1,vis,timeer))
-                return 1;
+            if(!vis[i])
+            {
+             if(solve(i,-1,adj,c,d,low,time1,timer,vis))
+             return 1;
+            }
         }
-    } 
     return 0;
     }
 };
