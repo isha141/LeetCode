@@ -4,71 +4,56 @@ using namespace std;
 
  // } Driver Code Ends
 
-
+#include<bits/stdc++.h> 
+using namespace  std;  
+#define  pl pair<int,int>
+#define ss second
+#define f first
 class Solution
 { 
-     private:  
-     int findparent(int u,vector<int>&parent)
-     {
-         if(parent[u]==u)
-          return u;
-          return parent[u]=findparent(parent[u],parent);
-     }
-     int union1(int u,int v,vector<int>&rank, vector<int>&parent)
-     {
-         u=findparent(u,parent);
-         v=findparent(v,parent);
-         if(rank[u]<rank[v])
-         parent[u]=v;
-         else if(rank[v]<rank[u])
-         parent[v]=u;
-         else{
-             parent[u]=v;
-             v++;
-         }
-     }
-    int solve(int V,vector<vector<int>> adj[], vector<int>&rank, vector<int>&parent)
-    {
-        for(int i=0;i<V;i++)
+    private:
+   int prism_algo(int src,vector<vector<int>> adj[],vector<int>&parent,vector<int>&key,vector<int>&mst,int n)
+{
+   key[src]=0; 
+   int ans=0;
+   priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+   pq.push({0,src});
+   while(!pq.empty())
+   {
+      auto itr=pq.top();
+      pq.pop();
+      int w=itr.first;
+      int u=itr.second;
+      if(mst[u]==0)
+      ans+=w;
+      mst[u]=1;
+      for(auto it: adj[u])
+      { 
+         int node=it[0];
+         int weight=it[1];
+        if(mst[node]==0 && key[node]>weight)
         {
-            rank[i]=0;
-            parent[i]=i;
+           key[node]=weight;
+           parent[node]=u;
+            pq.push({weight,node});
         }
-      //  int ans=0; 
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>>pq;
-        for(int i=0;i<V;i++)
-        { 
-            for(auto itr: adj[i])
-            {
-              pq.push({itr[1],{itr[0],i}});   
-            }
-        } 
-        int ans=0;
-        while(!pq.empty())
-        {
-            auto itr= pq.top();
-            pq.pop();
-            int u=itr.second.first;
-            int v=itr.second.second;
-            int w=itr.first;
-            if(findparent(u,parent)!=findparent(v,parent))
-            {
-                union1(u,v,rank,parent);
-                ans+=w;
-            }
-        }
-        return ans;
-    }
+      }
+   }
+   return ans;
+}
+
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
-    int spanningTree(int V, vector<vector<int>> adj[])
+    int spanningTree(int n, vector<vector<int>> adj[])
     { 
-        // n=V;
-         // code here    
-         vector<int>rank(V);
-         vector<int>parent(V);
-         return solve(V,adj,rank,parent);
-          
+    // vector<pair<int,int>>adj(n+1); 
+   vector<int>parent(n,-1);
+   vector<int>key(n,INT_MAX);
+   vector<int>mst(n,0);
+    return prism_algo(0,adj,parent,key,mst,n);
+//   for(int i=0;i<n;i++)
+//   cout<<parent[i]<<" ";
+        // code here
     }
 };
 
