@@ -1,34 +1,6 @@
 class Solution {  
     private:
-    bool issafe(int i,int j,vector<string>&ds,int n)
-    {
-        int r=i;
-        int c=j;
-        while(r<n && c>=0)
-        {
-            if(ds[r][c]=='Q') return false;
-            r++;
-            c--;
-        }
-        r=i;
-        c=j;
-        while(c>=0)
-        {
-            if(ds[i][c]=='Q') return false;
-            c--;
-        }
-        r=i;
-        c=j;
-        while(r>=0 && c>=0)
-        {
-            if(ds[r][c]=='Q') return 0;
-                r--;
-            c--;
-        }
-        return 1;
-    }
-    private:
-    void solve(int ind,vector<string>&ds,vector<vector<string>>&ans,int n)
+    void solve(int ind,vector<string>&ds,vector<vector<string>>&ans,int n,vector<int>&left,vector<int>&low, vector<int>&upp)
     {
         if(ind==n)
         {
@@ -37,22 +9,33 @@ class Solution {
         }
         for(int i=0;i<n;i++)
         {
-            if(issafe(i,ind,ds,n))
+            if(ds[i][ind]=='.'&& !left[i] && low[i+ind]==0 && !upp[n-1+ind-i])
             {
                 ds[i][ind]='Q';
-                solve(ind+1,ds,ans,n);
+                //ds[i][ind]='.';
+                left[i]=1;
+                low[i+ind]=1;
+                upp[n-1+ind-i]=1;
+                solve(ind+1,ds,ans,n,left,low,upp);
                 ds[i][ind]='.';
+                left[i]=0;
+                low[i+ind]=0;
+                upp[n-1+ind-i]=0;
+                
             }
         }
     }
 public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
-        vector<string>ds(n);
+        vector<string>ds(n); 
+        vector<int>low(2*n-1,0);
+        vector<int>upp(2*n-1,0);
+        vector<int>left(n,0);
         string s(n,'.');
         for(int i=0;i<n;i++)
             ds[i]=s;
-        solve(0,ds,ans,n);
+        solve(0,ds,ans,n,left,low,upp);
         return ans;
     }
 };
