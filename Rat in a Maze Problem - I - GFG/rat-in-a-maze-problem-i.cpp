@@ -17,24 +17,24 @@ class Solution{
                  ans.push_back(temp);
         return ;
        }   
-    //   if(m[i][j]==0)
-    //   return ;
-       if(i+1<n && !vis[i+1][j] && m[i][j]!=0){ 
+      if(m[i][j]==0)
+      return ;
+       if(i+1<n && !vis[i+1][j]){ 
            vis[i][j]=1;
        solve(i+1,j,m,temp+'D',ans,n,vis); 
        vis[i][j]=0;
        }
-       if(j+1<n &!vis[i][j+1] && m[i][j]!=0){ 
+       if(j+1<n &!vis[i][j+1] ){ 
            vis[i][j]=1;
        solve(i,j+1,m,temp+'R',ans,n,vis);  
        vis[i][j]=0;
        }
-       if(j-1>=0 && !vis[i][j-1] && m[i][j]!=0){ 
+       if(j-1>=0 && !vis[i][j-1]){ 
            vis[i][j]=1;
         solve(i,j-1,m,temp+'L',ans,n,vis);  
         vis[i][j] =0;
        }
-        if(i-1>=0 && !vis[i-1][j] && m[i][j]!=0){ 
+        if(i-1>=0 && !vis[i-1][j]){ 
             vis[i][j]=1;
         solve(i-1,j,m,temp+'U',ans,n,vis);
         vis[i][j]=0;
