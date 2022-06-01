@@ -1,7 +1,8 @@
 class Solution { 
     private:
     int count(int n,vector<int>&dp)
-    {
+    { 
+        ///memoization 
         if(n<=1)
             return 1;
         if(dp[n]!=-1)
