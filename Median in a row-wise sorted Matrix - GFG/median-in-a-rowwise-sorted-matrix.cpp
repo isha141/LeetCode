@@ -47,8 +47,8 @@ public:
        /// cout<<low<<" "<<high<<endl;
         while(low<=high)
         {
-            int mid=(low+high)/2;
-            if(count(mat,mid,c)<=(r*c)/2)
+            int mid=(low+high)>>1;
+            if(count(mat,mid,c)<=(r*c)>>1)
                 low=mid+1;
             else
             high=mid-1;
