@@ -35,43 +35,34 @@ class Solution
     //Function to sort a linked list of 0s, 1s and 2s.
     Node* segregate(Node *head) {
         
-        // Add code here 
-         Node* temp=head; 
-         Node* prev=temp;
-         while(temp!=NULL)
-         {
-             if(temp->data==0)
-             {
-                 swap(prev->data,temp->data);
-                 prev=prev->next;
-                 
-             }
-             temp=temp->next;
-         }
-         temp=head;
-         while(temp!=NULL)
-         {
-             if(temp->data==1)
-             {
-                 swap(prev->data,temp->data);
-                 prev=prev->next;
-                 
-             }
-             temp=temp->next;
-         }
-         temp=head;
-         while(temp!=NULL)
-         {
-             if(temp->data==2)
-             {
-                 swap(prev->data,temp->data);
-                 prev=prev->next;
-                 
-             }
-             temp=temp->next;
-         }
-         
-        return head;
+        // Add code here
+        Node *zerod=new Node(0);
+        Node *oned=new Node(0);
+        Node *twod=new Node(0);
+        Node *zero=zerod;
+        Node *one=oned;
+        Node *two=twod;
+        while(head!=NULL)
+        {
+            if(head->data==0){
+                zero->next=head;
+                zero=head;
+            }
+            else if(head->data==1){
+                one->next=head;
+                one=head;
+            }
+           else if(head->data==2)
+            {
+             two->next=head;
+            two=head;
+            }
+            head=head->next;
+        }
+        zero->next=oned->next?oned->next:twod->next;
+        one->next=twod->next; 
+        two->next=NULL;
+        return zerod->next;
     }
 };
 
