@@ -1,41 +1,64 @@
 class Solution {  
     private:
-    void solve(int ind,vector<string>&ds,vector<vector<string>>&ans,int n,vector<int>&left,vector<int>&low, vector<int>&upp)
+    bool issafe(int ind,int col,vector<string>&ds,int n)
     {
-        if(ind==n)
+        int duprow=ind;
+        int dupcol=col;
+        while(dupcol>=0)
         {
+            if(ds[duprow][dupcol]=='Q') return 0;
+            dupcol--;
+        }  
+        duprow=ind;
+        dupcol=col;
+        while(duprow<n && dupcol>=0)
+        {
+            if(ds[duprow][dupcol]=='Q') return 0;
+            duprow++;
+            dupcol--;
+        }
+         duprow=ind;
+        dupcol=col;
+        while(duprow>=0 && dupcol>=0)
+        {
+            if(ds[duprow][dupcol]=='Q') return 0;
+            duprow--;
+            dupcol--;
+        }
+        return 1;
+    }
+    private:
+  void solve(int col,int n,vector<string>&ds,vector<vector<string>>&ans)
+    { 
+        if(col==n) {
             ans.push_back(ds);
             return ;
         }
         for(int i=0;i<n;i++)
         {
-            if(ds[i][ind]=='.'&& !left[i] && low[i+ind]==0 && !upp[n-1+ind-i])
+            if(ds[i][col]=='.')
             {
-                ds[i][ind]='Q';
-                //ds[i][ind]='.';
-                left[i]=1;
-                low[i+ind]=1;
-                upp[n-1+ind-i]=1;
-                solve(ind+1,ds,ans,n,left,low,upp);
-                ds[i][ind]='.';
-                left[i]=0;
-                low[i+ind]=0;
-                upp[n-1+ind-i]=0;
+                if(issafe(i,col,ds,n))
+                {
+                   ds[i][col]='Q';
+                    (solve(col+1,n,ds,ans));
+                    ds[i][col]='.';
+                }
                 
-            }
+            } 
         }
+      //  return 1;
     }
 public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
-        vector<string>ds(n); 
-        vector<int>low(2*n-1,0);
-        vector<int>upp(2*n-1,0);
-        vector<int>left(n,0);
-        string s(n,'.');
+        string  s(n,'.');
+        vector<string>ds(n);
         for(int i=0;i<n;i++)
+        {
             ds[i]=s;
-        solve(0,ds,ans,n,left,low,upp);
+        } 
+        solve(0,n,ds,ans); 
         return ans;
     }
 };
