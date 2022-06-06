@@ -1,24 +1,20 @@
 class Solution { 
-    private:
-    int solve(int ind,vector<int>&nums,vector<int>&dp)
+    int solve(int ind,vector<int>&nums,int n,vector<int>&dp)
     { 
-        dp[0]=nums[0]; 
-        int n=nums.size();
-        for(int i=1;i<n;i++) 
-        {    
-        int pick=nums[i];
-            if(i>1)
-                pick+=dp[i-2];
-        int non_pick=dp[i-1];
-         dp[i]=max(pick,non_pick);
-        } 
-        return dp[n-1];
+        if(ind>=n)return 0;
+        if(ind==n-1)
+            return nums[ind]; 
+        if(dp[ind]!=-1)
+            return dp[ind];
+        int left=nums[ind]+solve(ind+2,nums,n,dp);
+        int right=0+solve(ind+1,nums,n,dp);
+        return dp[ind]=max(left,right);
+         
     }
-public: 
-    int rob(vector<int>& nums) {  
+public:
+    int rob(vector<int>& nums) { 
         int n=nums.size();
-        vector<int>dp(n,-1);
-        return solve(n-1,nums,dp);
-        
+        vector<int>dp(n+1,-1);
+        return solve(0,nums,n,dp);
     }
 };
