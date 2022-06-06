@@ -10,15 +10,15 @@ using namespace std;
 class Solution { 
     private:
     int solve(int ind,int A[],int N)
-    { 
-        int sum=0;
-        for(int i=0;i<N;i++)
+    {
+        if(ind+1>=N) return 1;
+        if(A[ind]==0) return 0;
+        for(int i=1;i<=A[ind];i++)
         {
-            if(i>sum)
-            return 0;
-            sum=max(sum,i+A[i]);
+            if(solve(ind+i,A,N))
+            return 1; 
         }
-        return 1;
+        return 0;
     }
   public:
     int canReach(int A[], int N) {
