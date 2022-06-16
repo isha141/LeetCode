@@ -36,7 +36,6 @@ public:
             for(int j=0;j<n-i;j++){ 
                 int first=j;
                 int last=j+i; 
-              //  cout<<first<<" "<<last<<endl;
                 if(s[first]==s[last] && dp[first+1][last-1]==1) {
                     dp[first][last]=1;
                   start=first;
