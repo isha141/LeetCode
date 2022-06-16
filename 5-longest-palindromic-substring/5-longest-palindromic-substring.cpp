@@ -23,8 +23,25 @@ public:
         int n=s.size();
         vector<vector<int>>dp(n,vector<int>(n,-1));
         for(int i=0;i<n;++i){
-            for(int j=i;j<n;++j){
-                helper(i,j,dp,s,start,len);
+            dp[i][i]=1;
+        }
+        for(int i=0;i<n-1;i++){
+            if(s[i]==s[i+1]){
+                dp[i][i+1]=1; 
+                start=i;
+                len=2;
+            }
+        }
+        for(int i=2;i<n;++i){
+            for(int j=0;j<n-i;j++){ 
+                int first=j;
+                int last=j+i; 
+              //  cout<<first<<" "<<last<<endl;
+                if(s[first]==s[last] && dp[first+1][last-1]==1) {
+                    dp[first][last]=1;
+                  start=first;
+                    len=i+1;
+                }
             }
         }
         return s.substr(start,len);
