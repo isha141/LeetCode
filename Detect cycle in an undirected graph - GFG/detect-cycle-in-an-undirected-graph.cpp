@@ -5,34 +5,33 @@ using namespace std;
  // } Driver Code Ends
 class Solution { 
     private:
-    bool solve(int i,int prev,vector<int>&visited,vector<int>adj[])
-    { 
-         visited[i]=1;
-         for(auto itr: adj[i])
+    bool iscycle(int node,vector<int>adj[],int par,vector<int>&visited){
+        for(auto itr: adj[node])
         {
-            if(!visited[itr]){
-            if(solve(itr,i,visited,adj))
-            return true; 
+            if(visited[itr]==0)
+            { 
+                visited[itr]=1;
+                if(iscycle(itr,adj,node,visited))
+                return 1;
             }
-            else if(itr!=prev)
-            {
-                return true;
-            }
+            else if(itr!=par)
+            return 1;
         }
-        return false;
+        return 0;
     }
   public:
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
-        vector<int>visited(V+1,0);
-        for(int i=0;i<V;i++)
-        {
-            if(!visited[i]){
-            if(solve(i,-1,visited,adj))
-            return true;
+        // Code here 
+        vector<int>visited(V,0);
+        for(int i=0;i<V;i++){
+            if(visited[i]==0){ 
+                visited[i]=1;
+                if(iscycle(i,adj,-1,visited))
+                  return 1;
             }
         }
-        return false;
+        return 0;
     }
 };
 
