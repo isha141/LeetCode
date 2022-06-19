@@ -5,38 +5,28 @@ using namespace std;
  // } Driver Code Ends
 class Solution { 
     private:
-    bool dfs(int i,vector<int>& color, vector<int> adj[])
-    {
-        for(auto itr: adj[i])
-        {
-            if(color[itr]==-1)
-            {
-               color[itr]=1^color[i];
+    bool dfs(int v,vector<int>&color,vector<int>adj[]){
+        for(auto itr: adj[v]){
+            if(color[itr]==-1){
+                color[itr]=1^color[v];
                 if(!dfs(itr,color,adj))
-                return false;
+                return 0;
             }
-           else if(color[itr]==color[i])
-           {
-               return false;
-           }
+            else if(color[itr]==color[v])
+            return 0;
         }
-        return true;
+        return 1;
     }
-public:  
-
+public:
 	bool isBipartite(int V, vector<int>adj[]){
 	    // Code here 
 	    vector<int>color(V,-1);
-	    for(int i=0;i<V;i++)
-	    {
+	    for(int i=0;i<V;++i){
 	        if(color[i]==-1)
-	        {
-	            color[i]=1;
-	            if(!dfs(i,color,adj))
-	            return false;
-	        }
-	    }
-	    return true;
+	        if(!dfs(i,color,adj))
+	          return 0;
+	    } 
+	    return 1;
 	}
 
 };
