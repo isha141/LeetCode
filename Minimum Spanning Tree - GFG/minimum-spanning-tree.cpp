@@ -15,20 +15,16 @@ class Solution
         
         vector<int>par(V,-1);
         vector<int>mst(V,0);
-        vector<int>key(V,INT_MAX);
+        vector<int>key(V,INT_MAX); 
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        pq.push({0,0});
         key[0]=0;
-        for(int count=0;count<V-1;++count)
-        {
-            int mini=INT_MAX; 
-            int u;
-            for(int i=0;i<V;++i)
-            {
-                if(key[i]<mini && mst[i]==0)
-                {
-                    mini=key[i];
-                  u=i;  
-                }
-            }
+        while(!pq.empty())
+        { 
+            auto itr= pq.top();
+            pq.pop();
+            int w=itr.first;
+            int u=itr.second;
             mst[u]=1;
             for(auto itr: adj[u])
             {
@@ -37,7 +33,8 @@ class Solution
                 if(mst[node]==0 && key[node]>weight)
                {
                    key[node]=weight;
-                   par[node]=u;
+                   par[node]=u; 
+                   pq.push({weight,node});
                }
             }
         }
