@@ -4,56 +4,47 @@ using namespace std;
 
  // } Driver Code Ends
 
-#include<bits/stdc++.h> 
-using namespace  std;  
-#define  pl pair<int,int>
-#define ss second
-#define f first
-class Solution
-{ 
-    private:
-   int prism_algo(int src,vector<vector<int>> adj[],vector<int>&parent,vector<int>&key,vector<int>&mst,int n)
-{
-   key[src]=0; 
-   int ans=0;
-   priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-   pq.push({0,src});
-   while(!pq.empty())
-   {
-      auto itr=pq.top();
-      pq.pop();
-      int w=itr.first;
-      int u=itr.second;
-      if(mst[u]==0)
-      ans+=w;
-      mst[u]=1;
-      for(auto it: adj[u])
-      { 
-         int node=it[0];
-         int weight=it[1];
-        if(mst[node]==0 && key[node]>weight)
-        {
-           key[node]=weight;
-           parent[node]=u;
-            pq.push({weight,node});
-        }
-      }
-   }
-   return ans;
-}
 
+class Solution
+{
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
-    int spanningTree(int n, vector<vector<int>> adj[])
-    { 
-    // vector<pair<int,int>>adj(n+1); 
-   vector<int>parent(n,-1);
-   vector<int>key(n,INT_MAX);
-   vector<int>mst(n,0);
-    return prism_algo(0,adj,parent,key,mst,n);
-//   for(int i=0;i<n;i++)
-//   cout<<parent[i]<<" ";
-        // code here
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // code here 
+        
+        vector<int>par(V,-1);
+        vector<int>mst(V,0);
+        vector<int>key(V,INT_MAX);
+        key[0]=0;
+        for(int count=0;count<V-1;++count)
+        {
+            int mini=INT_MAX; 
+            int u;
+            for(int i=0;i<V;++i)
+            {
+                if(key[i]<mini && mst[i]==0)
+                {
+                    mini=key[i];
+                  u=i;  
+                }
+            }
+            mst[u]=1;
+            for(auto itr: adj[u])
+            {
+                int node=itr[0];
+                int weight=itr[1];
+                if(mst[node]==0 && key[node]>weight)
+               {
+                   key[node]=weight;
+                   par[node]=u;
+               }
+            }
+        }
+        int ans=0;
+        for(int i=0;i<V;++i)
+        ans+=key[i];
+        return ans;
     }
 };
 
