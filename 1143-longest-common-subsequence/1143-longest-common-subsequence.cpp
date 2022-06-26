@@ -21,29 +21,28 @@ public:
     int longestCommonSubsequence(string a, string b) { 
         int m=a.size();
         int n=b.size(); 
-       vector<vector<int>>dp(m+1,vector<int>(n+1,0));  
+       vector<int>prev(n+1);
         for(int i=0;i<=n;++i){
-            dp[0][i]=0;
+            prev[i]=0;
         }
-        for(int i=0;i<m;++i){
-            dp[i][0]=0;
-        }
-        for(int i=1;i<=m;++i){
+        for(int i=1;i<=m;++i){ 
+            vector<int>curr(n+1,0);
             for(int j=1;j<=n;++j){
                 if(a[i-1]==b[j-1]){
-                    dp[i][j]=dp[i-1][j-1]+1;
+                    curr[j]=prev[j-1]+1;
                 }
                 else {
-                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+                    curr[j]=max(prev[j],curr[j-1]);
                 }
             }
+            prev=curr;
         } 
         // for(int i=0;i<=m;++i){
         //     for(int j=0;j<=n;++j)
         //         cout<<dp[i][j]<<" ";
         //     cout<<endl;
         // }
-        return dp[m][n];
+        return prev[n];
         
     }
 };
