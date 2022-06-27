@@ -4,24 +4,23 @@ public:
         string t=s;
         int n=s.size();
         reverse(s.begin(),s.end());
-        // int ans=0; 
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        vector<int>prev(n+1);
         for(int i=0;i<=n;++i){
-            dp[0][i]=0;
-        }
-        for(int i=0;i<=n;++i)
-            dp[i][0]=0; 
+            prev[i]=0;
+        } 
         int ans=0;
-        for(int i=1;i<=n;++i){
+        for(int i=1;i<=n;++i){ 
+            vector<int>curr(n+1,0);
             for(int j=1;j<=n;++j){
                 if(s[i-1]==t[j-1])
                 {
-                    dp[i][j]=1+dp[i-1][j-1];
-                    ans=max(ans,dp[i][j]);
+                    curr[j]=1+prev[j-1];
+                    ans=max(ans,curr[j]);
                 }
                 else
-                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-            }
+                    curr[j]=max(prev[j],curr[j-1]);
+            } 
+            prev=curr;
         }
         return ans;
     }
