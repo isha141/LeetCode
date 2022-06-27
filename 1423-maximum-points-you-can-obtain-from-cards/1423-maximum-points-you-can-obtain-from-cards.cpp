@@ -1,21 +1,33 @@
 class Solution {
 public:
-    int maxScore(vector<int>& points, int k) {
-      int n=points.size();
+    int maxScore(vector<int>& card, int k) {
+        int ans=0;
+        int n=card.size();
+        vector<int>presum(n+1,0);
+        vector<int>postsum(n+1,0); 
+        //presum[0]=card[0]; 
         int sum=0;
-        int ans=INT_MIN;
-        for(auto itr: points)
-            sum+=itr;
-        int temp=n-k;
-        int mini=0;
-        for(int i=0;i<temp;i++)
-            mini+=points[i];
-        for(int i=temp;i<n;i++)
+        for(int i=0;i<n;++i)
         {
-            ans=max(ans,sum-mini);
-            mini-=points[i-temp];
-            mini+=points[i];
+                sum+=card[i];
+                presum[i+1]=sum;
         }
-        return max(ans,sum-mini);
+        reverse(card.begin(),card.end());
+        sum=0;
+        for(int i=0;i<n;i++){
+             sum+=card[i];
+             postsum[i+1]=sum;
+        }  
+        for(int i=0;i<n;++i)
+            cout<<presum[i]<<" ";
+        cout<<endl;
+        for(int i=0;i<n;++i)
+            cout<<postsum[i]<<" ";
+        cout<<endl;
+        // k=k-1;
+        for(int i=0;i<=k;++i){
+            ans=max(ans,presum[i]+postsum[k-i]);
+        } 
+        return ans;
     }
 };
