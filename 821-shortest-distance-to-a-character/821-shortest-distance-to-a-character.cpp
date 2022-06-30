@@ -1,32 +1,22 @@
-class Solution { 
-    private:
-    int find(vector<int>&des,int i){
-        int ans=INT_MAX;
-        for(auto itr: des){
-            ans=min(ans,abs(itr-i));
-        }
-        return ans;
-    }
+class Solution {
 public:
-    vector<int> shortestToChar(string s, char c) { 
-        int n=s.size();
-        vector<int>ans(n,-1);  
-        vector<int>des;
-        for(int i=0;i<s.size();++i)
-          if(s[i]==c){
-              ans[i]=0;
-              des.push_back(i);
-          }
-        sort(des.begin(),des.end());
+    vector<int> shortestToChar(string s, char c) {
+         int n=s.size();
+        vector<int> ans(n,1e9);
+        int prev=INT_MAX;
         for(int i=0;i<n;++i){
-            if(ans[i]==0)
-                continue;
-            else{
-                int temp=find(des,i); 
-                ans[i]=temp;
+            if(s[i]==c){
+                prev=i;
             }
+            ans[i]=abs(i-prev);
+        }
+        prev=INT_MAX/2;
+        for(int i=n-1;i>=0;i--){
+            if(s[i]==c){
+                prev=i;
+            }
+            ans[i]=min(ans[i],prev-i);
         }
         return ans;
-        
     }
 };
