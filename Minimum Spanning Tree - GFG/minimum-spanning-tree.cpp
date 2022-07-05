@@ -8,26 +8,29 @@ using namespace std;
 class Solution
 { 
     private:
-    int findparent(int node,vector<int>&parent)
-    {
-        if(parent[node]==node)
-        return node;
-        return parent[node]=findparent(parent[node],parent);
-        
-    } 
-    void union1(int u,int v,vector<int>&parent,vector<int>&rank)
-    {
-        u=findparent(u,parent);
-        v=findparent(v,parent);
-        if(rank[u]<rank[v]){
-            parent[u]=v;
-        }
-        else if(rank[v]<rank[u]){
-            parent[v]=u;
-        }
-        else{
-            parent[u]=v;
-            rank[v]++;
+    void solve(int v , vector<vector<int>>adj[],vector<int>&par,vector<int>&key,vector<int>&mst){
+        key[0]=0;
+        for(int count=0;count<v-1;++count)
+        {
+            int mini=INT_MAX; 
+            int node;
+            for(int i=0;i<v;++i)
+            {
+                if(mst[i]==0 && key[i]<mini){
+                    mini=key[i];
+                    node=i;
+                }
+            }
+            mst[node]=1;
+            for(auto itr: adj[node])
+            { 
+                int n=itr[0];
+                int weight=itr[1];
+                if(mst[n]==0 && key[n]>weight){
+                    key[n]=weight;
+                    par[n]=node;
+                }
+            }
         }
     }
 	public:
@@ -35,36 +38,13 @@ class Solution
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         // code here 
-        vector<int>rank(V);
-        vector<int>parent(V);
-        for(int i=0;i<V;++i){
-            rank[i]=0;
-            parent[i]=i;
-        }
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
-        for(int i=0;i<V;++i)
-        {
-            for(auto itr: adj[i])
-            { 
-                int n=itr[0];
-                int w=itr[1];
-                pq.push({w,{n,i}});
-            }
-        } 
         int ans=0;
-        while(!pq.empty())
-        {
-            auto itr= pq.top();
-            pq.pop();
-            int w=itr.first;
-            int u=itr.second.first;
-            int v=itr.second.second;
-            if(findparent(u,parent)!=findparent(v,parent))
-            {
-                union1(u,v,parent,rank);
-                ans+=w;
-                
-            }
+        vector<int>par(V,-1);
+        vector<int>mst(V,0);
+        vector<int>key(V,INT_MAX);
+        solve(V,adj,par,key,mst); 
+        for(int i=0;i<V;++i){
+            ans+=key[i];
         }
         return ans;
     }
