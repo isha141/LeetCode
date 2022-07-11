@@ -8,13 +8,13 @@ class Solution {
         int maxi=-1e9; 
         if(dp[ind][buy][count]!=-1)
             return dp[ind][buy][count]; 
-        // if(count<=2){
+        if(count<=2){
         if(buy)
          return  dp[ind][buy][count]=max(-prices[ind]+solve(ind+1,prices,count,!buy,n,dp),solve(ind+1,prices,count,buy,n,dp)); 
            return dp[ind][buy][count]=max(prices[ind]+solve(ind+1,prices,count-1,!buy,n,dp),solve(ind+1,prices,count,buy,n,dp));
-            // dp[ind][buy][count]=maxi;
-        // }
-        // return dp[ind][buy][count];
+            dp[ind][buy][count]=maxi;
+        }
+        return dp[ind][buy][count];
     }
 public:
     int maxProfit(vector<int>& prices) {
