@@ -21,11 +21,29 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int maxi=0;
-        int n=prices.size();
-        int count=0;
-        int buy=1;   
-        int not_buy=0; 
-        vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(3,-1)));
-        return solve(0,prices,count,buy,n,dp);
+        int n=prices.size();   
+         vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));
+        for(int buy=0;buy<=1;++buy){
+            for(int cap=0;cap<=2;++cap)
+                dp[n][buy][cap]=0;
+        }
+        for(int i=0;i<=n;++i){
+            for(int j=0;j<=1;++j){
+                dp[i][j][0]=0;
+            }
+        }
+       
+        for(int i=n-1;i>=0;--i){
+            for(int buy=0;buy<=1;++buy){
+                for(int count=1;count<=2;++count){ 
+                    
+                    if(buy)
+                  dp[i][buy][count]=max(-prices[i]+dp[i+1][0][count],dp[i+1][1][count]);
+                    else
+                 dp[i][buy][count]=max(prices[i]+dp[i+1][1][count-1],dp[i+1][0][count]);
+                }
+            }
+        }
+        return dp[0][1][2];
     }
 };
