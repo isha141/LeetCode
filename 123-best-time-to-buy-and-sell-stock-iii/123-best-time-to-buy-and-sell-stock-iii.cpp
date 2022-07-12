@@ -15,7 +15,15 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
-        vector<vector<int>>dp(n,vector<int>(4,-1));
-        return solve(0,prices,0,n,dp);
+        vector<vector<int>>dp(n+1,vector<int>(5,0));
+        for(int i=n-1;i>=0;--i){
+            for(int buy=0;buy<4;++buy){
+                if(buy%2==0)
+            dp[i][buy]=max(-prices[i]+dp[i+1][buy+1],dp[i+1][buy]);
+                else
+            dp[i][buy]=max(prices[i]+dp[i+1][buy+1],dp[i+1][buy]);
+            }
+        }
+        return dp[0][0];
     }
 };
