@@ -1,25 +1,38 @@
-class Solution {
-    int[][] grid;
-    boolean[][] seen;
-
-    public int area(int r, int c) {
-        if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length ||
-                seen[r][c] || grid[r][c] == 0)
-            return 0;
-        seen[r][c] = true;
-        return (1 + area(r+1, c) + area(r-1, c)
-                  + area(r, c-1) + area(r, c+1));
+class Solution {  
+    int m,n;
+    private:
+    void solve(int i,int j,vector<vector<int>>& grid,int &temp)
+    {
+        int dx[4]={1,0,-1,0};
+        int dy[4]={0,-1,0,1};
+        for(int k=0;k<4;++k){
+            int xx=dx[k]+i;
+            int yy=dy[k]+j;
+            if(xx>=0 && xx<m && yy>=0 && yy<n && grid[xx][yy]==1){ 
+                grid[xx][yy]=0;
+                temp++;
+                solve(xx,yy,grid,temp);
+            } 
+        }
+        return ;
     }
-
-    public int maxAreaOfIsland(int[][] grid) {
-        this.grid = grid;
-        seen = new boolean[grid.length][grid[0].length];
-        int ans = 0;
-        for (int r = 0; r < grid.length; r++) {
-            for (int c = 0; c < grid[0].length; c++) {
-                ans = Math.max(ans, area(r, c));
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size(); 
+        this->m=m;
+        this->n=n;
+        int ans=0;
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j){
+                if(grid[i][j]==1){ 
+                    int temp=1;  
+                    grid[i][j]=0;
+                    solve(i,j,grid,temp);
+                    ans=max(ans,temp);
+                }
             }
         }
         return ans;
     }
-}
+};
