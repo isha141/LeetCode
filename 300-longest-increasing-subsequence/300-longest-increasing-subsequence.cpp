@@ -14,22 +14,17 @@ class Solution {
             // return 0;
     }
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        int ans=0;
-        // /int prev=-1; 
-        int n=nums.size(); 
-        vector<int>before(n+1,0);
-        for(int i=n-1;i>=0;--i){
-             vector<int>curr(n+1,0);
-        for(int prev=i-1;prev>=-1;--prev){     
-                int take=0;
-               int not_take=before[prev+1];
-            if(prev==-1 || nums[prev]<nums[i])
-                take=1+before[i+1];
-                curr[prev+1]=max(take,not_take);
+    int lengthOfLIS(vector<int>& nums) { 
+        int n=nums.size();
+        vector<int>dp(n,1);
+        int ans=1;
+        for(int i=0;i<n;++i){
+            for(int prev=0;prev<i;++prev){
+                if(nums[prev]<nums[i])
+                    dp[i]=max(1+dp[prev],dp[i]); 
+                ans=max(ans,dp[i]);
             }
-            before=curr;
         }
-        return before[0];
+        return ans;
     }
 };
