@@ -32,8 +32,9 @@ class Solution {
     }
 public:
     vector<TreeNode*> generateTrees(int n) {
-       
-        return solve(1,n); 
-        // return ans;
+        vector<TreeNode*>temp=solve(1,n); 
+        for(auto itr: temp)
+            cout<<itr->val<<" ";
+        return temp;
     }
 };
