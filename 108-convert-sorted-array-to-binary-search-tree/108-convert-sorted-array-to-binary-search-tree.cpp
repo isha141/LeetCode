@@ -10,20 +10,23 @@
  * };
  */
 class Solution {
+    private:
+    TreeNode *solve(vector<int>&nums)
+    {
+        if(nums.size()==0) return NULL;
+        if(nums.size()==1) return new TreeNode(nums[0]); 
+        int mid=(nums.size()/2); 
+        TreeNode *root=new TreeNode(nums[mid]);
+        vector<int>lefti(nums.begin(),nums.begin()+mid);
+        vector<int>righti(nums.begin()+mid+1,nums.end());
+        root->left=solve(lefti);
+        root->right=solve(righti);
+        return root;
+        
+    }
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
         if(nums.size()==0) return NULL;
-            // return NULL;
-        if(nums.size()==1){
-          return new TreeNode(nums[0]);
-            // return root;
-        }
-        int mid=nums.size()/2;
-        TreeNode *root=new TreeNode(nums[mid]); 
-        vector<int>lefti(nums.begin(),nums.begin()+mid);
-        vector<int>righti(nums.begin()+mid+1,nums.end());
-        root->left=sortedArrayToBST(lefti);
-        root->right=sortedArrayToBST(righti);
-        return root;
+        return solve(nums);
     }
 };
