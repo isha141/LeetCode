@@ -46,8 +46,8 @@ public:
     int maxSumBST(TreeNode* root) {
         if(root==NULL)
             return 0;
-       int temp=largest(root).value; 
-        // cout<<ans<<" ";
+       int temp= largest(root).value; 
+        cout<<ans<<" ";
         return max(temp,ans);
     }
 };
