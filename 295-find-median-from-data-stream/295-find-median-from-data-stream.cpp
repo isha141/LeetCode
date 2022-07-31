@@ -1,32 +1,37 @@
 class MedianFinder { 
-    priority_queue<int>maxheap;
-    priority_queue<int,vector<int>,greater<int>>minheap;
+    priority_queue<int>maxi;
+    priority_queue<int,vector<int>,greater<int>>mini;
 public:
     MedianFinder() {
-        
     }
-    
-    void addNum(int num) {
-        maxheap.push(num);
-        minheap.push(maxheap.top());
-        maxheap.pop();
-        if(maxheap.size()<minheap.size())
-        {
-            maxheap.push(minheap.top());
-            minheap.pop();
+    void addNum(int num) { 
+        // cout<<maxi.size()<<" ";
+        if(maxi.size()==0 || maxi.top()>=num){
+            maxi.push(num); 
         }
+        else
+            mini.push(num); 
+        
+        if(maxi.size()<mini.size()){
+          maxi.push(mini.top());
+         mini.pop();
+         } 
+    else if(mini.size()+1< maxi.size()){
+        mini.push(maxi.top());
+        maxi.pop();
+    }
     }
     
     double findMedian() { 
-        double ans=0;
-        if(maxheap.size()>minheap.size()){
-            ans=maxheap.top();
-        }
-        else  {
-            ans=(maxheap.top()+minheap.top())/2.0;
-        }
+        // cout<<mini.size()<<" "<<maxi.size()<<endl; 
+        double ans=0.0;
+    if(maxi.size()==mini.size())
+        ans= double(double(maxi.top())+double(mini.top()))/2.0; 
+        else
+          ans= maxi.top(); 
         return ans;
-    }
+    } 
+    
 };
 
 /**
