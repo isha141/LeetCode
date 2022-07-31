@@ -1,7 +1,7 @@
 class Solution {
 public:
     int maximumGroups(vector<int>& grades) {
-        sort(grades.begin(),grades.end());
+        // sort(grades.begin(),grades.end());
         int k=0;
         int n=grades.size();
         int total=0;
