@@ -16,29 +16,36 @@ public:
 };
 */
 
-class Solution {
-public:
-    Node* connect(Node* root) { 
-        Node *temp=root;
-        if(root==NULL) return root;
+class Solution { 
+    private:
+    Node  *solve(Node *root)
+    {
         queue<Node *>q;
-        q.push(root);
-        while(!q.empty()){
-            int n=q.size();
+        q.push(root); 
+        Node *head=root;
+        while(!q.empty())
+        {
+            int n=q.size(); 
             while(n--){
                 Node *temp=q.front();
-                 q.pop();   
-                temp->next=NULL;
-                if(n==0)
-                    temp->next=NULL;
+                q.pop(); 
+                temp->next==NULL;
+                if(n==0) 
+                      temp->next=NULL;
                 else
-                    temp->next=q.front();
+                  temp->next=q.front();
                 if(temp->left)
                     q.push(temp->left);
                 if(temp->right)
                     q.push(temp->right);
-            } 
+           } 
         }
-        return temp;
+        return head;
+    }
+public:
+    Node* connect(Node* root) {
+        if(root==NULL)
+            return NULL;
+        return solve(root);
     }
 };
