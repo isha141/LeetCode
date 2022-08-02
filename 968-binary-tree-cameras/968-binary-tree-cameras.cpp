@@ -10,28 +10,46 @@
  * };
  */
 class Solution { 
-    int cam=0; 
-    int solve(TreeNode *root){
-        if(root==NULL) return -1;
-        int lr=solve(root->left);
-        int r=solve(root->right); 
-        if(lr==0 || r==0){
-            cam++;
+    private: 
+    //1-->itself camera
+    //0-->under camera
+    //-1--> require monitor 
+    int ans=0;
+    void markparent(TreeNode *root,map<TreeNode *,TreeNode *>&mp){ 
+        // if(root->left==NULL && root->right==NULL)
+        if(root==NULL)
+            return ;
+        markparent(root->left,mp);
+        markparent(root->right,mp);
+        mp[root->left]=root;
+        mp[root->right]=root;
+    } 
+    int solve(TreeNode *root,map<TreeNode *,TreeNode *>&mp)
+    {
+        if(root==NULL)
+            return  0;
+        int l=solve(root->left,mp);
+        int r=solve(root->right,mp);
+        if(l==-1 || r==-1){
+            ans+=1; 
             return 1;
         }
-        else if(lr==-1 && r==-1){
-            return 0;
-        } 
-        else 
+        else if(l ==1 || r==1)
+            return  0;
+        else
             return -1;
+        
+            
             
     }
 public:
     int minCameraCover(TreeNode* root) {
-        if(root==NULL)
-            return 0;
-        if(solve(root)==0)
-            cam++;
-        return cam;
+        if(root==NULL) return 0;  
+        map<TreeNode *,TreeNode *>mp;
+        markparent(root,mp); 
+        int mon=1;
+        if(solve(root,mp)==-1)
+            ans++;
+        return ans;
     }
 };
