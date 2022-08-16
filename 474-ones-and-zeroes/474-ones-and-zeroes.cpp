@@ -29,7 +29,21 @@ class Solution {
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
         int len=strs.size();  
-        memset(dp,-1,sizeof(dp));
-        return solve(0,strs,m,n,len);
+        memset(dp,0,sizeof(dp));
+        for(int i=strs.size()-1;i>=0;--i){
+            for(int j=0;j<=m;++j){
+                for(int k=0;k<=n;++k){
+                    int zero=count(strs[i],j);
+                    int one=strs[i].size()-zero;
+                    int not_pick=dp[i+1][j][k];
+                    int pick=0;
+                    if((j-zero)>=0 && (k-one)>=0){
+                        pick=1+dp[i+1][j-zero][k-one];
+                    }
+                dp[i][j][k]=max(pick,not_pick);
+                }
+            }
+        }
+        return dp[0][m][n];
     }
 };
