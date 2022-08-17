@@ -1,21 +1,28 @@
 class Solution { 
-    bool solve(int ind ,int s1,vector<int>& nums,int &sum,vector<vector<int>>&dp){  
-        if(s1>sum) return 0;
-        if(s1==sum) return 1;
-        if(ind>=nums.size())  return 0; 
-        if(dp[ind][s1]!=-1) return dp[ind][s1];
-        int left=solve(ind+1,s1+nums[ind],nums,sum,dp);
-        int right=solve(ind+1,s1,nums,sum,dp);
-        return  dp[ind][s1]=(left|| right);
-    }
+    private:
 public:
     bool canPartition(vector<int>& nums) {
-        int n=nums.size(); 
-        int sum=0;
-        for(auto itr: nums) sum+=itr;
-        if(sum%2) return 0;
-        sum=sum/2;  
-        vector<vector<int>>dp(n+1,vector<int>(sum,-1));
-        return solve(0,0,nums,sum,dp);
+        int n=nums.size();
+        int sum=0; 
+        for(auto itr: nums)
+            sum+=itr;
+        if(sum%2)
+            return 0;
+        sum/=2;
+        vector<vector<int>>dp(n,vector<int>(sum+1,0)); 
+    for(int i=0;i<n;++i)
+        dp[i][0]=1; 
+        if(nums[0]<=sum)
+        dp[0][nums[0]]=1;
+        for(int i=1;i<n;++i){
+            for(int k=1;k<=sum;++k){
+                int pick=0;
+                int not_pick=dp[i-1][k];
+                if(nums[i]<=k)
+                    pick=dp[i-1][k-nums[i]];
+                dp[i][k]=(pick|| not_pick);
+            }
+        }
+        return dp[n-1][sum];
     }
 };
