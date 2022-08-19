@@ -1,10 +1,10 @@
 struct cmp{
 bool operator () (const pair<int,string>&a, const pair<int,string>&b){
     if(a.first!=b.first){
-        return a.first<b.first;
+        return a.first>b.first;
     }
     else{
-        return a.second>b.second;
+        return a.second<b.second;
     }
     };
 };
@@ -19,12 +19,14 @@ public:
             mp[itr]++;
         priority_queue<pair<int,string>,vector<pair<int,string>>,cmp>pq;
         for(auto [x,y]: mp){
-            pq.push({y,x});
-        }
-        while(k--){
+            pq.push({y,x}); 
+            if(pq.size()>k)
+               pq.pop();
+            }
+        while(!pq.empty()){
             auto itr=pq.top(); 
             pq.pop();
-           ans.push_back(itr.second);
+           ans.insert(ans.begin(),itr.second);
         }
         return ans;
     }
