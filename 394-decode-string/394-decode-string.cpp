@@ -1,4 +1,12 @@
-class Solution {
+class Solution { 
+    string repeat(string &curr,int prevn)
+    {  
+        string temp="";
+        for(int i=0;i<prevn;++i){
+            temp+=curr;
+        }
+        return temp;
+    }
 public:
     string decodeString(string s) {
         int prevn=0;
@@ -20,15 +28,11 @@ public:
                 for(auto itr: prevt){
                     prevn=prevn*10+itr-'0';
                 } 
-                // cout<<prevn<<" ";
-                prev=st.top();
-                st.pop();
-                string t="";
-                for(int i=0;i<prevn;++i)
-                    t+=curr;
-                prev+=t;
+                  prev=st.top();
+                st.pop(); 
+                // cout<<prev<<" ";
+                prev+=repeat(curr,prevn); 
                 curr=prev;
-                currn=0;
             }
             else if(isdigit(itr)){
                 currn=currn*10+(itr-'0');
