@@ -34,7 +34,7 @@ class Solution {
 public:
     int longestUnivaluePath(TreeNode* root) {
         if(root==NULL) return 0; 
-        solve(root);
+         solve(root);
         return ans;
     }
 };
