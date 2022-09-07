@@ -12,7 +12,8 @@ class Solution {
             ds.push_back(nums[i]);
             solve(i+1,nums,nums[i],ds,ans);
             ds.pop_back();
-        }  
+        }   
+        //this is basically used to avoid duplicacy 
         if(ds.size()==0 || ds[ds.size()-1]!=nums[i])
         solve(i+1,nums,prev,ds,ans);
     }
