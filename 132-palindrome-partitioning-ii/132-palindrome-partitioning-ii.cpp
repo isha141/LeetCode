@@ -29,8 +29,23 @@ class Solution {
         return dp[i]=min_cost;
     }
 public:
-    int minCut(string s) { 
-        vector<int>dp(s.size(),-1);
-        return solve(0,s,s.size(),dp)-1;
+    int minCut(string s) {  
+        int n=s.size();
+        vector<int>dp(n+1,-1); 
+        dp[n]=0;
+        // return solve(0,s,s.size(),dp)-1;  
+        for(int i=n-1;i>=0;--i){ 
+            string temp="";
+                int cost=1e9;
+            for(int k=i;k<n;++k){
+                temp+=s[k];
+                if(ispalin(temp)){
+                   int ans=1+dp[k+1];
+                    cost=min(cost,ans);
+                }
+            }
+            dp[i]=cost;
+        }
+        return dp[0]-1;
     }
 };
