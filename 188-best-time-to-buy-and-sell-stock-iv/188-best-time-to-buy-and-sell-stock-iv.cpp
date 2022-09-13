@@ -22,7 +22,8 @@ class Solution {
     }
 public:
     int maxProfit(int k, vector<int>& prices) {
-        int n=prices.size(); 
+        int n=prices.size();   
+        // return dp[0][k][0];
         memset(dp,-1,sizeof(dp));
         return solve(0,prices,k,n,0);
     }
