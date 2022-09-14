@@ -1,6 +1,6 @@
 class Solution { 
     private:
-    int mod=1e9+7;
+    long mod=1e9+7;
 public:
     int maxPerformance(int n, vector<int>& s, vector<int>& e, int k) {
         vector<pair<int,int>>ds;
