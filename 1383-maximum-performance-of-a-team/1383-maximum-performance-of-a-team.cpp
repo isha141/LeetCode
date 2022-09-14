@@ -20,6 +20,6 @@ public:
             }
             ans=max(ans,sum*x);
         }
-        return ans%(int) mod;
+        return ans% mod;
     }
 };
