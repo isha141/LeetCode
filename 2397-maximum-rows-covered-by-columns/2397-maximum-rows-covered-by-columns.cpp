@@ -1,14 +1,13 @@
 class Solution { 
-    private:
-    int m,n;  
-    int ans=0;
-    void solve(int i,vector<vector<int>>& mat, int cols,vector<int>&vis)
+    int ans=0; 
+    int n,m;
+    void solve(int ind,vector<vector<int>>& mat,int num,vector<int>&vis)
     {
-        if(cols==0){ 
+         if(num==0){ 
             int c=0;
-            for(int i=0;i<m;++i){ 
+            for(int i=0;i<n;++i){ 
                 bool flag=1;
-                for(int j=0;j<n;++j){
+                for(int j=0;j<m;++j){
                     if(mat[i][j]==1 && !vis[j]){
                         flag=0;
                         break;
@@ -18,20 +17,19 @@ class Solution {
                     c++;
             }
             ans=max(ans,c);
-        }
-        for(int j=i;j<n;++j){
+        } 
+        for(int j=ind;j<m;++j){
             vis[j]=1;
-            solve(j+1,mat,cols-1,vis);
+            solve(j+1,mat,num-1,vis);
             vis[j]=0;
         }
     }
-    
 public:
-    int maximumRows(vector<vector<int>>& mat, int cols) {
-         m=mat.size();
-         n=mat[0].size();
-        vector<int>vis(n,0);
-        solve(0,mat,cols,vis); 
+    int maximumRows(vector<vector<int>>& mat, int num) {
+         n=mat.size();
+         m=mat[0].size();
+       vector<int>vis(m,0); 
+        solve(0,mat,num,vis);
         return ans;
     }
 };
