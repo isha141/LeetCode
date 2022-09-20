@@ -19,11 +19,21 @@ class Solution {
         return dp[i][j]=l;
     }
 public:
-    int findLength(vector<int>& nums1, vector<int>& nums2) {
-        n=nums1.size();
-        m=nums2.size(); 
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-         solve(0,0,nums1,nums2,dp); 
+    int findLength(vector<int>& a, vector<int>& b) {
+        n=a.size(); 
+        int ans=0;
+        m=b.size(); 
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0)); 
+        for(int i=n-1;i>=0;--i){
+            for(int j=m-1;j>=0;--j){
+                int l=0;
+                if(a[i]==b[j]){
+                  l=1+dp[i+1][j+1];  
+                    ans=max(ans,l);
+                } 
+                dp[i][j]=l;
+            }
+        } 
         return ans;
     }
 };
