@@ -1,23 +1,25 @@
-class Solution {
-public:
-    string bin(int x){
-        string s;
-        while(x){
-            s+=(x%2?'1':'0');
-            x/=2;
-        }
-        return s;
+
+class Solution { 
+public: 
+    string solve(int i)
+    { 
+        string ans;
+        while(i){
+            ans+=(i%2?'1':'0');
+            i/=2;
+        } 
+        return ans;
     }
     int concatenatedBinary(int n) {
-        string ans;
+        string s;
         while(n){
-            ans+=bin(n);
+            s+=solve(n);
             n--;
-        }
-        long long res = 0;
-        int const mod = 1e9 + 7;
+        } 
+        const int mod=1e9 + 7;
         long long p=1;
-        for(char &c:ans){
+        long long res=0;
+        for(auto &c: s){
             if(c=='1'){
                 res+=p;
                 res%=mod;
@@ -26,6 +28,5 @@ public:
             p%=mod;
         }
         return res;
-        
     }
 };
