@@ -3,12 +3,12 @@ class Solution {
 public: 
     string solve(int i)
     { 
-        string ans;
+        string as;
         while(i){
-            ans+=(i%2?'1':'0');
+            as+=(i%2?'1':'0');
             i/=2;
         } 
-        return ans;
+        return as;
     }
     int concatenatedBinary(int n) {
         string s;
@@ -18,15 +18,15 @@ public:
         } 
         const int mod=1e9 + 7;
         long long p=1;
-        long long res=0;
+        long long ans=0;
         for(auto &c: s){
             if(c=='1'){
-                res+=p;
-                res%=mod;
+                ans+=p;
+                ans%=mod;
             }
             p*=2;
             p%=mod;
         }
-        return res;
+        return ans;
     }
 };
