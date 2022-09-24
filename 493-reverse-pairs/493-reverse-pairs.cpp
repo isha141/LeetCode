@@ -1,63 +1,66 @@
-class Solution { 
-    private:
-    int counting(vector<int>& nums,vector<int>&temp,int low,int mid,int high)
-    {
-        int c=0; 
+class Solution {  
+    int n; 
+    // vector<int>temp(n,0);
+    int count(int low,int mid,int high,vector<int>&nums)
+    { 
+        int i=low;
+        int c=0;
         int j=mid+1;
-        while(low<=mid)
-        {
-            while(j<=high && nums[low]> 2*(long)nums[j])
-            {
+        while(i<=mid ){
+            while(j<=high && nums[i]>2*(long long) nums[j])
                 j++;
-            }
-            c+=(j-(mid+1));
-            low++;
+            c+=j-(mid+1);
+            i++;
         }
+        
         return c;
     }
-    private:
-    int merge(vector<int>& nums,vector<int>&temp,int low,int mid,int high)
+    int merge(int low,int mid,int high,int temp[],vector<int>&nums)
     {
         int i=low;
         int j=mid+1;
-        int inv=0; 
-        int k=low; 
-        inv=counting(nums,temp,low,mid,high);
-        while(i<=mid && j<=high)
-        {
-            if(nums[i]<nums[j])
+        int k=low;
+        int inv=0;
+        inv=count(low,mid,high,nums);
+        
+        while(i<=mid && j<=high){
+            if(nums[i]<nums[j]){
                 temp[k++]=nums[i++];
-            else{
+            }
+            else {
                 temp[k++]=nums[j++];
             }
         }
-        while(i<=mid)
+        while(i<=mid){
             temp[k++]=nums[i++];
-        while(j<=high)
-            temp[k++]=nums[j++]; 
-        for(int i=low;i<=high;i++)
+        }
+        while(j<=high){
+            temp[k++]=nums[j++];
+        }
+        for(int i=low;i<=high;++i){
             nums[i]=temp[i];
+        }
         return inv;
+        
     }
     private:
-    int solve(vector<int>& nums,vector<int>&temp,int i,int j)
+    int solve(int low,int high,int temp[],vector<int>&nums)
     {  
-        if(i==j)
+        if(low==high)
             return 0;
         int inv=0;
-        if(i<j)
-        {
-            int mid=(i+j)/2;
-            inv=solve(nums,temp,i,mid);
-            inv+=solve(nums,temp,mid+1,j);
-            inv+=merge(nums,temp,i,mid,j);
+        if(low<high){
+            int mid=(low+high)>>1;
+            inv+=solve(low,mid,temp,nums);
+            inv+=solve(mid+1,high,temp,nums);
+            inv+=merge(low,mid,high,temp,nums);
         }
         return inv;
     }
 public:
     int reversePairs(vector<int>& nums) {
-        int n=nums.size(); 
-        vector<int>temp(n);
-        return solve(nums,temp,0,n-1);
+        n=nums.size(); 
+        int temp[n];
+        return solve(0,nums.size()-1,temp,nums);
     }
 };
