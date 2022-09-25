@@ -9,21 +9,22 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution { 
+    private:
+    TreeNode *prev=NULL;
+    void solve(TreeNode *root){
+        if(root==NULL)
+            return ;
+        solve(root->right);
+        solve(root->left);
+        root->right=prev;
+        root->left=NULL;
+        prev=root;
+    }
 public:
     void flatten(TreeNode* root) {
-        stack<TreeNode *>s;
-        s.push(root); 
-        if(root==NULL) return ;
-        while(!s.empty()){
-          TreeNode* temp=s.top();
-            s.pop();
-            if(temp->right)
-                s.push(temp->right);
-            if(temp->left) s.push(temp->left);
-            if(!s.empty())
-                temp->right=s.top();
-            temp->left=NULL;
-        }
+        if(root==NULL)
+            return ;
+        solve(root);
     }
 };
