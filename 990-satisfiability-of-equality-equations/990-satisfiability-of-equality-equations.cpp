@@ -24,7 +24,8 @@ class Solution {
             // rank[v]++;
         }
         else{
-          par[u]=v;
+          par[u]=v; 
+            // we are attaching the v to the parent of u  then teh rank of v will increase 
             rank[v]++;
         }
     }
