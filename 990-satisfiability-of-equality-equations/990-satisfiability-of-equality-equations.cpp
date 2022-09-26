@@ -13,8 +13,8 @@ class Solution {
     {
         int u=findparent(a);
         int v=findparent(b); 
-        if(u==v)
-            return;
+        // if(u==v)
+        //     return;
         if(rank[u]<rank[v]){
             par[u]=v; 
             // rank[u]++;
