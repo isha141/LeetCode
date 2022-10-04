@@ -2,9 +2,9 @@ class Solution {
 public:
     int minFlips(int a, int b, int c) {
        // int ans=0;
-        vector<int>bita(64,0);
-        vector<int>bitb(64,0);
-        vector<int>bitc(64,0); 
+        vector<int>bita(32,0);
+        vector<int>bitb(32,0);
+        vector<int>bitc(32,0); 
         int pos=0;
         while(a){
             if(a &1){
