@@ -11,48 +11,38 @@
  */
 class Solution { 
     private:
-    TreeNode *solve(TreeNode *root,int val,int depth){
-        if(depth==1){
-        TreeNode *temp=new TreeNode(val);
-            temp->left=root;
-             return temp;
-        } 
-        queue<TreeNode *>q;
-        q.push(root);
-        while(!q.empty()){
-            int n=q.size();
-            depth--;
-            while(n--){
-                auto itr=q.front();
-                q.pop();
-                if(depth==1){
-                        TreeNode *temp=new TreeNode(val);
-                    if(itr->left)
-                        temp->left=itr->left;
-                       itr->left=temp;   
-                    
-                         temp=new TreeNode(val);
-                    if(itr->right){
-                        temp->right=itr->right;
-                    }
-                        itr->right=temp;
-                }
-                else{
-                    if(itr->left)
-                        q.push(itr->left); 
-                    if(itr->right)
-                        q.push(itr->right);
-                }
-            }
-            // depth--;
-           }
-        return root;
+   void solve(TreeNode *root,int val,int depth){
+        if(root==NULL)
+            return ; 
+        // if(depth==1)
+        //     return;
+       if(depth==1){
+            TreeNode *temp=new TreeNode(val); 
+            if(root->left)
+                temp->left=root->left; 
+           root->left=temp;
+            // return temp; 
+            temp=new TreeNode(val);
+            if(root->right)
+                temp->right=root->right;
+            root->right=temp;
+            return ;
+        }
+        solve(root->left,val,depth-1);
         
+        solve(root->right,val,depth-1);
+        // return root;
     }
 public:
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
         if(root==NULL)
-            return root;
-        return solve(root,val,depth);
+            return root; 
+        if(depth==1){
+            TreeNode *temp=new TreeNode(val);
+            temp->left=root;
+            return temp;
+        }
+        solve(root,val,depth-1); 
+        return root;
     }
 };
