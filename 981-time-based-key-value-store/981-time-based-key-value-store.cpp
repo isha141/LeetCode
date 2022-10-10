@@ -12,11 +12,11 @@ public:
     string get(string key, int time) { 
         if(mp.find(key)==mp.end())
             return ""; 
-        for(int i=time;i>=0;--i){
-            if(mp[key].count(i))
-                return mp[key][i];
-        }
-        return "";
+        auto it=mp[key].upper_bound(time);
+        if(it==mp[key].begin())
+            return ""; 
+        // cout<<it->first<<" hy"<<it->second<<endl;
+        return prev(it)->second;
     }
 };
 
