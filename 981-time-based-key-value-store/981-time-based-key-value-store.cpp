@@ -1,21 +1,23 @@
-class TimeMap { 
+class TimeMap {  
+    private:
     unordered_map<string,map<int,string>>mp;
-    
 public:
     TimeMap() {
-        mp.clear();
+      mp.clear();  
     }
     
-    void set(string key, string value, int t) {
-        mp[key].insert({t,value});
-        }
-    string get(string key, int time) { 
+    void set(string key, string value, int time) {
+        mp[key].insert({time,value});
+    }
+    
+    string get(string key, int time) {
         if(mp.find(key)==mp.end())
-            return ""; 
+            return "";
+        // auto itr=mp[key]; 
+        /// to access the element 
         auto it=mp[key].upper_bound(time);
         if(it==mp[key].begin())
-            return ""; 
-        // cout<<it->first<<" hy"<<it->second<<endl;
+            return "";
         return prev(it)->second;
     }
 };
