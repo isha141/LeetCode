@@ -11,32 +11,23 @@ class Solution
     long long getMaxArea(long long arr[], int n)
     {
         // Your code here 
-        vector<int>left(n,0),right(n,n-1); 
-        stack<int>s;
-        for(int i=0;i<n;++i){
-            while(!s.empty() && arr[s.top()]>=arr[i])
-            s.pop();
-            
-            if(s.empty())
-             left[i]=0;
-             else
-              left[i]=s.top()+1; 
-              s.push(i);
-        } 
-        while(!s.empty())
-        s.pop();
-        for(int i=n-1;i>=0;--i){
-            while(!s.empty() && arr[s.top()]>=arr[i])
-            s.pop();
-            if(s.empty())
-            right[i]=n-1;
-            else
-            right[i]=s.top()-1;
-            s.push(i);
-        }
+        stack<long>s; 
         long long ans=0;
-        for(int i=0;i<n;++i){
-            ans=max(ans,(right[i]-left[i]+1)*arr[i]);
+        for(int i=0;i<=n;++i){
+            while(!s.empty() && ( i==n  || (arr[s.top()]>=arr[i]))){ 
+                long long  height=arr[s.top()];
+                s.pop();  
+                
+                int width=i;
+                if(!s.empty())
+                width=i-s.top()-1;
+                // cout<<height<<" "<<width<<endl;
+                // else
+                // left=0;
+                // if(i!=n)
+                ans=max(ans,width*height);
+            }
+            s.push(i);
         }
         return ans;
     }
