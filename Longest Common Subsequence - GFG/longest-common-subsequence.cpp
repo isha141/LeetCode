@@ -27,21 +27,23 @@ class Solution
     int lcs(int x, int y, string a, string b)
     {
         // your code here  
-        vector<vector<int>>dp(x+1,vector<int>(y+1,0)); 
-        for(int i=1;i<=x;++i){
+        vector<int>prev(y+1,0); 
+        for(int i=1;i<=x;++i){ 
+            vector<int>curr(y+1,0);
             for(int j=1;j<=y;++j){ 
                 int l=0;
                 int r=0;
                 if(a[i-1]==b[j-1]){
-                    l=1+dp[i-1][j-1];
+                    l=1+prev[j-1];
                 }
                 else 
-                r=max(dp[i-1][j],dp[i][j-1]); 
-                dp[i][j]=max(l,r);
-            }
+                r=max(prev[j],curr[j-1]); 
+                curr[j]=max(l,r);
+            } 
+            prev=curr;
         }
         
-        return dp[x][y];
+        return prev[y];
     }
 };
 
