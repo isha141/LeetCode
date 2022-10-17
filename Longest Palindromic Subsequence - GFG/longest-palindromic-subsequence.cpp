@@ -32,20 +32,22 @@ class Solution{
         int n=a.size();
         string temp=a;
         reverse(temp.begin(),temp.end()); 
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0)); 
+        vector<int>prev(n+1,0);  
         for(int i=1;i<=n;++i){
+                vector<int>curr(n+1,0);
             for(int j=1;j<=n;++j){
                 int take=0;
                 int not_take=0;
                 if(a[i-1]==temp[j-1]){
-                    take=1+dp[i-1][j-1];
+                    take=1+prev[j-1];
                 }
                 else
-                not_take=max(dp[i-1][j],dp[i][j-1]);
-            dp[i][j]=max(take,not_take);
-            }
-        }
-        return dp[n-1+1][n-1+1];
+                not_take=max(prev[j],curr[j-1]);
+            curr[j]=max(take,not_take);
+            } 
+            prev=curr;
+        } 
+        return prev[n-1+1];
     }
 };
 
