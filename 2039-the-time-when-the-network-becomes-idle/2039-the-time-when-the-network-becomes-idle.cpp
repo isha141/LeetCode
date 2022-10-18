@@ -8,12 +8,6 @@ public:
             adj[e[i][0]].push_back(e[i][1]);
             adj[e[i][1]].push_back(e[i][0]);
         } 
-        // for(int i=0;i<n;++i){ 
-        //     cout<<i<<" ";
-        //     for(auto it: adj[i])
-        //         cout<<it<<" ";
-        //     cout<<endl;
-        // }
         queue<int>q;
         vector<int>time(n+1,-1);
         q.push(0);
