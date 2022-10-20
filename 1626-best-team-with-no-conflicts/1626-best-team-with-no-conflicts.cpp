@@ -31,7 +31,17 @@ public:
             ds.push_back({a[i],s[i]});
         }
         sort(ds.begin(),ds.end()); 
-        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-        return solve(0,ds,-1,dp);
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0)); 
+        for(int i=n-1;i>=0;--i){ 
+            for(int prev=i;prev>=-1;--prev){
+                 int take=0;
+                 int not_take=0;
+                 if(prev==-1 || ds[i].second>=ds[prev].second)
+                    take=ds[i].second+dp[i+1][i+1];
+                not_take=dp[i+1][prev+1];
+                dp[i][prev+1]=max(take,not_take);
+            }
+        }
+        return dp[0][0];
     }
 };
