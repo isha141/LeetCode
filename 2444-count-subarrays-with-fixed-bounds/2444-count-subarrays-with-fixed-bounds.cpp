@@ -2,38 +2,30 @@ class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int minK, int maxK) {
         int n=nums.size();
-        int i=0;
-        int j=0; 
-        int maxi=0;
-        int mini=0;
-        int c=0;  
-        bool minfound=0;
-        bool maxfound=0;
-        // int mini=0;
-        long long  ans=0;
+        long long c=0; 
         int start=0;
-        while(j<n){
-           if(nums[j]==minK){
-               mini=j;
-               minfound=1;
-           }
-            if(nums[j]==maxK){
-                maxi=j;
-                maxfound=1;
+        bool minifound=0;
+        bool maxifound=0;
+        int mini=-1;
+        int maxi=-1;
+        for(int i=0;i<n;++i){
+            if(nums[i]==minK){
+                mini=i;
+                minifound=1;
             }
-            if(nums[j]<minK || nums[j]>maxK){
-                start=j+1;
-                mini=j;
-                maxi=j;
-                minfound=0;
-                maxfound=0;
+            if(nums[i]==maxK){
+                maxi=i;
+                maxifound=1;
             }
-            if(minfound && maxfound){
-                ans+=min(mini,maxi)-start+1;
-                // cout<<start<<" "<<mini<<" "<<maxi<<endl;
+            if(nums[i]<minK|| nums[i]>maxK){
+                minifound=0;
+                maxifound=0; 
+                start=i+1;
             }
-            j++;
+            if(minifound && maxifound){
+                c+=min(mini,maxi)-start+1;
+            }
         }
-        return ans;
+        return c;
     }
 };
