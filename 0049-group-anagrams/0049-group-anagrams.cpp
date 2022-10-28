@@ -9,10 +9,7 @@ public:
             mp[t].push_back(itr);
         }
         for(auto itr: mp){
-            vector<string>ds;
-        for(auto it: itr.second)
-            ds.push_back(it);
-            ans.push_back(ds);
+            ans.push_back(itr.second);
        }
         return ans;
     }
