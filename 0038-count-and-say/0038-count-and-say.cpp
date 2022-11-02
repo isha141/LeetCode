@@ -1,44 +1,40 @@
 class Solution {
-    private:
-    string ans=""; 
-   void koko(int j,string temp, string  &a){ 
-        if(j>=temp.size())
+    private: 
+    int n;
+    string t="";
+    void solve(int i,string &temp){
+        if(i>=n){
+            t=temp;
             return ;
-       // if(j==temp.size()-1){
-       //     a+=to_string(1);
-       //     a+=temp[j-1];
-       // }
-        int c=1;
-        while(j<temp.size()){
-            if(j+1<temp.size()&& temp[j]==temp[j+1])
-                c++;
-            else
-                break;
-            j++;
-        } 
-        a+=to_string(c);
-        a+=temp[j];
-        koko(j+1,temp,a);
-    }
-    private:
-    void solve(int i,int n,string temp){
-        for(int j=i+1;j<=n;++j){
-            string a="";
-            koko(0,temp,a);
-            // cout<<a<<" ";
-            temp=a;
-            ans=temp;
         }
+        int k=0;
+         string ans="";
+        while(k<temp.size()){
+            int c=1; 
+            bool flag=0;
+            while(k<temp.size()-1 && temp[k]==temp[k+1]){
+                c++;
+            flag=1;
+                k++;
+            } 
+            // cout<<c<<" ";
+            ans+=to_string(c);
+            ans+=temp[k];
+            k++;
+            // cout<<ans<<endl;
+        }
+        solve(i+1,ans);
+        return ;
     }
 public:
     string countAndSay(int n) {
-        if(n==1){
+        string temp="11";
+        this->n=n;
+        if(n==1)
             return "1";
-        } 
         if(n==2)
             return "11";
-        string temp="11";
-        solve(2,n,temp);
-         return ans;
+        solve(2,temp);  
+        return t;
     }
 };
