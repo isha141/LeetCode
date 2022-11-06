@@ -7,76 +7,34 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution{
+class Solution{ 
+    private:
+    int solve(int i,int amount,vector<int>&ans,int *coins){ 
+        if(amount==0)
+        return 1;
+        if(i<0)
+        return 0;
+        if(amount>=coins[i]){
+        ans.push_back(coins[i]);
+        if( solve(i,amount-coins[i],ans,coins))
+        return 1;
+       }
+       else
+       solve(i-1,amount,ans,coins);
+        return 0;
+    }
 public:
-    vector<int> minPartition(int N)
+    vector<int> minPartition(int n)
     {
-        // code here
+                // code here 
         vector<int>ans;
-        while(N!=0){
-            if(N>=2000){
-                int temp=N/2000;
-                for(int i=0;i<temp;++i)
-                ans.push_back(2000);
-                N%=2000;
-            }
-            else if(N>=500){
-                int temp=N/500;
-                for(int i=0;i<temp;++i)
-                ans.push_back(500);
-                N%=500;
-            }
-            else if(N>=200){
-                int temp=N/200;
-                for(int i=0;i<temp;++i){
-                    ans.push_back(200);
-                }
-                N%=200;
-            }
-            else if(N>=100){
-                int temp=N/100;
-                for(int i=0;i<temp;++i)
-                ans.push_back(100); 
-                N%=100;
-            }
-            else if(N>=50){
-                int temp=N/50;
-                for(int i=0;i<temp;++i)
-                ans.push_back(50);
-                N%=50;
-            }
-            else if(N>=20){
-                int temp=N/20;
-                for(int i=0;i<temp;++i)
-                ans.push_back(20);
-                N%=20;
-            }
-            else if(N>=10){
-                int temp=N/10;
-                for(int i=0;i<temp;++i)
-                ans.push_back(10);
-                N%=10;
-            }
-            else if(N>=5){
-                int temp=N/5;
-                for(int i=0;i<temp;++i)
-                ans.push_back(5);
-                N%=5;
-            }
-            else if(N>=2){
-                int temp=N/2;
-                for(int i=0;i<temp;++i)
-                ans.push_back(2);
-                N%=2;
-            }
-             else if(N>=1){
-                int temp=N/1;
-                for(int i=0;i<temp;++i)
-                ans.push_back(1);
-                N%=1;
-            }
-        }
+        if(n==0)
         return ans;
+        int coins[]={ 1, 2, 5, 10, 20, 50, 100, 200, 500, 2000 } ;
+        int i=9;
+        solve(i,n,ans,coins);
+        return ans;
+
     }
 };
 
