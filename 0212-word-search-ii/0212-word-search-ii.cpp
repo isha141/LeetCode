@@ -22,7 +22,7 @@ class trie{
 }; 
 class Solution { 
     private: 
-    set<string>st;
+    // set<string>st;
      trie *root;
      int n,m; 
     void insert(string word){
@@ -46,12 +46,11 @@ void dfs(int i,int j,vector<vector<char>>& board,trie *node,vector<string>&ans){
         char ch=board[i][j];
         board[i][j]=')';  
         if(node->isset()){ 
-            if(st.find(node->s)==st.end()){
-            ans.push_back(node->s);
-                st.insert(node->s);
+            // if(st.find(node->s)==st.end()){
+              ans.push_back(node->s);
+               node->flag=0;
             }
         // return ;
-        }
         dfs(i+1,j,board,node,ans);
         dfs(i-1,j,board,node,ans);
         dfs(i,j+1,board,node,ans);
