@@ -1,42 +1,81 @@
-struct TrieNode {
-    TrieNode* children[26] = {};
-    string* word;
-    void addWord(string& word) {
-        TrieNode* cur = this;
-        for (char c : word) {
-            c -= 'a';
-            if (cur->children[c] == nullptr) cur->children[c] = new TrieNode();
-            cur = cur->children[c];
-        }
-        cur->word = &word;
+class trie{
+    public:
+    bool flag=0; 
+    string s="";
+    trie *links[26]; 
+    public: 
+    bool containskey(char ch){
+        return links[ch-'a']!=NULL;
     }
-};
-
-class Solution {
-public:
-    int m, n;
-    int DIR[5] = {0, 1, 0, -1, 0};
-    vector<string> ans;
-    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
-        m = board.size(); n = board[0].size();
-        TrieNode trieNode;
-        for (string& word : words) trieNode.addWord(word);
-        
-        for (int r = 0; r < m; ++r)
-            for (int c = 0; c < n; ++c)
-                dfs(board, r, c, &trieNode);
-        return ans;
+   void create(char ch, trie *node){
+        links[ch-'a']=node;
     }
-    void dfs(vector<vector<char>>& board, int r, int c, TrieNode* cur) {
-        if (r < 0 || r == m || c < 0 || c == n || board[r][c] == '#' || cur->children[board[r][c]-'a'] == nullptr) return;
-        char orgChar = board[r][c];
-        cur = cur->children[orgChar - 'a'];
-        if (cur->word != nullptr) {
-            ans.push_back(*cur->word);
-            cur->word = nullptr; // Avoid duplication!
+    trie * refrenced(char ch){
+        return links[ch-'a'];
+    }  
+    void toset(){
+        flag=1;
+    }
+    bool isset(){
+        return flag;
+    }
+}; 
+class Solution { 
+    private: 
+    set<string>st;
+     trie *root;
+     int n,m; 
+    void insert(string word){
+        trie *node=root;
+        for(int i=0;i<word.size();++i){
+            if(node->containskey(word[i])){
+                node=node->refrenced(word[i]);
+            } 
+            else{
+               node->create(word[i],new trie());
+                   node=node->refrenced(word[i]);
+            }
         }
-        board[r][c] = '#'; // mark as visited!
-        for (int i = 0; i < 4; ++i) dfs(board, r + DIR[i], c + DIR[i+1], cur);
-        board[r][c] = orgChar; // restore org state
+          node->toset();
+          node->s=word;
+    }
+void dfs(int i,int j,vector<vector<char>>& board,trie *node,vector<string>&ans){
+        if(i<0 || j<0 || i>=n || j>=m || board[i][j]==')' || !node->links[board[i][j]-'a'])
+            return ;
+        node=node->refrenced(board[i][j]); 
+        char ch=board[i][j];
+        board[i][j]=')';  
+        if(node->isset()){ 
+            if(st.find(node->s)==st.end()){
+            ans.push_back(node->s);
+                st.insert(node->s);
+            }
+        // return ;
+        }
+        dfs(i+1,j,board,node,ans);
+        dfs(i-1,j,board,node,ans);
+        dfs(i,j+1,board,node,ans);
+        dfs(i,j-1,board,node,ans);
+        board[i][j]=ch;
+        return ;
+    }
+    
+public: 
+     Solution(){
+        root=new trie();
+    }
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words){
+        n=board.size();
+        m=board[0].size();
+        vector<string>ans;
+        for(auto itr: words)
+            insert(itr);
+        trie *node=root;
+        for(int i=0;i<n;++i){
+            for(int j=0;j<m;++j){
+                dfs(i,j,board,node,ans);
+            }
+        }
+        return  ans;
     }
 };
