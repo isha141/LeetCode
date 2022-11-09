@@ -14,7 +14,18 @@ class Solution {
 public:
     int rob(vector<int>& nums) {
         int n= nums.size(); 
-        vector<int>dp(n,-1);
-        return solve(n-1,nums,dp);
+        vector<int>dp(n,0); 
+        for(int i=0;i<n;++i){
+            int pick=nums[i];
+            int not_pick=0; 
+            if(i-2>=0)
+            pick+=dp[i-2];
+             if(i-1>=0)
+                not_pick=dp[i-1];
+            dp[i]=max(pick,not_pick);  
+        } 
+        for(int i=0;i<n;++i)
+            cout<<dp[i]<<" ";
+        return dp[n-1];
     }
 };
