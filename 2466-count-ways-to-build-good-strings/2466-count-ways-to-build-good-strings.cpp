@@ -9,7 +9,7 @@ class Solution {
         if(dp[target]!=-1)
             return dp[target]; 
         long long ans=0;
-        ans=(solve(target-zero,zero,one,dp)+solve(target-one,zero,one,dp));
+        ans=(solve(target-zero,zero,one,dp)+solve(target-one,zero,one,dp))%mod;
         return dp[target]=ans%mod;
         
     }
@@ -18,7 +18,7 @@ public:
         vector<long long>dp(100001,-1);
         long long ans=0;
         for(int i=low;i<=high;++i){
-            ans=(ans%mod+ solve(i,zero,one,dp)%mod)%mod;
+            ans=(ans%mod+ solve(i,zero,one,dp))%mod;
         }
         return ans;
     }
