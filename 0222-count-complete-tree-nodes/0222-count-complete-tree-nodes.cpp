@@ -29,7 +29,8 @@ class Solution {
         return c;
     }
 
-public:
+public: 
+    // T.C=O(logn*logn)
     int countNodes(TreeNode* root) {
         
         // return solve(root);
