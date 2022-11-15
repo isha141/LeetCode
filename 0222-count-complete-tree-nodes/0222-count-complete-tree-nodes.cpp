@@ -9,22 +9,34 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution { 
-    int count=0;
+class Solution {
     private:
-    void solve(TreeNode *root){
-        if(root==NULL)
-            return ;
-        if(root)
-            count++;
-        solve(root->left);
-        solve(root->right);
+    int findleft(TreeNode *root){
+        
+      int c=0;
+        while(root){
+            c++;
+        root=root->left;
     }
+     return c;   
+    }
+    int findright(TreeNode *root){
+        int c=0;
+        while(root){
+            c++;
+            root=root->right;
+        }
+        return c;
+    }
+
 public:
     int countNodes(TreeNode* root) {
-         if(root==NULL)
-             return 0; 
-        solve(root);
-        return count;
+        
+        // return solve(root);
+        int lh=findleft(root);
+        int rh=findright(root);
+        if(lh==rh)
+            return (1<<lh)-1;
+        return 1+ countNodes(root->left)+countNodes(root->right);
     }
 };
