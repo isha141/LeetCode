@@ -15,16 +15,21 @@ class Solution{
       suma+=a[i];
       for(int j=0;j<m;++j)
       sumb+=b[j];
-      long long temp=(suma-sumb)/2; 
+      sort(a,a+n);
+      sort(b,b+m); 
       if((suma-sumb)%2)
       return -1;
-      map<long,long>mp;
-      for(auto i=0;i<m;++i)
-      mp[b[i]]++;
-      for(int i=0;i<n;++i){
-          if(mp.find(a[i]-temp)!=mp.end()){
-              return 1;
-          }
+      long long temp=(suma-sumb)/2;
+      int i=0;
+      int j=0;
+      while(i<n && j<m){
+          if((a[i]-b[j])<temp)
+          i++;
+          else if((a[i]-b[j])>temp)
+           j++;
+           else 
+           return 1;
+          
       }
       return -1;
 	}
