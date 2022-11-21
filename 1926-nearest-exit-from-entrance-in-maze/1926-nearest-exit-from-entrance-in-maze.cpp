@@ -3,9 +3,8 @@ class Solution {
     int solve(int i,int j,int n,int m,vector<vector<char>>& maze){
         int ans=0;
         queue<pair<int,int>>q;
-        q.push({i,j}); 
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        vis[i][j]=1;
+        q.push({i,j});  
+        maze[i][j]='+';
         while(!q.empty()){
             int t=q.size();
             while(t--){
@@ -14,15 +13,16 @@ class Solution {
                 int x=itr.first;
                 int y=itr.second;
                 if((x==0 || y==0 || x==n-1 || y==m-1 ) && (x!=i  || y!=j))
-                    return ans;
+                    return ans; 
                 int dx[4]={-1,0,1,0};
                 int dy[4]={0,1,0,-1};
                 for(int k=0;k<4;++k){
                     int nx=dx[k]+x;
                     int ny=dy[k]+y;
-                 if(nx<0 || nx>=n || ny<0 || ny>=m || maze[nx][ny]=='+' || vis[nx][ny])
+                 if(nx<0 || nx>=n || ny<0 || ny>=m || maze[nx][ny]=='+')
                      continue; 
-                    vis[nx][ny]=1;
+                    maze[nx][ny]='+';
+                    // vis[nx][ny]=1;
                     q.push({nx,ny});
                 }
             }
