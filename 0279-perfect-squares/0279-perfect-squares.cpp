@@ -21,6 +21,14 @@ public:
         if(n==0 || n==1) return n;
         int ans=1e9;
         vector<int>dp(n+1,-1);
+//         dp[0]=0;
+//         dp[1]=1;
+//         for(int i=1;i<=n;++i){
+//             int temp=1e9;
+//         for(int j=1;j*j<=i;++j){
+            
+//         }
+//         }
          return solve(n,n,dp);
     }
 };
