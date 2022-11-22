@@ -21,14 +21,18 @@ public:
         if(n==0 || n==1) return n;
         int ans=1e9;
         vector<int>dp(n+1,-1);
-//         dp[0]=0;
-//         dp[1]=1;
-//         for(int i=1;i<=n;++i){
-//             int temp=1e9;
-//         for(int j=1;j*j<=i;++j){
-            
-//         }
-//         }
-         return solve(n,n,dp);
+        dp[0]=0;
+        dp[1]=1;
+        for(int i=1;i<=n;++i){
+            int temp=1e9;
+        for(int j=1;j*j<=i;++j){
+            int ans=1e9;
+            if(i-(j*j)>=0)
+            ans=1+dp[i-(j*j)];
+            temp=min(temp,ans);
+        }
+            dp[i]=temp;
+        }
+         return dp[n];
     }
 };
