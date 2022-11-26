@@ -1,19 +1,30 @@
 int dp[100000005];
 class Solution { 
-    private: 
-    int n;
+    private:  
+    int n; 
+    int to_find(vector<vector<int>>&ds,int prev){
+        int i=-1;
+        int low=0;
+        int high=n-1;
+        while(low<=high){
+            int mid=(low+high)>>1;
+            if(prev<=ds[mid][0]){
+               i=mid;
+                high=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return i;
+    }
     int solve(int ind,vector<vector<int>>&ds,int prev){
         if(ind>=n)
-            return 0; 
+            return 0;  
+        if(ind<0) return 0;
         if(dp[ind]!=-1) return dp[ind];
         int take=0; 
         int not_take=0; 
-        int i; 
-        // cout<<ind<<" "<<prev<<" "<<ds[ind][1]<<endl;
-        for(i=ind+1;i<n;++i){
-            if(ds[i][0]>=ds[ind][1])
-                break;
-        }
+        int i=to_find(ds,ds[ind][1]);
         take=ds[ind][2]+solve(i,ds,ds[ind][1]);
         not_take=solve(ind+1,ds,prev);
         return dp[ind]=max(take,not_take);
