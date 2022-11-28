@@ -13,10 +13,6 @@ public:
                     dp[i][diff]+=dp[j][diff];
                     c+=dp[j][diff];
                 }
-                // dp[i][diff]=ans+1;
-                // if(ans>=1){
-                    
-                // }
             }
         }
         return c;
