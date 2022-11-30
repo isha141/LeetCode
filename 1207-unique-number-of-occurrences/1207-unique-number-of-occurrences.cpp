@@ -1,14 +1,27 @@
 class Solution {
 public:
     bool uniqueOccurrences(vector<int>& arr) {
-        int n=arr.size();
-        map<int,int>mp;
-        set<int>s;
-        for(auto itr: arr)
-            mp[itr]++;
-        for(auto itr: mp){
-            if(s.find(itr.second)!=s.end()) return 0;
-            s.insert(itr.second);
+        vector<int>ds(2001,-1);
+        for(auto itr: arr){
+            if(ds[itr+1000]==-1){
+                ds[itr+1000]=0;
+                ds[itr+1000]++;
+            }
+            else 
+                ds[itr+1000]++;
+        }
+        sort(ds.begin(),ds.end());
+        int i=0;
+        while(i<ds.size()){
+            if(ds[i]==-1)
+                i++;
+            else
+                break;
+            // cout<<"hyy";
+        }
+        for(int j=i;j<ds.size()-1;++j){
+            if(ds[j]==ds[j+1])
+                return 0;
         }
         return 1;
     }
