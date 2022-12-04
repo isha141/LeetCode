@@ -2,24 +2,23 @@ class Solution {
 public:
     int minimumAverageDifference(vector<int>& nums) {
         int n=nums.size();
-        vector<long long >pre(n,0);
-        pre[0]=nums[0];
-        for(int i=1;i<n;++i){
-           pre[i]=pre[i-1]+nums[i]; 
-        }
-        int ans=(int)1e9;
+        long long sum=0;
+        long long currsum=0;
+        for(auto itr: nums)
+            sum+=itr;
         int mini=n-1;
+        long long ans=(int)1e9;
         for(int i=0;i<n-1;++i){
-            int diff=abs(pre[i]/(i+1)-abs(pre[n-1]-pre[i])/(n-i-1));
-            if(diff<ans){
+            currsum+=nums[i];
+            long long diff=abs(currsum/(i+1)-abs(sum-currsum)/(n-i-1));
+            if(ans>diff){
                 ans=diff;
                 mini=i;
             }
         }
-        if(ans>(pre[n-1])/(n)){
-          ans=pre[n-1];
-          mini=n-1;
-         }
+        if(ans>sum/n){
+           return n-1;
+        }
         return mini;
     }
 };
