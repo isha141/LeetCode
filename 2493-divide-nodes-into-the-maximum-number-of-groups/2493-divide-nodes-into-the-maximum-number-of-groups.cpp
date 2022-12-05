@@ -40,15 +40,17 @@ class Solution {
     int maxdis(int node,vector<int>&dist,vector<int>adj[],vector<int>&vis){ 
         if(vis[node])
             return dist[node];
-        vis[node]=1;
+        vis[node]=1; 
+        
         int maxi=dist[node];
+        int ans=maxi;
         for(auto itr: adj[node]){
             if(vis[itr]==0){
-                // vis[itr]=1;
-                maxi=max(maxi,maxdis(itr,dist,adj,vis));
+                // ans=max(ans,dist[itr]);
+                ans=max(ans,maxdis(itr,dist,adj,vis));
             }
         }
-        return maxi;
+        return ans;
     }
 public:
    
@@ -69,11 +71,12 @@ public:
             dist[i]=bfs(i,adj);
         } 
         // for(int i=1;i<=n;++i){
-        //     cout<<i<<" "<<dist[i]<<endl;
+            // cout<<i<<" "<<dist[i]<<endl;
         // }
         vector<int>vis(n+1,0);
         for(int i=1;i<=n;++i){ 
             if(!vis[i]){
+                cout<<i<<" ,,";
             int temp=maxdis(i,dist,adj,vis);
             ans+=temp;
             }
