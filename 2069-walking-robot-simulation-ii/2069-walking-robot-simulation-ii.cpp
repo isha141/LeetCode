@@ -22,7 +22,6 @@ public:
         w=width;
         h=height;
         per=2*(w+h)-4;
-        // ds=new node[per];
         for(int i=0;i<per;++i){
             ds.push_back(node(x,y,dir));
             if(x==0 && y==0)
