@@ -20,9 +20,9 @@ public:
         for(auto itr: t){
             string temp=itr; 
             if(temp!="+" && temp!="-" && temp!="*" && temp!="/"){
-             long long res=solve(temp); 
+             // long long res=solve(temp); 
                 // cout<<res<<",,";
-                s.push(res);
+                s.push(stoi(temp));
             }
             else{
                 long a=s.top();
