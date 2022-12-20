@@ -6,11 +6,10 @@ public:
         if(n==2 || n==3 || n==4 || n==7 || n==5 || n==1) {
             return n;
         }
-        // int c=0;
         while(n){
             int temp=n;
             long ans=0;
-            for(long i=2;i<=sqrt(n);++i){
+            for(long i=2;i*i<=n;++i){
                 while(n%i==0){
                     ans+=i;
                     n/=i;
