@@ -1,10 +1,10 @@
 class Solution { 
-    void solve(int node,int c, vector<int>adj[],vector<int>&vis,set<int>&s){
-        
+    void solve(int node, vector<int>adj[],vector<int>&vis){
+        vis[node]=1;
         for(auto itr: adj[node]){
             if(vis[itr]==0){
-                vis[itr]=1;
-                solve(itr,c,adj,vis,s);
+                // vis[itr]=1;
+                solve(itr,adj,vis);
             }
         }
     }
@@ -18,13 +18,9 @@ public:
                 adj[i].push_back(itr);
             }
         }
-        vector<int>vis(n+1,0);
+        vector<int>vis(n,0);
         int c=0; 
-        set<int>s;
-        vis[0]=1;
-        solve(0,c,adj,vis,s);
-        // for(int i=0;i<n;++i)
-        //     cout<<vis[i]<<" ";
+        solve(0,adj,vis);
         for(auto i=0;i<n;++i)
             if(!vis[i]) return 0;
         
