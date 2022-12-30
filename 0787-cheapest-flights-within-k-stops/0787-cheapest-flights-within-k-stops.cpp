@@ -5,14 +5,14 @@ public:
         for(int i=0;i<f.size();++i){
             adj[f[i][0]].push_back({f[i][1],f[i][2]});
         }
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq; 
+        queue<pair<int,pair<int,int>>>pq; 
         int ans=1e9;
         vector<int>vis(n,INT_MAX);
         vis[src]=0;
         k+=2;
         pq.push({1,{src,0}});
         while(!pq.empty()){
-            auto itr=pq.top();
+            auto itr=pq.front();
             pq.pop();
             int n=itr.second.first;
             int dis=itr.second.second;
