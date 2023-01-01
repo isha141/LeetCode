@@ -13,21 +13,23 @@ class Solution {
     int minLaptops(int n, int start[], int end[]) {
         // Code here 
         int ans=1;
-        int curr=1;
+        int curr=0;
         sort(start,start+n);
         sort(end,end+n);
         int k=0;
-        for(int i=1;i<n;++i){
-            if(end[k]<=start[i]){
-                k++;
-                // curr--;
-            }
-            else{
+        int i=0;
+        int j=0;
+        while(i<n && j<n){
+            if(start[i]<end[j]){
                 curr++;
+                i++;
             }
-            ans=max(ans,curr);
-        }
+            else {
+                j++;
+                curr--;
+            }
         ans=max(ans,curr);
+        }
         return ans;
     }
 };
