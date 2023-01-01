@@ -17,10 +17,10 @@ class Solution {
         sort(start,start+n);
         sort(end,end+n);
         int k=0;
-        // int last=end[0];
         for(int i=1;i<n;++i){
             if(end[k]<=start[i]){
                 k++;
+                // curr--;
             }
             else{
                 curr++;
