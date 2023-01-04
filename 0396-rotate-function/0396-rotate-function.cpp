@@ -10,13 +10,13 @@ public:
         }
         int maxi=INT_MIN; 
         maxi=max(maxi,ans);
-        vector<int>dp(n,0);
-        dp[0]=ans;
+       int prev=ans;
         int k=n-1;
         for(int i=1;i<n;++i){
-            dp[i]=dp[i-1]+sum-(n*nums[k]);
+            int ans=prev+sum-(n*nums[k]);
+            prev=ans;
             k--;
-            maxi=max(maxi,dp[i]);
+            maxi=max(maxi,prev);
         }
         return maxi;
     }
