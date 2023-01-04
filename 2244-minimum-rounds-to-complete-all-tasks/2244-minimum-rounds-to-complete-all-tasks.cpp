@@ -8,9 +8,7 @@ public:
             mp[itr]++;
         for(auto itr: mp){ 
             if(itr.second==1) return -1;
-            ans+=itr.second/3;
-            if(itr.second%3)
-                ans++;
+            ans+=(itr.second+2)/3;
         }
         return ans;
     }
