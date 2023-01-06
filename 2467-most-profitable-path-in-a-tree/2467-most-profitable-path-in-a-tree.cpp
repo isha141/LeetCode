@@ -1,58 +1,50 @@
 class Solution { 
     private:
-    vector<vector<int>>adj;
-     vector<int>dis;
-    vector<int>par;
-    vector<int>vis;
-    void dfs(int node,int parent=0,int count=0){
-        dis[node]=count;
-         par[node]=parent; 
-        for(auto itr: adj[node]){
-            if(parent==itr){
-                continue;
-            }
-            dfs(itr,node,count+1);
-        }
-    }
-    int dfs2(int node,vector<int>&amount){
+    void dfs(int node,int par,vector<int>&vis,vector<int>&parent,vector<int>adj[],int count){
+          vis[node]=count;
+          parent[node]=par;
+          for(auto itr: adj[node]){
+              if(par==itr)
+                  continue;
+              dfs(itr,node,vis,parent,adj,count+1);
+          }
+    } 
+    int dfsvis(int node,vector<int>&amount,vector<int>adj[],vector<int>&vis){
         int ans=-INT_MAX;
-        int ret=amount[node];
+        int cur=amount[node];
         vis[node]=1;
         for(auto itr: adj[node]){
             if(vis[itr]==0){
-               ans=max(ans,dfs2(itr,amount));
+                ans=max(ans,dfsvis(itr,amount,adj,vis));
             }
         }
         if(ans==-INT_MAX)
-            return ret;
-        return ans+ret;
+            return cur;
+        return ans+cur;
     }
 public:
-    int mostProfitablePath(vector<vector<int>>& e, int bob, vector<int>& am) {
-        int n=am.size();
-         adj.resize(n,vector<int>());
-        par.resize(n);
-        dis.resize(n);
+    int mostProfitablePath(vector<vector<int>>& e, int bob, vector<int>& amount) {
+        int n=amount.size();
+        vector<int>adj[n+1];
         for(int i=0;i<e.size();++i){
-            adj[e[i][0]].push_back(e[i][1]);
-            adj[e[i][1]].push_back(e[i][0]);
+         adj[e[i][0]].push_back(e[i][1]);
+         adj[e[i][1]].push_back(e[i][0]);
         }
-        dfs(0); 
-        int cur=bob;
+        vector<int>dis(n+1,0);
+        vector<int>parent(n+1,0);
+         dfs(0,0,dis,parent,adj,0);
         int bob_dis=0;
-        while(cur!=0){
-            if(dis[cur]>bob_dis){
-                am[cur]=0;
+        while(bob!=0){
+            if(dis[bob]>bob_dis){
+                amount[bob]=0;
             }
-            else if(dis[cur]==bob_dis){
-                am[cur]/=2;
-            } 
+            else if(dis[bob]==bob_dis){
+                amount[bob]/=2;
+            }
             bob_dis++;
-            cur=par[cur];
-        } 
-        vis.resize(n,0);
-        vis[0]=1;
-        return dfs2(0,am);
-        // return 0;
+            bob=parent[bob];
+        }  
+        vector<int>vis(n+1,0);
+        return dfsvis(0,amount,adj,vis);
     }
 };
