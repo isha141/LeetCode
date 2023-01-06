@@ -19,16 +19,16 @@ public:
             int node=pq.top().second;
             ll weight=pq.top().first;
              pq.pop(); 
-            if(dis[node]<weight) { 
-                continue; 
-            }
+            // if(dis[node]<weight) { 
+            //     continue; 
+            // }
             for(auto [itr,itr1]: adj[node]){
-                if(dis[itr]>dis[node]+itr1){
-                    dis[itr]=dis[node]+itr1;
+                if(dis[itr]>weight+itr1){
+                    dis[itr]=weight+itr1;
                     pq.push({dis[itr],itr});
                     ways[itr]=ways[node];
                 }
-                else if(dis[itr]==dis[node]+itr1){ 
+                else if(dis[itr]==weight+itr1){ 
                   ways[itr]=(ways[itr]+ways[node])%mod;                    
                 }
             }
