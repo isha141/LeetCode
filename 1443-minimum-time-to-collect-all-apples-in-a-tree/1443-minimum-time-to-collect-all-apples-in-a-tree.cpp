@@ -16,8 +16,7 @@ public:
         vector<int>adj[n+1];
         for(int i=0;i<e.size();++i){
             adj[e[i][0]].push_back(e[i][1]);
-            adj[e[i][1]].push_back(e[i][0]);
-            
+            adj[e[i][1]].push_back(e[i][0]);     
         }
         return solve(0,adj,has,0);
     }
