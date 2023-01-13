@@ -9,22 +9,25 @@
  * };
  */
 class Solution { 
-    private:
-    ListNode *solve(ListNode *head){
-        ListNode *temp=head->next;
-        head->next=NULL; 
-        while(temp!=NULL){
-         ListNode *p=temp->next;
-            temp->next=head;
-            head=temp;
-            temp=p;
+    private: 
+    ListNode *temp;
+    ListNode *solve(ListNode *head,ListNode *prev){
+        if(head==NULL || head->next==NULL){ 
+            temp=head;
+            return head;
         }
-        return head;
+        head=solve(head->next,head->next); 
+        cout<<prev->val<<" ";
+        head->next=prev; 
+        head=prev;
+        prev->next=NULL;
+        return head;  
     }
 public:
     ListNode* reverseList(ListNode* head) {
         if(head==NULL)
             return head;
-        return solve(head);
+        solve(head,head); 
+        return temp;
     }
 };
