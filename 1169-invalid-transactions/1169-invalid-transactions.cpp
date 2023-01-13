@@ -12,7 +12,7 @@ public:
         for(int i=0;i<n;++i){
              vector<string>ds;
               stringstream ss(tran[i]);
-              while (ss.good()) {
+              while (ss) {
                string substr;
                 getline(ss, substr, ',');
                   ds.push_back(substr);
