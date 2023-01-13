@@ -18,7 +18,7 @@ public:
                      cnt+=itr[2]; 
                      cnt%=mod;
              } 
-            if(cnt>0)
+            // if(cnt>0)
             ds.push_back({days+delay,days+forget,cnt});
             days+=1;
         }
