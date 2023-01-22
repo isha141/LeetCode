@@ -1,23 +1,17 @@
 class Solution { 
     private:
      vector<vector<int>>ans;
-    int n; 
-    map<int,int>mp;
-    void solve(int i,vector<int>&nums,vector<int>&ds){
-        if(mp.size()==n){
-            ans.push_back(ds);
+     int n;
+    void solve(int ind,vector<int>&nums,vector<int>&ds){
+          if(ind>=n){
+            ans.push_back(nums);
             return;
+        } 
+        for(int i=ind;i<n;++i){
+         swap(nums[i],nums[ind]);       
+         solve(ind+1,nums,ds);
+         swap(nums[ind],nums[i]); 
         }
-        for(int i=0;i<n;++i){
-            if(mp.find(i)==mp.end()){
-                  mp[i]++;
-                ds.push_back(nums[i]);
-                solve(i,nums,ds);
-                ds.pop_back();
-                mp.erase(i);
-            }
-        }
-        return ;
     }
 public:
     vector<vector<int>> permute(vector<int>& nums) {
