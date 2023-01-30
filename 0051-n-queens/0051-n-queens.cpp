@@ -1,39 +1,57 @@
 class Solution { 
-    private:
+  private: 
     int n;
-    vector<vector<string>>ans;
-    void solve(int col,vector<string>&ds,vector<int>&left,vector<int>&right, vector<int>&up){
-        if(col>=n){
+    vector<vector<string>>ans;  
+    bool safe(int row,int col,vector<string>&ds){
+        int duprow=row;
+        int dupcol=col;
+        while(row>=0 && col>=0){
+             if(ds[row][col]=='Q')
+                 return 0;
+            row--;
+            col--;
+        } 
+        row=duprow;
+        col=dupcol;
+        while(row<n && col>=0){
+            if(ds[row][col]=='Q')
+                return 0;
+            row++;
+            col--;
+        }
+        row=duprow;
+        col=dupcol;
+        while(col>=0){
+            if(ds[row][col]=='Q')
+                return 0;
+            col--;
+        }
+        return 1;
+    }
+    bool solve(int col,vector<string>&ds,int n){
+        if(col==n){
             ans.push_back(ds);
-            return ;
+            return 1;
         }
-        for(int i=0;i<n;++i){
-            if(left[i]==0 && up[i+col]==0 && right[n-1+col-i]==0){
-                ds[i][col]='Q'; 
-                left[i]=1;
-                up[i+col]=1;
-                right[n-1+col-i]=1;
-                solve(col+1,ds,left,right,up);
-                ds[i][col]='.';
-                left[i]=0;
-                up[i+col]=0;
-                right[n-1+col-i]=0;
+        for(int i=0;i<n;++i){ 
+             // if(ds[i][col]=='Q'){     
+              if(safe(i,col,ds)){ 
+                  ds[i][col]='Q';
+                solve(col+1,ds,n);
+                   ds[i][col]='.';
             }
+           // }
         }
-        return ;
+            return 0;
     }
 public:
-    vector<vector<string>> solveNQueens(int n) { 
+    vector<vector<string>> solveNQueens(int n) {
         this->n=n;
         vector<string>ds(n);
         string s(n,'.');
-        for(int i=0;i<n;++i){
+       for(int i=0;i<n;++i)
             ds[i]=s;
-        }
-        vector<int>left(n,0);
-        vector<int>up(2*n+1,0);
-        vector<int>right(2*n+1,0);
-        solve(0,ds,left,right,up); 
+        solve(0,ds,n);
         return ans;
     }
 };
