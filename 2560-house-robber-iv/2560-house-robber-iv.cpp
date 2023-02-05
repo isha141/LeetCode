@@ -12,11 +12,11 @@ class Solution {
         }
         sort(ds.begin(),ds.end()); 
         if(ds.size()<k) return 0; 
-        if(mid>=ds[ds.size()-1]){
-        ans=min(ans,ds[ds.size()-1]); 
+        // if(mid>=ds[ds.size()-1]){
+        // ans=min(ans,ds[ds.size()-1]); 
         return 1;
-        }
-        return 0;
+        // }
+        // return 0;
     }
 public:
     int minCapability(vector<int>& nums, int k) {
@@ -26,7 +26,7 @@ public:
         while(low<=high){
             int mid=(low+high)/2;
             if(solve(mid,nums,k)){
-                // ans=mid;
+                ans=mid;
                 // cout<<mid<<":::"<<endl;
                 high=mid-1;
             }
