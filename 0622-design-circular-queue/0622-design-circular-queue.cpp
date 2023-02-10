@@ -35,7 +35,7 @@ public:
     
     int Front() {
         if(isEmpty()) return -1;
-        if(last==-1) return 0;
+        // if(last==-1) return 0;
         return ds[last%n];
     }
     
