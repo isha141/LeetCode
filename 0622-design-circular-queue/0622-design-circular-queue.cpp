@@ -41,7 +41,7 @@ public:
     
     int Rear() {
         if(isEmpty()) return -1;
-        if(curr==-1) return 0;
+        // if(curr==-1) return 0;
         return ds[curr%n];
         
     }
