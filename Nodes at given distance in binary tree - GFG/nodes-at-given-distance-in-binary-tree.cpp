@@ -110,10 +110,11 @@ private:
        return; 
     //   cout<<root->data<<":::"<<endl;
        find_parent(root->left,target,mp);
+       find_parent(root->right,target,mp);
        if(root && root->left){
            mp[root->left]=root;
        }
-       find_parent(root->right,target,mp);
+       
        if(root && root->right)
           mp[root->right]=root;
        return ;
