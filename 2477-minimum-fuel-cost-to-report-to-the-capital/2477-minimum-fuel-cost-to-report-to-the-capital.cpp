@@ -1,20 +1,20 @@
 class Solution { 
-    long ans=0;
-    int dfs(int node,vector<int>&vis,vector<int>adj[],int seat){
+    private: 
+    long long ans=0;
+    int solve(int node,vector<int>Adj[],vector<int>&vis,int seats){
         vis[node]=1;
-        long long count=1;
-        for(auto itr: adj[node]){
+        long long c=1;
+        for(auto itr: Adj[node]){
             if(vis[itr]==0){
-                count+=dfs(itr,vis,adj,seat);
+                c+=solve(itr,Adj,vis,seats);
             }
-        } 
-        
-        int car=count/seat;
-        if(count%seat)
+        }
+        int car=c/seats;
+        if(c%seats)
             car++;
         if(node!=0)
             ans+=car;
-        return count;
+        return c;
     }
 public:
     long long minimumFuelCost(vector<vector<int>>& r, int seats) {
@@ -25,7 +25,7 @@ public:
             adj[r[i][1]].push_back(r[i][0]);
         } 
         vector<int>vis(n+1,0);
-        dfs(0,vis,adj,seats); 
+        solve(0,adj,vis,seats);
         return ans;
     }
 };
