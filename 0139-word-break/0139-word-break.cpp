@@ -1,24 +1,32 @@
-class Solution {
-    map<string,int>mp; 
+class Solution { 
+    private: 
     int n;
-    bool solve(string s,vector<string>& word){
-        if(find(word.begin(),word.end(),s)!=word.end())
-            return 1;  
-        if(mp.find(s)!=mp.end())
-            return mp[s];
-        for(int i=1;i<n;++i){
-            string a=s.substr(0,i);
-            if(find(word.begin(),word.end(),a)!=word.end() && solve(s.substr(i),word)){
-                mp[a]=1;
-                return 1;
+     map<string,int>mp;
+    bool solve(int i,string &s,vector<int>&dp){
+        if(i>=n)
+             return 1; 
+        if(dp[i]!=-1) 
+            return dp[i];
+        string temp="";
+        for(int j=i;j<n;++j){
+            temp+=s[j];
+            if(mp.find(temp)!=mp.end()){
+                if(solve(j+1,s,dp)){
+                    dp[i]=1;
+                    return dp[i];
+                }
+                    
             }
         }
-         mp[s]=0; 
-        return 0;
+        return dp[i]=0;
     }
 public:
-    bool wordBreak(string s, vector<string>& word) {
+    bool wordBreak(string s, vector<string>& word) { 
         n=s.size();
-        return solve(s,word);
+        for(auto itr: word){
+            mp[itr]++;
+        } 
+        vector<int>dp(n,-1);
+        return  solve(0,s,dp);
     }
 };
