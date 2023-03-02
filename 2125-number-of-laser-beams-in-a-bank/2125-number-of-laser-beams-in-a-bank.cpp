@@ -6,11 +6,7 @@ public:
         int prev=0;
         for(auto itr: bank){ 
             int c=0;
-            for(auto itt: itr){
-                if(itt=='1') 
-                    c++;
-            } 
-            // ans+=(c*2); 
+            c=count(itr.begin(),itr.end(),'1');
             if(c){
             ans+=(prev*c);
             prev=c;
