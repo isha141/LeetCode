@@ -11,7 +11,7 @@ class Solution {
             solve(open+1,close,n,s); 
             s.pop_back();
         }
-        if(open>close){
+        if(open>close && open!=0){
             s+=')';
             solve(open,close+1,n,s);
             s.pop_back();
