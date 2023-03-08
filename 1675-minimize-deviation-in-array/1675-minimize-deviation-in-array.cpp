@@ -7,13 +7,9 @@ public:
         for(auto itr: nums){
             if(itr%2){
                 itr=itr*2;
-                //pq.push(itr*2);
-               // mini=min(mini,itr*2);
             }
-            //else{
                 mini=min(mini,itr);
                pq.push(itr);
-           // }
         }
         int ans=1e9;
         while(pq.top()%2!=1){
