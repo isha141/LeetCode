@@ -2,39 +2,42 @@ class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& f, int src, int dst, int k) {
         vector<pair<int,int>>adj[n+1];
-        for(int i=0;i<f.size();++i){
-            adj[f[i][0]].push_back({f[i][1],f[i][2]});
+        for(auto itr: f){
+            int src=itr[0];
+            int des=itr[1];
+            int fair=itr[2];
+            adj[src].push_back({des,fair});
         }
-        queue<pair<int,pair<int,int>>>pq; 
-        int ans=1e9;
-        vector<int>vis(n,INT_MAX);
-        vis[src]=0;
+priority_queue<pair<int,pair<int,int>>>pq; 
+        pq.push({0,{src,1}});
+        int ans=1e9;  
+        vector<int>dis(n+1,1e9); 
+        dis[src]=0;
         k+=2;
-        pq.push({1,{src,0}});
         while(!pq.empty()){
-            auto itr=pq.front();
+            auto itr=pq.top();
             pq.pop();
-            int n=itr.second.first;
-            int dis=itr.second.second;
-            int stop=itr.first; 
-            if(stop<k){
-                if(n==dst){
-                    ans=min(ans,dis);
-                }
+            int fair=itr.first;
+            int node=itr.second.first;
+            int steps=itr.second.second;   
+            if(steps<k){
+            if(node==dst){
+                ans=min(ans,fair); 
+            }  
             }
-            if(stop>=k){
-                 if(n==dst){
-                    ans=min(ans,dis);
+            if(steps>=k){
+                if(node==dst){
+                    ans=min(ans,fair);
                 }
                 continue;
             }
-            for(auto itr: adj[n]){
-                if(vis[itr.first]>dis+itr.second){
-                    vis[itr.first]=dis+itr.second;
-                    pq.push({stop+1,{itr.first,dis+itr.second}});
+            for(auto itr: adj[node]){
+                if(dis[itr.first]>(fair+itr.second)){
+                    pq.push({fair+itr.second,{itr.first,steps+1}});  
+                    dis[itr.first]=(fair+itr.second);
                 }
             }
         }
-        return ans==1e9?-1:ans;
+        return ans==1e9?-1:ans; 
     }
 };
