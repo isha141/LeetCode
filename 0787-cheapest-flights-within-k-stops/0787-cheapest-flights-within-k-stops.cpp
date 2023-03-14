@@ -25,11 +25,11 @@ priority_queue<pair<int,pair<int,int>>>pq;
                 ans=min(ans,fair); 
             }  
             }
-            if(steps>=k){
+            if(steps==k){
                 if(node==dst){
                     ans=min(ans,fair);
-                }
-                continue;
+                } 
+                // continue;
             }
             for(auto itr: adj[node]){
                 if(dis[itr.first]>(fair+itr.second)){
