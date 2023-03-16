@@ -15,11 +15,12 @@ public:
         pq.pop(); 
         int i=0;
         while(!pq.empty() || val){  
-            // cout<<i<<"::"<<val<<endl;
-              if(ans[i]==0){
+              if(ans[i]==0){ 
+                  while(val>0 && ans[i]==0){
                   ans[i]=a;
                   i=(i+2)%n;
                   val--;
+                  }
               if(val==0){ 
                   if(pq.size()){
                   a=pq.top().second;
