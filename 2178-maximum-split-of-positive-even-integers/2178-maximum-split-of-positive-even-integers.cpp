@@ -17,10 +17,10 @@ public:
                     ds.push_back(temp);
                     return ds;
                 }
-                else{
-                    ds.push_back(finalsum);
-                    return ds;
-                }
+                // else{
+                    // ds.push_back(finalsum);
+                    // return ds;
+                // }
             }
             if(finalsum==0) return ds;
         }
