@@ -7,7 +7,7 @@ class Solution {
         int r=0;
         if(i>=n) return 1; 
         else{
-        if(mp[nums[i]-k]==0 && !mp[nums[i]+k]){ 
+        if(mp[nums[i]-k]==0){ 
             mp[nums[i]]++;
          l=solve(i+1,nums,k);
          mp[nums[i]]--;
@@ -19,7 +19,8 @@ class Solution {
 public:
     int beautifulSubsets(vector<int>& nums, int k) {
         n=nums.size();  
-        vector<int>ds;
+        vector<int>ds; 
+        sort(nums.begin(),nums.end());
         return solve(0,nums,k)-1;
     }
 };
