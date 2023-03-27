@@ -10,38 +10,35 @@ using namespace std;
 
 class Solution { 
     private:
-     vector<int>ans;
-    bool solve(int node,vector<int>adj[],vector<int>&vis,vector<int>&dfsvis,vector<int>&check){
-        vis[node]=1; 
-        dfsvis[node]=1; 
-        for(auto itr : adj[node]){
-            if(!vis[itr]){
-                  if(solve(itr,adj,vis,dfsvis,check)){ 
-                      check[node]=1;
-                      return  1;
-                  } 
-            } 
-            else if(dfsvis[itr]){
-                check[node]=1;
-            return 1;
-            }
-        } 
-        dfsvis[node]=0;
-        return 0;
+    bool solve(int node,vector<int>adj[],vector<int>&vis,vector<int>&dfsvis){
+          vis[node]=1;
+          dfsvis[node]=1;
+          for(auto itr: adj[node]){
+              if(!vis[itr]){
+                  if(solve(itr,adj,vis,dfsvis))
+                    return 1;
+              }
+              else if(dfsvis[itr])
+              return 1;
+          }
+          dfsvis[node]=0;
+          vis[node]=0;
+          return 0;
     }
   public:
-    vector<int> eventualSafeNodes(int v, vector<int> adj[]) {
+    vector<int> eventualSafeNodes(int n, vector<int> adj[]) {
         // code here  
-        vector<int>vis(v+1,0); 
-        vector<int>dfsvis(v+1,0); 
-        vector<int>check(v+1,0);
-        for(int i=0;i<v;++i){ 
-             if(!vis[i]){
-               solve(i,adj,vis,dfsvis,check);
-        } 
+        vector<int>vis(n,0);
+        vector<int>dfsvis(n,0);
+        map<int,int>mp;
+        for(int i=0;i<n;++i){
+            if(solve(i,adj,vis,dfsvis)){
+                mp[i]++;
+            }
         }
-        for(int i=0;i<v;++i){
-            if(!check[i]){
+        vector<int>ans;
+        for(int i=0;i<n;++i){
+            if(mp.find(i)==mp.end()){
                 ans.push_back(i);
             }
         }
