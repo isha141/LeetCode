@@ -6,17 +6,19 @@ class Solution {
         if(i>=s.size())
              return 1;  
         if(dp[i]!=-1)
-            return dp[i];
+            return dp[i]; 
+        // cout<<i<<" "<<s.substr(i)<<endl;
         string temp="";
         for(int k=i;k<s.size();++k){
              temp+=s[k];
             if(mp.find(temp)!=mp.end()){
                 dp[i]=1;
                 if(solve(k+1,s))    
-                return dp[i];
+                return 1;
             }
         }
         return dp[i]=0;
+        // return 0;
     }
 public:
     bool wordBreak(string s, vector<string>& word) {
