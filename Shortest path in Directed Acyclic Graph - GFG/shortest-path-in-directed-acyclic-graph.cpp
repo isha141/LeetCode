@@ -7,38 +7,49 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 class Solution {
-    private:
-    void solve(int node,vector<pair<int,int>>adj[],vector<int>&dis){
-          queue<pair<int,int>>q;
-          q.push({0,0});
-          while(!q.empty()){
-              auto itr=q.front();
-              q.pop();
-              int node=itr.first;
-              int val=itr.second;
-              for(auto it: adj[node]){
-                  if(dis[it.first]>dis[node]+it.second){
-                      dis[it.first]=dis[node]+it.second;
-                      q.push({it.first,dis[it.first]});
-                  }
+  private:
+    void topo(int node,vector<int>&vis,vector<pair<int,int>>adj[],stack<int>&s){
+          vis[node]=1;
+          for(auto itr: adj[node]){
+              if(!vis[itr.first]){
+                  topo(itr.first,vis,adj,s);
               }
-         }
+          }
+          s.push(node);
     }
   public:
      vector<int> shortestPath(int n,int m, vector<vector<int>>& e){
+        // code here 
         vector<pair<int,int>>adj[n];
         for(int i=0;i<m;++i){
             adj[e[i][0]].push_back({e[i][1],e[i][2]});
         }
+        vector<int>vis(n,0);
+        stack<int>s;
+        for(int i=0;i<n;++i){
+            if(!vis[i]){
+                topo(i,vis,adj,s);
+            }
+        }
         vector<int>dis(n,1e9);
         dis[0]=0;
-        solve(0,adj,dis); 
-        for(int i=0;i<n;++i){
+        while(!s.empty()){
+            auto itr=s.top();
+            s.pop(); 
+            if(dis[itr]!=1e9){
+            for(auto it: adj[itr]){
+                 if(dis[it.first]>dis[itr]+it.second){
+                     dis[it.first]=dis[itr]+it.second;
+                 }  
+            }
+         } 
+       }
+       for(int i=0;i<n;++i){
             if(dis[i]==1e9)
-              dis[i]=-1;
+               dis[i]=-1;
         }
         return dis;
-    }
+     }
 };
 
 
