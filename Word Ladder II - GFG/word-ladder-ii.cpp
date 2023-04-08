@@ -9,44 +9,42 @@ using namespace std;
 class Solution {
 public:
     vector<vector<string>> findSequences(string begin, string end, vector<string>& word) {
+        // code here 
+        vector<vector<string>>ans;
+        queue<vector<string>>q;
+        q.push({begin});  
         map<string,int>mp;
         for(auto itr: word)
         mp[itr]++;
-        queue<vector<string>>q;
-        q.push({begin});
-        vector<vector<string>>ans;
         while(!q.empty()){
-              int n=q.size(); 
-              set<string>s;
-              while(n--){
-                  auto itr=q.front();
-                  q.pop();
-                  string w=itr.back(); 
-                  s.insert(w);
-                  if(w==end){
-                      ans.push_back(itr);
-                      continue;
-                  }
-                  for(auto itt: mp){ 
-                      int c=0;
-                      string s1=itt.first;
-                      for(int i=0;i<s1.size();++i){
-                          if(w[i]!=s1[i])
-                          c++;
-                      }
-                      if(c>1 || c<1)
-                      continue;
-                      else{
-                        s.insert(s1);
-                      itr.push_back(s1); 
-                      q.push(itr); 
-                      itr.pop_back();
-                      }
-                  }  
-              }
-              for(auto itr=s.begin();itr!=s.end();++itr)
-                  mp.erase(*itr);
-        } 
+            int t=q.size();
+             set<string>s;
+            while(t--){
+                auto itr=q.front();
+                q.pop();
+                string temp=itr.back();
+                if(temp==end){
+                  ans.push_back(itr);
+                  continue;
+                }
+                for(auto itm: mp){
+                    string itt=itm.first;
+                     int c=0;
+                    for(int i=0;i<itt.size();++i){
+                        if(itt[i]!=temp[i])
+                        c++;
+                    }
+                    if(c==1){
+                        itr.push_back(itt);
+                        q.push(itr);
+                       itr.pop_back();
+                       s.insert(itt);
+                    }
+                }
+            }
+            for(auto itr=s.begin();itr!=s.end();++itr)
+                mp.erase(*itr);
+        }
         return ans;
     }
 };
