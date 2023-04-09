@@ -1,38 +1,45 @@
 class Solution { 
+    private:
+    int n,m;
     int dx[4]={-1,1,0,0};
     int dy[4]={0,0,-1,1};
-public:
-    int minimumTime(vector<vector<int>>& grid) {
-         int n=grid.size();
-        int m=grid[0].size();
-        if(grid[1][0]>1 && grid[0][1]>1) 
-            return -1;
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq; 
+    int solve(int i,int j,vector<vector<int>>&grid){
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
         pq.push({0,{0,0}}); 
         vector<vector<int>>vis(n,vector<int>(m,0));
+        vis[0][0]=1;
         while(!pq.empty()){
-            int time=pq.top().first;
-            int x=pq.top().second.first;
-            int y=pq.top().second.second; 
-            vis[x][y]=1;
+            auto itr=pq.top();
             pq.pop();
-            if(x==n-1 && y==m-1){
-                return time;
-            }
+            int time=itr.first;
+            int x=itr.second.first;
+            int y=itr.second.second;
+            if(x==n-1 && y==m-1)
+                  return time;
             for(int k=0;k<4;++k){
-                int nx=x+dx[k];
-                int ny=y+dy[k];
-                if(nx<0 || ny<0 || nx>=n || ny>=m || vis[nx][ny])
-                      continue; 
-                vis[nx][ny]=1;
-                long long dis=0; 
-                if(grid[nx][ny]>time)
-                dis=grid[nx][ny]-time; 
-                else dis++;
-                if(dis%2==0) dis++;
-               pq.push({dis+time,{nx,ny}});
+                int nx=dx[k]+x;
+                int ny=dy[k]+y;
+                if(nx>=0 && nx<n && ny>=0 && ny<m && !vis[nx][ny] ){  
+                    int temp=0;
+                    if(grid[nx][ny]>time)
+                        temp=grid[nx][ny]-time; 
+                   else
+                       temp++;
+                    if(temp%2==0) // if the distance is even then we can go to original postion to avoid this we increment by 1;
+                        temp++;
+                    pq.push({time+temp,{nx,ny}});
+                    vis[nx][ny]=1;
+                }
             }
         }
         return -1;
+    }
+public:
+    int minimumTime(vector<vector<int>>& grid) {
+        n=grid.size();
+        m=grid[0].size();
+        if(grid[0][1]>1  && grid[1][0]>1)
+            return -1;
+        return solve(0,0,grid);
     }
 };
