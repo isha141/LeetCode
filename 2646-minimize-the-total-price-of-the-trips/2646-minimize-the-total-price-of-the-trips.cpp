@@ -36,10 +36,10 @@ public:
           for(auto itr: t){
               dfs(itr[0],adj,itr[1],mp);
           }   
-        for(auto itr: mp) 
-            cout<<itr.first<<",,"<<itr.second<<endl;
+        // for(auto itr: mp) 
+        //     cout<<itr.first<<",,"<<itr.second<<endl;
           auto itr=dfs2(0,-1,p,adj,mp); 
-        cout<<itr.first<<":::"<<itr.second<<endl;
+        // cout<<itr.first<<":::"<<itr.second<<endl;
          return min(itr.first,itr.second);
     }
 };
