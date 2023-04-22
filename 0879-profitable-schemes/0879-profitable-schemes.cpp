@@ -1,25 +1,28 @@
-class Solution {
-public:
-   int dp[102][102][102];
-    int mod=1e9+7;
-    int solve(int k,int i, int j,int n, int minProfit, vector<int>& group, vector<int>& profit)
-    {
-        if(k==profit.size())
-        {
-            if(j>=minProfit and n>=i) return 1;
+int dp[101][101][103];
+class Solution {  
+int mod=1e9 + 7;
+    private:
+    int solve(int i,int count,int profit,int n,int mini,vector<int>&g,vector<int>&p){
+    //     if(i>=n)
+    //          return 0;
+        if(i>=g.size()){
+            if(count<=n && profit>=mini)
+                 return 1;
             return 0;
         }
-        else if(n<i) return 0;
-     
-        if(dp[k][i][j]!=-1) return  dp[k][i][j];
-        int include=0,notInclude=0;
-        notInclude= solve(k+1,i,j,n,minProfit,group,profit);
-        include=solve(k+1,i+group[k],min(j+profit[k],minProfit),n,minProfit,group,profit);
-        return  dp[k][i][j] = (include  % mod + notInclude  % mod )%mod;
+        if(n<count) 
+            return 0;
+         if(dp[i][count][profit]!=-1)
+              return dp[i][count][profit];
+        int take=0;
+        int not_take=0;
+        take=solve(i+1,count+g[i],min(mini,profit+p[i]),n,mini,g,p);
+        not_take=solve(i+1,count,profit,n,mini,g,p);
+        return dp[i][count][profit]= ( take % mod + not_take % mod) %mod;
     }
-    int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
-        memset(dp,-1,sizeof(dp));
-        return solve(0,0,0,n,minProfit,group,profit);
-        
+public:
+    int profitableSchemes(int n, int mini, vector<int>& g, vector<int>& p) { 
+         memset(dp,-1,sizeof(dp));
+         return solve(0,0,0,n,mini,g,p);
     }
 };
