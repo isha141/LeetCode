@@ -23,8 +23,24 @@ public:
         string temp=s;
         reverse(temp.begin(),temp.end());
         n=s.size(); 
-        vector<vector<int>>dp(n,vector<int>(n,-1));
-        int ans=solve(n-1,n-1,s,temp,dp); 
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        int ans=0;
+        for(int i=1;i<=n;++i){
+            for(int j=1;j<=n;++j){ 
+                int take=0;
+                int not_take=0;
+                if(s[i-1]==temp[j-1]){
+                    take=1+dp[i-1][j-1];
+                }
+                else{
+                    not_take=max(dp[i][j-1],dp[i-1][j]);
+                }
+                ans=max(ans,max(take,not_take));
+                dp[i][j]=max(take,not_take);
+            }
+        }
+        // int ans=solve(n-1,n-1,s,temp,dp);  
+        // int ans=dp[n-1][n-1];
         return n-ans;
     }
 };
