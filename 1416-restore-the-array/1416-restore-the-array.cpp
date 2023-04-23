@@ -1,25 +1,29 @@
-class Solution {
-public:
-//     int numberOfArrays(string s, int k) {
-        
-//     } 
-    int dp[100001] = {};
-int dfs(string &s, int i, int k) {
-    if (i == s.size())
-        return 1;
-    if (s[i] == '0')
-        return 0;
-    if (!dp[i]) {
-        for (long sz = 1, num = 0; i + sz <= s.size(); ++sz) {
-            num = num * 10 + s[i + sz - 1] - '0';
-            if (num > k)
+int dp[1000003];
+class Solution { 
+    private:
+    int mod=1e9+7;
+    int n;
+    int solve(int i,string &s,int l){
+        if(i>=n)
+             return 1;
+        if(s[i]=='0')
+            return 0;
+        if(dp[i]!=-1)
+             return dp[i];
+        long long num=0;
+        long long ans=0;
+        for(int k=i;k<s.size();++k){
+            num=num*10+s[k]-'0'; 
+            if(num>l)
                 break;
-            dp[i] = (dp[i] + dfs(s, i + sz, k)) % 1000000007;
+            ans=(ans+solve(k+1,s,l)) % mod;
         }
+        return dp[i]=ans % mod;
     }
-    return dp[i];
-}
-int numberOfArrays(string s, int k) {
-    return dfs(s, 0, k);
-}
+public:
+    int numberOfArrays(string s, int k) {
+        n=s.size();
+        memset(dp,-1,sizeof(dp));
+        return solve(0,s,k);
+    }
 };
