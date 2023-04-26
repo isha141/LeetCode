@@ -1,18 +1,16 @@
-class Solution { 
-    private:
-    
+class Solution {
 public:
-    int shortestSequence(vector<int>& r, int k) {
-        int n=r.size(); 
-        set<int>s; 
-        int ans=1;
+    int shortestSequence(vector<int>& rolls, int k) {
+        int n=rolls.size();
+        set<int>s;
+        int count=1;
         for(int i=0;i<n;++i){
-            s.insert(r[i]);
-            if(s.size()==k){
-                ans+=1;
+            s.insert(rolls[i]);
+            if(s.size()>=k){
                 s.clear();
+                count+=1;
             }
         }
-        return  ans;
+        return count;
     }
 };
