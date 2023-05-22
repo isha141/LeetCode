@@ -1,70 +1,62 @@
 class Solution { 
-    private:  
-     queue<pair<int,int>>q; 
-    int m,n; 
-    void dfs(int i,int j,vector<vector<int>>&grid,vector<vector<int>>&vis){
-        if(i>=m ||  j>=n||i<0 || j<0 || grid[i][j]==0 || vis[i][j]==1)
-            return ; 
-        q.push({i,j});
+    private:
+    queue<pair<int,int>>q;
+    int n,m; 
+    int dx[4]={-1,1,0,0};
+    int dy[4]={0,0,1,-1};
+    void dfs(int i,int j,vector<vector<int>>&vis,vector<vector<int>>&grid){
+        if(i>=n || i<0 || j>=m || j<0 || vis[i][j]==1|| grid[i][j]==0){
+            return;
+        }
         vis[i][j]=1;
-        dfs(i+1,j,grid,vis);
-        dfs(i,j+1,grid,vis);
-        dfs(i-1,j,grid,vis);
-        dfs(i,j-1,grid,vis);
-    }  
-    
-    int bfs(vector<vector<int>>&grid,vector<vector<int>>&vis)
-    { 
-       int c=0;
+        q.push({i,j});
+         dfs(i-1,j,vis,grid);
+          dfs(i,j+1,vis,grid);
+         dfs(i+1,j,vis,grid);
+         dfs(i,j-1,vis,grid);
+    } 
+    int bfs(vector<vector<int>>&vis,vector<vector<int>>&grid){
+        int c=0;
         while(!q.empty()){
             int t=q.size();
             while(t--){
-                auto itr=q.front();
-                q.pop();
-                int x=itr.first;
-                int y=itr.second; 
-                // cout<<x<<" "<<y<<endl;
-                int dx[4]={-1,1,0,0};
-                int dy[4]={0,0,1,-1};
+                auto itr=q.front(); 
+                // cout<<itr.first<<",.l"<<itr.second<<endl;
+                 q.pop(); 
                 for(int k=0;k<4;++k){
-                    int nexti=x+dx[k];
-                    int nextj=y+dy[k];  
-                    if(nexti<0 ||  nexti>=m || nextj<0 || nextj>=n ){  
-                        // cout<<"hiilo isha "<<" ";
-                       // cout<<nexti<<" "<<nextj<<endl;
+                    int nx=dx[k]+itr.first;
+                    int ny=dy[k]+itr.second;
+                    if(nx<0 || nx>=n || ny<0 || ny>=m){
                         continue;
                     }
-                     if(vis[nexti][nextj]==1){ 
-                         // cout<<"hy1"<<" ";
-                          // cout<<nexti<<" "<<nextj<<endl;
-                         continue;  
-                     }
-                        
-                    if(grid[nexti][nextj]==1)
+                    if(vis[nx][ny]==1){
+                        continue;
+                    } 
+                    if(grid[nx][ny]==1){
                         return c;
-                    vis[nexti][nextj]=1;
-                        q.push({nexti,nextj});
+                    }
+                     vis[nx][ny]=1;
+                    q.push({nx,ny});
                 }
-            } 
-            c++;
+            }
+            c+=1;
         }
-        return -1;
-    } 
+        return c;
+    }
 public:
     int shortestBridge(vector<vector<int>>& grid) {
-         m=grid.size();
-         n=grid[0].size(); 
-        int ans=0; 
-        vector<vector<int>>vis(m,vector<int>(n,0));
-        for(int i=0;i<m;++i){
-            for(int j=0;j<n;++j){
-             if(grid[i][j]==1){ 
-                 dfs(i,j,grid,vis);  
-                 ans=bfs(grid,vis); 
-                 return ans;
-             }   
+         n=grid.size();
+         m=grid[0].size(); 
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        for(int i=0;i<n;++i){
+            for(int j=0;j<m;++j){
+                if(grid[i][j]==1){
+                    dfs(i,j,vis,grid);
+                    int ans=bfs(vis,grid);
+                    return ans;
+                }
             }
         }
-        return ans;
+        return -1;
     }
 };
