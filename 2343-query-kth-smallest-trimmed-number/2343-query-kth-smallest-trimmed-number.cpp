@@ -1,27 +1,29 @@
 class Solution {
 public:
     vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& q) {
-         vector<int>ans;
-         int n=nums.size();  
-        int m=nums[0].size();
-        for(auto itr: q){
-            vector<string>ds=nums;
-            for(int i=0;i<n;++i){ 
-                 int temp=m-itr[1];
-                ds[i]=ds[i].substr(temp);
-            }
-            vector<pair<string ,int>>a; 
-            for(int i=0;i<n;++i){
-                a.push_back({ds[i],i});
-            }
-            sort(a.begin(),a.end(),[&](pair<string , int>&arr,pair<string ,int>&b){
-                if(arr.first!=b.first)
-                     return arr.first<b.first;
-                return arr.second<b.second;
-            });
-            ans.push_back(a[itr[0]-1].second);
-        }
-        return ans;
-        
-    }
+          int n=nums.size();
+          vector<int>ans;
+          int m=q.size();
+           int a=nums[0].size();
+          for(int i=0;i<m;++i){ 
+              vector<pair<string,long>>ds; 
+              int size=q[i][1];
+              int ind=q[i][0];
+               for(int j=0;j<n;++j){
+                     if(a==size){
+                         ds.push_back({(nums[j]),j});
+                         continue;
+                     }
+                     else{
+                         int ind=a-size; 
+                         string temp=nums[j].substr(ind,a);
+                         // cout<<temp<<";;"<<j<<endl;
+                         ds.push_back({(temp),j});
+                     }
+               }
+                sort(ds.begin(),ds.end());
+              ans.push_back(ds[ind-1].second);
+          }
+            return ans;
+       }
 };
