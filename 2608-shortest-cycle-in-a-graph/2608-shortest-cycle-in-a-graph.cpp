@@ -1,34 +1,56 @@
-class Solution {
+class Solution { 
+    private:
+    int n;
+    void solve(int node,vector<int>adj[],vector<int>&vis,int &ans){
+         queue<pair<int,int>>q;
+        q.push({node,-1});
+         int count=0; 
+        vector<int>dis(n,INT_MAX);
+        while(!q.empty()){
+            int t=q.size();
+            while(t--){
+                auto itr=q.front();
+                q.pop(); 
+                 int node=itr.first;
+                int par=itr.second;
+                 vis[node]=1;
+                dis[node]=count;
+                for(auto iit: adj[node]){ 
+                      if(iit==par) continue;
+                    if(!vis[iit]){
+                        dis[iit]=dis[node]+1;
+                        q.push({iit,node});
+                        vis[iit]=1;
+                    }
+                    else if(dis[iit]>dis[node]+1){
+                            dis[iit]=dis[node]+1; 
+                            q.push({iit,node});
+                        }
+                    else if(iit!=par && vis[iit]){
+                        ans=min(ans,dis[node]+1+dis[iit]);  
+                    }
+                }
+            }
+            count+=1;
+        }
+        return;
+    }
 public:
     int findShortestCycle(int n, vector<vector<int>>& e) {
-          vector<int>adj[n+1];
-          for(int i=0;i<e.size();++i){
-              adj[e[i][0]].push_back(e[i][1]);
-              adj[e[i][1]].push_back(e[i][0]);
+         vector<int>vis(n,0); 
+        this->n=n;
+          vector<int>adj[n]; 
+          for(auto itr: e){
+              adj[itr[0]].push_back(itr[1]);
+              adj[itr[1]].push_back(itr[0]);
           }
-          int ans=1e9;
-         for(int i=0;i<=n;++i){
-             vector<int>dis(n+1,1e9);
-             vector<int>par(n+1,-1); 
-             queue<int>q;
-              dis[i]=0; 
-              q.push(i); 
-             while(!q.empty()){ 
-                   auto node=q.front();
-                   q.pop();  
-                 for(auto itr: adj[node]){
-                 if(dis[itr]==1e9){
-                     dis[itr]=dis[node]+1;
-                     par[itr]=node; 
-                     q.push(itr);
-                 }
-                 else if(par[itr]!=node && par[node]!=itr){
-                     ans=min(ans,dis[itr]+1+dis[node]);
-                 }
-              }
-            }
-             // cout<<endl;
-         } 
-        return ans==1e9?-1:ans;
+          int ans=INT_MAX; 
+        vector<int>dis(n,INT_MAX);
+          for(int i=0;i<n;++i){
+              // if(!vis[i]){
+                  solve(i,adj,vis,ans);
+              // }
+          }
+        return ans==INT_MAX?-1:ans;
     }
 };
