@@ -7,7 +7,7 @@ class Solution {
          int count=0; 
         vector<int>dis(n,INT_MAX);
         while(!q.empty()){
-            int t=q.size();
+            int t=q.size();    // aplying bfs 
             while(t--){
                 auto itr=q.front();
                 q.pop(); 
@@ -27,7 +27,7 @@ class Solution {
                             q.push({iit,node});
                         }
                     else if(iit!=par && vis[iit]){
-                        ans=min(ans,dis[node]+1+dis[iit]);  
+                        ans=min(ans,dis[node]+dis[iit]+1);  
                     }
                 }
             }
@@ -47,9 +47,7 @@ public:
           int ans=INT_MAX; 
         vector<int>dis(n,INT_MAX);
           for(int i=0;i<n;++i){
-              // if(!vis[i]){
                   solve(i,adj,vis,ans);
-              // }
           }
         return ans==INT_MAX?-1:ans;
     }
