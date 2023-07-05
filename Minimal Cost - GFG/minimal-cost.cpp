@@ -5,27 +5,26 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-    private:
-    int solve(int i,vector<int>&h,int n,int k,vector<int>&dp){
-        if(i>=n) return 0;
-        int ans=INT_MAX;
-         int temp=0; 
-         if(dp[i]!=-1) 
-         return dp[i];
-        for(int j=1;j<=k;++j){ 
-            if((i+j)<n){
-                temp=abs(h[i]-h[i+j]);
-            }
-            temp+=solve(i+j,h,n,k,dp);
-            ans=min(ans,temp);
-        }
-        return dp[i]=ans;
-    }
+  private:
   public:
     int minimizeCost(vector<int>& h, int n, int k) {
-        // Code here  
-        vector<int>dp(n+1,-1);
-        return solve(0,h,n,k,dp);
+        vector<int>dp(n+1,INT_MAX);
+        dp[n-1]=0;
+        for(int i=n-2;i>=0;--i){ 
+            int ans=INT_MAX;
+              for(int j=1;j<=k;++j){
+                  if((i+j)<n){
+                     int  temp=abs(h[i]-h[i+j])+dp[i+j];
+                    //   if((i+j+1)<n){
+                    //   temp+=dp[i+j+1]
+                    ans=min(ans,temp);
+                  }
+              } 
+              dp[i]=ans;
+        }
+        // for(int i=0;i<n;++i) cout<<dp[i]<<";;;";
+        // cout<<endl;
+        return dp[0];
     }
 };
 
