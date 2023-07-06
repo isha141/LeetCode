@@ -9,9 +9,9 @@ class Solution {
         if(i>=m || j>=n ) return 0;
         if(dp[i][j]!=0) return dp[i][j]; 
         dp[i][j]++;
-        int right=solve(i,j+1,vis);
+        int right=solve(i,j+1,vis);  // right
         // int up=solve(i-1,j,vis);
-        int down=solve(i+1,j,vis); 
+        int down=solve(i+1,j,vis);  // down
         // vis[i][j]=0;
         return dp[i][j]=(right+down);
     }
@@ -20,7 +20,20 @@ public:
         this->n=n;
         this->m=m; 
         memset(dp,0,sizeof(dp));
-        vector<vector<int>>vis(m,vector<int>(n,0));
-        return solve(0,0,vis);
+        dp[0][0]=1;
+        for(int i=0;i<m;++i){
+            dp[i][0]=1;
+        }
+        for(int i=0;i<n;++i){
+            dp[0][i]=1;
+        }
+        for(int i=1;i<m;++i){
+            for(int j=1;j<n;++j){
+                int left=dp[i][j-1];
+                int down=dp[i-1][j];
+                dp[i][j]=(left+down);
+            }
+        }
+        return dp[m-1][n-1];
     }
 };
