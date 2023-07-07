@@ -7,6 +7,7 @@ class Solution {
         if(i==n-1){
             return mat[i][j];
         } 
+        cout<<i<<";;"<<j<<endl;
         if(dp[i][j]!=INT_MAX) return dp[i][j];
         int temp=mat[i][j];
         // mat[i][j]=-103;
@@ -22,8 +23,8 @@ public:
          m=mat[0].size();
          int ans=INT_MAX;  
          // memset(dp,-1,sizeof(dp));
+         vector<vector<int>>dp(n,vector<int>(m,INT_MAX));
          for(int i=0;i<m;++i){
-             vector<vector<int>>dp(n,vector<int>(m,INT_MAX));
              ans=min(ans,solve(0,i,mat,dp));
          }
          return ans;
