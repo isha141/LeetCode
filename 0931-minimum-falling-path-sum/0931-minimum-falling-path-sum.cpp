@@ -1,29 +1,31 @@
-class Solution {
+// int dp[101][101];
+class Solution { 
+    private:
+    int n,m; 
+    int solve(int i,int j,vector<vector<int>>&mat,vector<vector<int>>&dp){
+        if(i>=n || j>=m ||  i<0 || j<0 || mat[i][j]==-103) return 1e9;
+        if(i==n-1){
+            return mat[i][j];
+        } 
+        if(dp[i][j]!=INT_MAX) return dp[i][j];
+        int temp=mat[i][j];
+        // mat[i][j]=-103;
+        int left=temp+solve(i+1,j,mat,dp);
+        int right=temp+solve(i+1,j+1,mat,dp);
+        int down=temp+solve(i+1,j-1,mat,dp);
+        // mat[i][j]=temp;
+        return dp[i][j]=min(left,min(down,right));
+    }
 public:
     int minFallingPathSum(vector<vector<int>>& mat) {
-        int n=mat.size();
-        int m=mat[0].size();
-        vector<vector<int>>dp(n,vector<int>(m,0));
-        for(int j=0;j<m;++j)
-            dp[0][j]=mat[0][j];
-        for(int i=1;i<n;++i){
-            for(int j=0;j<m;++j){
-                int l=INT_MAX;
-                int r=INT_MAX;
-                int d=INT_MAX;
-                if(j+1<m && i-1>=0){
-                    l=dp[i-1][j+1];
-                }
-                if(i-1>=0)
-                    r=dp[i-1][j];
-                if(i-1>=0 && j-1>=0)
-                    d=dp[i-1][j-1];
-                dp[i][j]=mat[i][j]+min(l,min(r,d));
-            }
-       }
-    int ans=1e9;
-        for(int j=0;j<n;++j)
-            ans=min(ans,dp[n-1][j]);
-        return ans;
+         n=mat.size();
+         m=mat[0].size();
+         int ans=INT_MAX;  
+         // memset(dp,-1,sizeof(dp));
+         for(int i=0;i<m;++i){
+             vector<vector<int>>dp(n,vector<int>(m,INT_MAX));
+             ans=min(ans,solve(0,i,mat,dp));
+         }
+         return ans;
     }
 };
