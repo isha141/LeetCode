@@ -1,29 +1,27 @@
-class Solution { 
+class Solution {
     private:
-    vector<string>ans; 
-    void solve(int open,int close,int n,string &s){
-        if(s.size()>=2*n){
-            ans.push_back(s);
+    void solve(int n,vector<string>&ans,int open,int close,string &temp){
+        if(open==n && close==n){
+            ans.push_back(temp);
             return ;
-        }
+        } 
+        // cout<<open<<";;"<<close<<";;;"<<temp<<endl;
         if(open<n){
-            s+='(';
-            solve(open+1,close,n,s); 
-            s.pop_back();
+            temp+='(';
+            solve(n,ans,open+1,close,temp);
+            temp.pop_back();
         }
-        if(open>close && open!=0){
-            s+=')';
-            solve(open,close+1,n,s);
-            s.pop_back();
+        if(close<open && close<n){
+            temp+=')';
+            solve(n,ans,open,close+1,temp);
+            temp.pop_back();
         }
-        return ;
     }
 public:
     vector<string> generateParenthesis(int n) {
-        if(n==0)
-              return {}; 
-        string s="";
-        solve(0,0,n,s);
+        vector<string>ans;
+        string temp="";
+        solve(n,ans,0,0,temp);
         return ans;
     }
 };
