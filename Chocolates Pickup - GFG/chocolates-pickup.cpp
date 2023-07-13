@@ -18,16 +18,17 @@ class Solution {
             else 
             return mat[i][j1]+mat[i][j2];
         } 
-        if(dp[i][j1][j2]!=-1) return dp[i][j1][j2];
+        if(dp[i][j1][j2]!=-1) return dp[i][j1][j2]; 
+        int left=0;
+        if(j1==j2)
+        left=mat[i][j1];
+        else
+        left=mat[i][j1]+mat[i][j2];
         int maxi=INT_MIN;
         for(int k=-1;k<=1;++k){ 
             int ans=0;
              for(int t=-1;t<=1;++t){
-                    if(j1==j2)
-                     ans=mat[i][j1]+solve(i+1,j1+k,j2+t,mat);
-                    else{
-                        ans=mat[i][j1]+mat[i][j2]+solve(i+1,j1+k,j2+t,mat);
-                    }
+                    ans=max(ans,left+solve(i+1,j1+k,j2+t,mat));
                 maxi=max(maxi,ans);
              }
         } 
