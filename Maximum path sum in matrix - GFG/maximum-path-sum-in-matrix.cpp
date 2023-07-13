@@ -25,34 +25,37 @@ public:
     {
         // code here
          this->n=n;  
+         vector<int>prev(n,0);
          for(int i=0;i<n;++i){
-             dp[0][i]=mat[0][i];
+             prev[i]=mat[0][i];
          }
          for(int i=1;i<n;++i){
+             vector<int>curr(n,0);
              for(int j=0;j<n;++j){
                  int left=0;
                  int right=0;
                  int down=0;
                  if(i>0){
-                   left=dp[i-1][j]+mat[i][j];  
+                   left=prev[j]+mat[i][j];  
                  }
                  else{
                      left=mat[i][j];
                  }
                  if(j>0 && i>0){
-                     right=dp[i-1][j-1]+mat[i][j];
+                     right=prev[j-1]+mat[i][j];
                  } 
                  else right=mat[i][j];
                  if(i>0 && j+1<n){
-                     down=dp[i-1][j+1]+mat[i][j];
+                     down=prev[j+1]+mat[i][j];
                  } 
                  else down=mat[i][j];
-                 dp[i][j]=max(left,max(right,down));
-             }
+                 curr[j]=max(left,max(right,down));
+             } 
+             prev=curr;
          } 
          int ans=0;
          for(int i=0;i<n;++i){
-             ans=max(ans,dp[n-1][i]);
+             ans=max(ans,prev[i]);
          }
          return ans;
     }
