@@ -28,23 +28,27 @@ public:
         this->n=n;
         for(auto i=0;i<n;++i) sum+=arr[i];
         if(sum%2) return 0; 
-        vector<vector<int>>dp(n,vector<int>((sum/2)+1,0));
-        for(int i=0;i<n;++i){
-            dp[i][0]=1;
+        vector<int>prev((sum/2)+1,0);
+        // if(arr[0]<=sum/2)
+        // dp[0][arr[0]]=1;
+        if(arr[0]<=sum/2){
+            prev[arr[0]]=1;
         }
-        if(arr[0]<=sum/2)
-        dp[0][arr[0]]=1;
+        
         for(int i=1;i<n;++i){
+            vector<int>curr((sum/2)+1,0); 
+            curr[0]=1;
             for(int target=1;target<=sum/2;++target){
-                int not_pick=dp[i-1][target];
+                int not_pick=prev[target];
                 int pick=0;
                 if(arr[i]<=target){
-                    pick=dp[i-1][target-arr[i]];
+                    pick=prev[target-arr[i]];
                 }
-                dp[i][target]=(pick | not_pick);
-            }
+                curr[target]=(pick | not_pick);
+            } 
+            prev=curr;
         }
-        return dp[n-1][sum/2];
+        return prev[sum/2];
     }
 };
 
