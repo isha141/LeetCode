@@ -20,8 +20,8 @@ class Solution {
         } 
         if(dp[i][j1][j2]!=-1) return dp[i][j1][j2];
         int maxi=INT_MIN;
-        int ans=0;
         for(int k=-1;k<=1;++k){ 
+            int ans=0;
              for(int t=-1;t<=1;++t){
                     if(j1==j2)
                      ans=mat[i][j1]+solve(i+1,j1+k,j2+t,mat);
