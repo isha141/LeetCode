@@ -13,9 +13,24 @@ class Solution {
         return dp[i][amount]=(take+not_take);
     }
 public:
-    int change(int amount, vector<int>& coins) { 
-         n=coins.size(); 
-        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
-        return solve(0,coins,amount,dp);
+    int change(int amount, vector<int>& c) { 
+         n=c.size(); 
+        vector<vector<int>>dp(n+1,vector<int>(amount+1,0)); 
+         // sort(c.begin(),c.end());
+        for(int i=0;i<=n;i++){
+            dp[i][0]=1;
+        } 
+        for(int i=1;i<=n;++i){
+            for(int coins=1;coins<=amount;++coins){
+                int take=0;
+                if(c[i-1]<=coins){
+                    take=dp[i][coins-c[i-1]];
+                }
+                int not_take=dp[i-1][coins];
+                dp[i][coins]=(take+ not_take);
+            }
+        }
+        return dp[n][amount];
+        return solve(0,c,amount,dp);
     }
 };
