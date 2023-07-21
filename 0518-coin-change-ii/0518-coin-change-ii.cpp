@@ -19,7 +19,7 @@ public:
          // sort(c.begin(),c.end());
         for(int i=0;i<=n;i++){
             dp[i][0]=1;
-        } 
+        }  
         for(int i=1;i<=n;++i){
             for(int coins=1;coins<=amount;++coins){
                 int take=0;
