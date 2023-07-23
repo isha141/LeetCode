@@ -1,29 +1,27 @@
-int dp[25][2*5000+1];
+int dp[21][10001];
 class Solution { 
     private:
-    int n; 
-    int total=0;
-    int ans=0;
-    int solve(int i,int r1,int r2,vector<int>&rods){
-        if(i>=n){
-            if(r1==0)
-                return 0;
-            return INT_MIN;
-        }
-        if(dp[i][r1+5000]!=-1)
-             return dp[i][r1+5000];
-        int op1=rods[i]+solve(i+1,r1+rods[i],r2,rods);
-        int op2=solve(i+1,r1-rods[i],r2,rods);
-        int op3=solve(i+1,r1,r2,rods);
-        return dp[i][r1+5000]=max(op1,max(op2,op3));
-    }
+      int n;  
+      int sum;
+      int solve(int i,vector<int>&rods,int n,int s1,int s2){
+          if(i>=n){ 
+               if(s1==0) 
+                    return 0;
+              return INT_MIN;
+          } 
+          // if(s1<0) return 0;
+          if(dp[i][s1+5000]!=-1) 
+              return dp[i][s1+5000];
+          int left=rods[i]+solve(i+1,rods,n,s1+rods[i],s2);
+          int take=solve(i+1,rods,n,s1-rods[i],s2); 
+          int not_take=solve(i+1,rods,n,s1,s2);
+          return dp[i][s1+5000]=max(not_take,max(left,take));
+      }
 public:
     int tallestBillboard(vector<int>& rods) {
-         n=rods.size();    
-         for(auto itr: rods)
-              total+=itr;
+        int sum=0; 
+         n=rods.size();
           memset(dp,-1,sizeof(dp));
-          return solve(0,0,0,rods);
-        // return ans;
+          return solve(0,rods,n,0,0);
     }
 };
