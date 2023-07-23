@@ -15,7 +15,7 @@ class Solution {
           int left=rods[i]+solve(i+1,rods,n,s1+rods[i],s2);
           int take=solve(i+1,rods,n,s1-rods[i],s2); 
           int not_take=solve(i+1,rods,n,s1,s2);
-          return dp[i][s1+5000]=max(not_take,max(left,take));
+          return dp[i][s1+5000]=max(left,max(take,not_take));
       }
 public:
     int tallestBillboard(vector<int>& rods) {
