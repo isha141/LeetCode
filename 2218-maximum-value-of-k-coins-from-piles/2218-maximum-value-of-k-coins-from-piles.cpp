@@ -1,25 +1,30 @@
+int dp[1003][2003];
 class Solution { 
-    private:
-    int n;
-    int solve(int i,vector<vector<int>>&p,int k,vector<vector<int>>&dp){
-        if(i>=n || k<=0) 
-            return 0; 
+    int n; 
+    int solve(int i,int j,vector<vector<int>>&p,int k){
+        if(k<0){
+            return 0;
+        }
+        if(i>=n) {
+            if(k==0) return 0; 
+             return INT_MIN;
+        }  
         if(dp[i][k]!=-1) 
-            return dp[i][k];
-        int res=solve(i+1,p,k,dp);
-        int cur=0;
-        for(int j=0;j<p[i].size() && j<k;++j){
-            cur+=p[i][j];
-            res=max(res,cur+solve(i+1,p,k-j-1,dp)); 
-            // res=max(res,cur);
-        } 
-        dp[i][k]=res;
-        return res;
+             return dp[i][k];
+        int take=0;
+        int not_take=0;
+        int curr=0;
+        not_take=solve(i+1,j,p,k);
+        for(int l=0;l<p[i].size() && l<k;++l){
+            curr+=p[i][l];
+            take=max(take,curr+solve(i+1,j,p,k-l-1));
+        }
+        return dp[i][k]=max(take,not_take);
     }
 public:
     int maxValueOfCoins(vector<vector<int>>& p, int k) {
-         n=p.size(); 
-        vector<vector<int>>dp(n+1,vector<int>(k+1,-1));
-        return solve(0,p,k,dp);
+            n=p.size(); 
+          memset(dp,-1,sizeof(dp));
+          return solve(0,0,p,k);
     }
 };
