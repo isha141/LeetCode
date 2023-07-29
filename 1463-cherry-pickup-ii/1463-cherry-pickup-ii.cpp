@@ -30,7 +30,58 @@ public:
     int cherryPickup(vector<vector<int>>& grid) {
          n=grid.size();
          m=grid[0].size(); 
-        memset(dp,-1,sizeof(dp));
-        return solve(0,0,m-1,grid);
+         vector<vector<vector<int>>>dp(n,vector<vector<int>>(m,vector<int>(m,0)));
+         for(int j=0;j<m;++j){
+             for(int k=0;k<m;++k){
+                 if(j==k){
+                     dp[n-1][j][k]=grid[n-1][j];
+                 }
+                 else{
+                     dp[n-1][j][k]=grid[n-1][j]+grid[n-1][k];
+                 }
+             }
+         }
+        for(int i=n-2;i>=0;--i){
+            for(int j=0;j<m;++j){
+                for(int k=0;k<m;++k){
+                    int ans=0;
+                    for(int c1=-1;c1<=1;++c1){
+                        for(int c2=-1;c2<=1;c2++){
+                            int nc=j+c1;
+                            int nc2=k+c2;
+                            int take=0;
+                                // take=dp[i+1][nc][nc2];
+                                if(j!=k){
+                                    take+=grid[i][j];
+                                    take+=grid[i][k];
+                                }
+                                else{
+                                    take+=grid[i][j];
+                                }
+                            if(nc>=0 && nc<m && nc2>=0 && nc2<m){
+                                take+=dp[i+1][nc][nc2];
+                                ans=max(ans,take);
+                            }
+                            else{
+                                // int take=INT_MIN;
+                                  ans=max(ans,take);
+                            }
+                        }
+                    }
+                    dp[i][j][k]=ans;
+                }
+            }
+        } 
+        // for(int i=0;i<n;++i){
+            // for(int j=0;j<m;++j){
+                // for(int k=0;k<m;++k){
+                    // cout<<dp[i][j][k]<<" ";
+                // }
+                // cout<<endl;
+            // }
+            // cout<<"*****"<<endl;
+        // }
+      return dp[0][0][m-1];
+         
     }
 };
