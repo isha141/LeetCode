@@ -7,31 +7,28 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
-int dp[1002][1002];
 class Solution{
-  private:
-   int solve(int i,int j,string &str){
-        if(i==j){
-            return 0;
-        } 
-        if(i>j) return 0;
-        int take=1e9;
-        int not_take=1e9;
-        if(dp[i][j]!=-1)
-         return dp[i][j];
-        if(str[i]==str[j]){
-            take=solve(i+1,j-1,str);
-        }
-        else{
-            not_take=1+min(solve(i+1,j,str),solve(i,j-1,str));
-        }
-        return dp[i][j]=min(take,not_take);
-   }
   public:
     int countMin(string str){
     //complete the function here 
-      memset(dp,-1,sizeof(dp));
-      return solve(0,str.size()-1,str);
+    int n=str.size(); 
+    string s=str;
+    reverse(s.begin(),s.end());
+     vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        for(int i=1;i<=n;++i){
+           for(int j=1;j<=n;++j){
+               int take=0;
+               int not_take=0;
+             if(s[i-1]==str[j-1]){
+                 take=1+dp[i-1][j-1];
+             }
+             else{
+                 not_take=max(dp[i-1][j],dp[i][j-1]);
+             }
+             dp[i][j]=max(take,not_take);
+            }
+        }
+        return n-dp[n][n];
     }
 };
 
