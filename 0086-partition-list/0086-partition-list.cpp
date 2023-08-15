@@ -11,28 +11,23 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-         if(head==NULL)
-              return head;
-         vector<int>prev,ds;
-        ListNode *tail=head;
-         while(tail!=NULL){
-             if(tail->val>=x){
-                 ds.push_back(tail->val);
-             }
-             else{
-                 prev.push_back(tail->val);
-             }
-             tail=tail->next;
-         }
-         tail=head;
-         for(auto itr: prev){
-              tail->val=itr;
-             tail=tail->next;
-         }
-         for(auto itr: ds){
-             tail->val=itr;
-             tail=tail->next;
-         }
-         return head;
+        ListNode l1(0);
+        ListNode l2(0);
+        ListNode *p1=&l1;
+        ListNode *p2=&l2;
+        while(head!=NULL){
+            if(head->val>=x){
+                p2->next=head;
+                p2=head;
+            }
+            else{
+                p1->next=head;
+                p1=head;
+            }
+            head=head->next;
+        }
+        p1->next=l2.next; 
+        p2->next=NULL;
+        return l1.next;
     }
 };
