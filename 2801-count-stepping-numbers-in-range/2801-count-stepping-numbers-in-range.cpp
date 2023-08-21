@@ -1,61 +1,51 @@
-long long dp[101][11][2][2];
-class Solution { 
+int dp[102][2][2][10];
+class Solution {
     private:
     int mod=1e9+7;
-    void reversearray(){
-        for(int i=0;i<101;++i){
-            for(int j=0;j<11;++j){
-                for(int k=0;k<2;++k){
-                    for(int l=0;l<2;++l){
-                        dp[i][j][k][l]=-1;
-                    }
-                }
-            }
-        }
-    } 
-    long long solve(string &s,int ind,int isprev,int istight,int iszero){
-        if(ind>=s.size()){
-            if(iszero)
-                  return 0;
+    int solve(int pos,string &a,bool tight,bool zero, int prev){
+        if(pos>=a.size()){
+            if(!zero)
             return 1;
-        } 
-        if(dp[ind][isprev+1][istight][iszero]!=-1)
-             return dp[ind][isprev+1][istight][iszero]%mod;
-        int limit=s[ind]-'0';
-        if(!istight){
-            limit=9;
-        } 
-        long ans=0;
-        for(int curr=0;curr<=limit;++curr){
-            int nextight=(istight && (curr==limit));
-            int nextzero=(iszero && (curr==0));
-             if(abs(curr-isprev)==1 || iszero){
-                ans+=solve(s,ind+1,curr,nextight,nextzero);
-            }
+            return 0;
         }
-        return dp[ind][isprev+1][istight][iszero]=(ans+mod)%mod;
+        if(dp[pos][tight][zero][prev]!=-1)
+            return dp[pos][tight][zero][prev];
+        int limits=(tight)?(a[pos]-'0'):9;
+        int ans=0;
+        for(int d=0;d<=limits;++d){
+            int newtight=(d==(a[pos]-'0'))?(tight):0;
+            if(zero && d==0){
+                ans=(ans+solve(pos+1,a,newtight,zero,d));
+            } 
+           else if(zero || abs(prev-d)==1){
+               ans=(ans%mod+solve(pos+1,a,newtight,0,d)%mod)%mod;
+           }
+        }
+       return dp[pos][tight][zero][prev]=ans%mod;
     }
 public:
     int countSteppingNumbers(string low, string high) {
-        reversearray();
-        long long ans=solve(high,0,-1,1,1);
-        reversearray();
-        ans-=solve(low,0,-1,1,1);  
-        ans=(ans+mod)%mod;
-        bool flag=0;
-        for(int i=0;i<low.size()-1;++i){
-            int ch1=low[i]-'0';
-            int ch2=low[i+1]-'0';
-            if(abs(ch1-ch2)!=1){ 
-                flag=1;
+        memset(dp,-1,sizeof(dp));
+        int ans1=solve(0,low,1,1,0);
+        memset(dp,-1,sizeof(dp));
+        int ans2=solve(0,high,1,1,0);
+        cout<<ans1<<" "<<ans2<<endl;
+         int rem=(ans2-ans1)%mod;
+         bool flag=1;
+         if(low.size()==1){
+             flag=1;
+         }
+         for(int i=1;i<low.size();++i){
+             int last=low[i-1]-'0';
+             int curr=low[i]-'0';
+             if(abs(curr-last)!=1){
+                 flag=0;
                  break;
-            }
-        } 
-        if(!flag){
-            ans=(ans+mod+ 1)%mod;
-        }
-         return ans;
-        
-        
+             }
+         }
+          if(flag){
+               rem=(rem+1)%mod;
+          }
+         return rem<0?(rem+mod):(rem%mod);
     }
 };
