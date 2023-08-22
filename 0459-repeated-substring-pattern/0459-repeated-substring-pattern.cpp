@@ -1,17 +1,30 @@
 class Solution {
 public:
     bool repeatedSubstringPattern(string s) {
+        string ans="";
+        int i=0;
         int n=s.size();
-        for(int i=1;i<=n/2;++i){ 
-            if(n%i==0){
-            string t=s.substr(0,i);
-            string temp="";
-            for(int j=0;j<n/i;++j)
-                temp+=t;
-            if(temp==s)
-                return true; 
-            }
-        }
+       while(i<n){
+           ans+=s[i];
+           auto ind=s.find(ans,i+1);
+           if(ind!=string::npos){
+               int j=i+1;
+                bool flag=1; 
+               int m=ans.size();
+              while((j+m)<=n){
+             string temp=s.substr(j,m);
+                 if(temp!=ans){
+                   flag=0;
+                    break;
+                }
+                j+=m;
+             } 
+              if(flag && j>=n){ 
+                   return 1;
+               }
+           } 
+           i+=1;
+       } 
         return 0;
     }
 };
