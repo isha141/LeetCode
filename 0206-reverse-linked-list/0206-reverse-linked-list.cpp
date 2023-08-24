@@ -8,26 +8,22 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution { 
-    private: 
-    ListNode *temp;
-    ListNode *solve(ListNode *head,ListNode *prev){
-        if(head==NULL || head->next==NULL){ 
-            temp=head;
+class Solution {
+    private:
+    ListNode *prev=NULL;
+    ListNode *solve(ListNode * head){
+        if(head==NULL || head->next==NULL){
+           prev=head;
             return head;
         }
-        head=solve(head->next,head->next); 
-        cout<<prev->val<<" ";
-        head->next=prev; 
-        head=prev;
-        prev->next=NULL;
-        return head;  
+        ListNode *p=solve(head->next);
+        p->next=head;
+        head->next=NULL;
+        return head;
     }
 public:
     ListNode* reverseList(ListNode* head) {
-        if(head==NULL)
-            return head;
-        solve(head,head); 
-        return temp;
+           solve(head);
+           return prev;
     }
 };
