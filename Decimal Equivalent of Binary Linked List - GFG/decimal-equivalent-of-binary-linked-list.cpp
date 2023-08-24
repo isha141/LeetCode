@@ -91,18 +91,13 @@ Node *reverse(Node *head){
 long long unsigned int decimalValue(Node *head)
 {
    // Your Code Here
-       head=reverse(head);
-      long long unsigned int ans=0;
-      long mod=1e9+7;
-      int k=0;
-      long temp=1;
+      long long unsigned int ans=0; 
+      long res=0;
+      int mod=1e9+7;
       while(head!=NULL){
-         long long res=temp*head->data;
-         temp*=2;
-         temp%=mod;
-         ans=(ans%mod+res%mod)%mod; 
+         res=(res<<1)+head->data;
+         res%=mod;
          head=head->next;
       }
-    //   cout<<endl;
-      return ans;
+      return res;
 }
