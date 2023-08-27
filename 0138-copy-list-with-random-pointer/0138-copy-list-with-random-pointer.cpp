@@ -17,45 +17,31 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if(head==NULL) return head; 
-        Node * a=head;
-        while(head!=NULL){
-            Node * temp=head->next; 
-            Node * p=new Node(head->val); 
-            p->next=NULL;
-            p->val=head->val;
-            head->next=p;
-            p->next=temp; 
-            head=head->next->next;
+        if(head==NULL) return head;
+        Node *root=head;
+        while(root!=NULL){
+            Node *temp=new Node(root->val);
+             temp->next=root->next;
+              root->next=temp;
+            root=root->next->next;
         }
-        head=a;
-        while(head!=NULL){
-            Node * temp=head->random; 
-            if(temp!=NULL){
-            head->next->random=temp->next;
+        root=head;
+        while(root!=NULL){
+            Node *rand=root->random;
+            if(rand!=NULL){
+                root->next->random=rand->next;
             }
-            else{
-                head->next->random=NULL;
-            }
-            head=head->next->next;
+            root=root->next->next;
         }
-        head=a;
-        Node * dummy=new Node(0);
-        dummy->next=head->next;
-        Node * p=dummy;
-        // cout<<"HYYH"<<endl;
-        while(head!=NULL){ 
-             // cout<<head->val<<"..."<<head->next->val<<endl;
-            // if(p==NULL){
-            //     p=head->next;
-            // }
-            // else{
-                p->next=head->next;
-            // }
-            p=p->next; 
-             head->next=head->next->next;
-            head=head->next;
+        root=head;
+        Node *dummy=new Node(0);
+        Node *p=dummy;
+        while(root!=NULL){
+            p->next=root->next;
+            p=p->next;
+            root->next=root->next->next;
+            root=root->next;
         }
-        return dummy->next;
+         return dummy->next;
     }
 };
