@@ -9,43 +9,45 @@
  * };
  */
 class Solution {
+    private:
+    ListNode *reverse(ListNode *root){
+         ListNode *temp=root->next;
+         root->next=NULL;
+         while(temp!=NULL){
+             ListNode *p=temp->next;
+             temp->next=root;
+             root=temp;
+             temp=p;
+         }
+        return root;
+    }
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        stack<int>s1,s2;
-         while(l1!=NULL){
-             s1.push(l1->val);
-             l1=l1->next;
-         }
-         while(l2!=NULL){
-             s2.push(l2->val);
-             l2=l2->next;
-         } 
-        int carry=0; 
-        ListNode *head=new ListNode(0);
-        ListNode *prev=NULL;
-         while(!s1.empty() || !s2.empty() || carry){
-             int sum=carry;
-             if(!s1.empty()){
-                 sum+=s1.top(); 
-                 s1.pop();
-             }
-             if(!s2.empty()){
-                 sum+=s2.top();
-                 s2.pop();
-             }
-             ListNode *ans=new ListNode(sum%10);
-             carry=sum/10;
-              if(prev==NULL){
-                  prev=ans;
-              }
-             else{
-                 ans->next=prev;
-             }
-             prev=ans;
-         } 
-        // if(carry){
-//             
-        // }
-         return prev;
+        if(l1==NULL)
+              return l2;
+        if(l2==NULL)
+             return l1;
+        l1=reverse(l1);
+        l2=reverse(l2); 
+        ListNode *prev=new ListNode(0);
+        ListNode *p=prev;
+        int carry=0;
+        while(l1 || l2 || carry){
+            int sum=carry;
+            if(l1){
+                sum+=l1->val;
+                l1=l1->next;
+            }
+            if(l2){
+                sum+=l2->val;
+                l2=l2->next;
+            }
+            ListNode *temp=new ListNode(sum%10);
+                carry=sum/10;
+            p->next=temp;
+            p=temp;
+        }
+        ListNode *res=reverse(prev->next);
+        return res;
     }
 };
