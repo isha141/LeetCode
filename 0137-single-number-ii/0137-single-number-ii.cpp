@@ -1,15 +1,15 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
+        sort(nums.begin(),nums.end()); 
         int n=nums.size();
-        map<int,int>mp;
-        for(auto itr: nums)
-             mp[itr]++;
-         for(auto itr: mp){
-             if(itr.second==1)
-                   return itr.first;
-         }
-        return -1;
+        for(int i=0;i<n-2;){
+              if(nums[i]==nums[i+2])
+                i+=3;
+              else{
+                  return nums[i];
+              }
+        }
+        return nums[n-1];
     }
-    
 };
