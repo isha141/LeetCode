@@ -9,61 +9,45 @@
  * };
  */
 class Solution { 
-    ListNode * solve(ListNode * h1,ListNode * h2){
-          ListNode * dummy=new ListNode (0); 
-         ListNode * prev=NULL; 
-        if(h1==NULL ) return h2;
-        if(h2==NULL) return h1;
-           if(h1->val<h2->val){
-                prev=h1;
-               h1=h1->next;
-           }
-           else{
-               prev=h2;
-               h2=h2->next;
-           } 
-         dummy->next=prev;
-        while(h1!=NULL && h2 !=NULL){
-                if(h1->val<h2->val){
-                    prev->next=h1; 
-                    prev=h1;
-                    h1=h1->next;
-                }
-            else{
-                prev->next=h2; 
-                prev=h2;
-                h2=h2->next;
+    ListNode *solve(ListNode* a,ListNode*b){
+        ListNode *dummy=new ListNode(0);
+        ListNode *curr=dummy;
+        while(a!=NULL && b!=NULL){
+            if(a->val<=b->val){
+                curr->next=a;
+                curr=curr->next;
+                a=a->next;
             }
-        } 
-          if(h1){
-              prev->next=h1;
-          }
-        else if(h2){
-            prev->next=h2;
-        } 
+            else{
+                curr->next=b;
+                curr=curr->next;
+                b=b->next;
+            }
+        }
+        while(a!=NULL){
+            curr->next=a;
+            curr=curr->next;
+            a=a->next;
+        }
+        while(b!=NULL){
+            curr->next=b;
+            curr=curr->next;
+            b=b->next;
+        }
         return dummy->next;
     }
 public:
-    ListNode* mergeKLists(vector<ListNode*>& l) {
-          if(l.size()==0){
-              return NULL;
-          } 
-           ListNode * head=NULL;
-          if(l.size()==1){
-            return  l[0];
-          } 
-         head=solve(l[0],l[1]);
-        ListNode * temp=head;
-        cout<<endl;
-        for(int i=2;i<l.size();++i){
-            head=solve(head,l[i]); 
-            ListNode * temp=head;
-            // while(temp!=NULL){
-                 // cout<<temp->val<<",,";
-                // temp=temp->next;
-            // }
-        }
-        return head;
-          
+    ListNode* mergeKLists(vector<ListNode*>&list) {
+         int n=list.size();
+         if(n==0)
+               return NULL;
+         sort(list.begin(),list.end());
+         ListNode *dummy=new  ListNode(0);
+         if(list[0]!=NULL)
+         dummy->next=list[0];
+         for(int i=1;i<n;i++){
+             dummy->next=solve(dummy->next,list[i]);
+         }
+          return dummy->next?dummy->next:NULL;
     }
 };
