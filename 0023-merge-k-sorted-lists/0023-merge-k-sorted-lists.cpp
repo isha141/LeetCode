@@ -24,15 +24,15 @@ class Solution {
                 b=b->next;
             }
         }
-        while(a!=NULL){
+        if(a!=NULL){
             curr->next=a;
-            curr=curr->next;
-            a=a->next;
+            // curr=curr->next;
+            // a=a->next;
         }
-        while(b!=NULL){
+        if(b!=NULL){
             curr->next=b;
-            curr=curr->next;
-            b=b->next;
+            // curr=curr->next;
+            // b=b->next;
         }
         return dummy->next;
     }
@@ -41,7 +41,7 @@ public:
          int n=list.size();
          if(n==0)
                return NULL;
-         sort(list.begin(),list.end());
+         // sort(list.begin(),list.end());
          ListNode *dummy=new  ListNode(0);
          if(list[0]!=NULL)
          dummy->next=list[0];
