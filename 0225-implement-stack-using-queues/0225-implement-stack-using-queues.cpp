@@ -5,24 +5,20 @@ public:
         
     }
     
-    void push(int x) { 
-           q.push(x);
-          int n=q.size();
-        if(n>1){
-            for(int i=1;i<n;++i){
-         int temp=q.front();
-                q.pop();
-                q.push(temp);
-            }
+    void push(int x) {
+            q.push(x);
+            int n=q.size();
+        for(int i=1;i<n;++i){
+            auto itr=q.front();
+            q.push(itr);
+            q.pop();
         }
-        
     }
     
-    int pop() { 
-        int t=q.front();
+    int pop() {
+        int temp=q.front();
         q.pop();
-        return t;
-        
+        return temp;
     }
     
     int top() {
@@ -30,7 +26,7 @@ public:
     }
     
     bool empty() {
-        return q.empty();
+        return q.size()==0;
     }
 };
 
