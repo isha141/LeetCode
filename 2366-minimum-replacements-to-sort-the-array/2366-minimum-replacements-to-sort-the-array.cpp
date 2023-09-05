@@ -6,7 +6,7 @@ public:
          int maxi=nums[n-1];
          for(int i=n-2;i>=0;--i){
              if(nums[i]>maxi){
-                int parts=ceil((nums[i]+maxi-1)/maxi);
+                int parts=((nums[i]+maxi-1)/maxi);
                 ans+=parts-1;
                 maxi=nums[i]/parts;
              }
