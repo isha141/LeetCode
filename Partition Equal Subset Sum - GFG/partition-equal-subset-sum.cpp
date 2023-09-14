@@ -7,48 +7,34 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution{ 
+
+class Solution{
     private:
     int n;
-    int solve(int i,int arr[],int target,vector<vector<int>>&dp){ 
-        if(target==0) return 1;
-        if(i>=n) return 0;
-        if(target<0) return 0; 
-        if(dp[i][target]!=-1) 
-        return dp[i][target];
-        int pick=solve(i+1,arr,target-arr[i],dp);
-        int not_pick=solve(i+1,arr,target,dp);
-        return dp[i][target]=(pick| not_pick);
+     int sum;
+    int solve(int i,int arr[],int n,int tot,vector<vector<int>>&dp){
+        if(tot==(sum/2))
+          return 1;
+        if(tot>sum/2)
+          return 0;
+        if(i>=n)
+          return 0;
+        if(dp[i][tot]!=-1)
+           return dp[i][tot];
+        bool l=solve(i+1,arr,n,tot+arr[i],dp);
+        bool r=solve(i+1,arr,n,tot,dp);
+        return dp[i][tot]=(l || r);
     }
 public:
     int equalPartition(int n, int arr[])
     {
-        // code here 
-        int sum=0; 
-        this->n=n;
-        for(auto i=0;i<n;++i) sum+=arr[i];
-        if(sum%2) return 0; 
-        vector<int>prev((sum/2)+1,0);
-        // if(arr[0]<=sum/2)
-        // dp[0][arr[0]]=1;
-        if(arr[0]<=sum/2){
-            prev[arr[0]]=1;
-        }
-        
-        for(int i=1;i<n;++i){
-            vector<int>curr((sum/2)+1,0); 
-            curr[0]=1;
-            for(int target=1;target<=sum/2;++target){
-                int not_pick=prev[target];
-                int pick=0;
-                if(arr[i]<=target){
-                    pick=prev[target-arr[i]];
-                }
-                curr[target]=(pick | not_pick);
-            } 
-            prev=curr;
-        }
-        return prev[sum/2];
+        // code here
+         sum=accumulate(arr,arr+n,0);
+         if(sum%2)
+          return 0;
+        vector<vector<int>>dp(n,vector<int>(sum/2+1,-1));
+        //   memset(dp,-1,sizeof(dp));
+        return solve(0,arr,n,0,dp);
     }
 };
 
