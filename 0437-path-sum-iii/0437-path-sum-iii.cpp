@@ -9,30 +9,31 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-    private:
-      int count=0;
-      void solve2(TreeNode *root,long long target){
-            if(root==NULL)
-                  return ;
-            if(root->val==target){
-                count+=1;
-            } 
-            solve2(root->left,target-root->val);
-            solve2(root->right,target-root->val);
-      }
-      void solve(TreeNode *root,int target){
-            if(root==NULL)
-                  return;
-            solve2(root,target);
-            solve(root->left,target);
-            solve(root->right,target);
-      }
+class Solution { 
+    int ans=0;
+     map<long,int>mp;
+     void solve(TreeNode *root,long target,long sum){
+         if(root==NULL)
+               return;
+         sum+=root->val;
+         if(sum==target){
+              ans+=1;
+         }
+         if(mp.find(sum-target)!=mp.end())
+               ans+=mp[sum-target];
+          // cout<<sum<<" ;; "<<root->val<<endl;
+          mp[sum]+=1; 
+          // cout<<mp[sum]<<" --> "<<endl;
+         solve(root->left,target,sum);
+         solve(root->right,target,sum);
+          mp[sum]-=1;
+         return ;
+     }
 public:
     int pathSum(TreeNode* root, int target) {
           if(root==NULL)
-                return 0;
-           solve(root,target);
-          return count;
+               return 0;
+           solve(root,target,0);
+          return ans;
     }
 };
