@@ -123,35 +123,46 @@ void printPostorder (Node* node)
 // } Driver Code Ends
 //User function template in C++
 
+/*
+
+typedef struct Node
+{
+    int data;
+    struct Node *left, *right;
+} Node;
+
+
+// A utility function to create a new tree node
+Node* newNode( int data )
+{
+    Node* temp = (Node *)malloc( sizeof( Node ) );
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+*/
 
 class Solution{
     private:
-    map<int,int>mp;
-    Node *solve(int prestart,int preend,int pre[],int instart,int inend,int in[]){
-        if(prestart>preend || instart>inend)
+    Node *solve(int &prestart,int preend,int pre[],int mini,int maxi){
+        if(pre[prestart]>maxi)
           return NULL;
+        if(prestart>preend)
+           return NULL;
         Node *root=new Node();
-        root->data=pre[prestart];
-        int inroot=mp[pre[prestart]];
-        int numsleft=inroot-instart;
-        root->left=solve(prestart+1,prestart+numsleft,pre,instart,inroot-1,in);
-        root->right=solve(prestart+numsleft+1,preend,pre,inroot+1,inend,in);
+        root->data=pre[prestart++];
+        root->left=solve(prestart,preend,pre,mini,root->data);
+        root->right=solve(prestart,preend,pre,root->data,maxi);
         return root;
     }
 public:
     //Function that constructs BST from its preorder traversal.
     Node* post_order(int pre[], int size)
-    { 
-        int in[size+1];
-        for(int i=0;i<size;++i){
-            in[i]=pre[i];
-        }
-        sort(in,in+size);
-        for(int i=0;i<size;++i){
-            mp[in[i]]=i;
-        }
-        return solve(0,size-1,pre,0,size-1,in);
-        
+    {
+        //code here 
+         int pres=0;
+        return solve(pres,size-1,pre,INT_MIN,INT_MAX);
     }
 };
 
