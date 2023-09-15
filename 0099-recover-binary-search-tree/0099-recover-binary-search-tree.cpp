@@ -9,20 +9,22 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution { 
-    private:
+class Solution {
+    TreeNode *prev=NULL; 
     TreeNode *first=NULL;
     TreeNode *middle=NULL;
-    TreeNode *last=NULL; 
-    TreeNode *prev=new TreeNode(INT_MIN);
-    void solve(TreeNode* root){
+    TreeNode *last=NULL;
+    void solve(TreeNode *root){
         if(root==NULL)
-            return ;
-        solve(root->left); 
-        if(prev!=NULL && prev->val>root->val){
+             return ;
+        solve(root->left);
+        if(prev==NULL){
+            prev=root;
+        }
+        if(prev->val>root->val){
             if(first==NULL){
-               first=prev;
-              middle=root;
+                first=prev;
+                middle=root;
             }
             else{
                 last=root;
@@ -31,21 +33,22 @@ class Solution {
         prev=root;
         solve(root->right);
     }
-    
 public:
     void recoverTree(TreeNode* root) {
-        if(root==NULL)
-            return ;
-          solve(root); 
-        if(last==NULL){
-            swap(first->val,middle->val);
-        }
-        else if(first->val>last->val){
-            swap(first->val,last->val);
-        }
-        else{
-            swap(first->val,middle->val);
-        }
+          if(root==NULL)
+                return;
+          solve(root);
+          if(last!=NULL){
+              if(last->val<first->val){
+                  swap(last->val,first->val);
+              }
+              else{
+                  swap(last->val,middle->val);
+              }
+          }
+          else if(first!=NULL){
+              swap(first->val,middle->val);
+          }
         return ;
     }
 };
