@@ -112,12 +112,7 @@ class Solution{
         solve(root->left,k,mp,sum+root->data); 
         solve(root->right,k,mp,sum+root->data);
         mp[sum]--;
-        // if(root){
-        //     cout<<root->data<<";;"<<sum<<endl;
-        //     for(auto itr: mp){
-        //         cout<<itr.first<<"--"<<itr.second<<endl;
-        //     }
-        // }
+
     }
   public:
     int sumK(Node *root,int k)
