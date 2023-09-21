@@ -1,34 +1,68 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        if(nums2.size()<nums1.size())
-             return findMedianSortedArrays(nums2,nums1);
-        int n=nums1.size();
-        int m=nums2.size();
-        int req=(nums1.size()+nums2.size()+1)>>1;
-        int low=0;
-        int high=n;
-        while(low<=high){
-            int mid=(low+high)>>1;
-            int cut1=mid;
-            int cut2=req-mid;
-            int l1=cut1==0?INT_MIN:nums1[cut1-1];
-            int l2=cut2==0?INT_MIN: nums2[cut2-1];
-            int r1=cut1==n?INT_MAX:nums1[cut1];
-            int r2=cut2==m?INT_MAX:nums2[cut2];
-            if(l1<=r2 && l2<=r1){
-                if((n+m)%2==0) 
-                    return (double)(max(l1,l2)+min(r1,r2))/(2.0);
-                else 
-                    return (double) max(l1,l2);
-            }
-            if(l1>r2){
-                high=mid-1;
+    double findMedianSortedArrays(vector<int>& n1, vector<int>& n2) {
+        double ans=0;
+        int n=n1.size();
+        int m=n2.size();
+        int i=0;
+        int j=0;
+        int c1=-1;
+        int c2=-1;
+        int take=(m+n+1)/2;
+        int count=0;
+        while(i<n && j<m){
+            if(n1[i]<=n2[j]){
+                count+=1;
+                if(count==take){
+                    if(c1==-1)
+                    c1=n1[i];
+                }
+                else if(count==take+1){
+                    c2=n1[i];
+                }
+                i++;
             }
             else{
-                low=mid+1;
+                count+=1;
+                if(count==take){
+                    if(c1==-1){
+                        c1=n2[j];
+                    }
+                }
+                else if(count==take+1){
+                        c2=n2[j];
+                    }
+               j++;
             }
         }
-        return 0.0;
+        while(i<n){
+            count+=1;
+            if(count==take){
+                    if(c1==-1){
+                        c1=n1[i];
+                    }
+            }
+            else if(count==take+1){
+                        c2=n1[i];
+                    }
+            i++;
+        }
+        while(j<m){
+            count+=1;
+            if(count==take){
+                        c1=n2[j];
+           }
+           else if(count==take+1){
+                        c2=n2[j];
+            }
+            j++;
+        }
+        cout<<c1<<"-->"<<c2<<endl;
+        if((m+n)%2){
+            return (double)c1;
+        }
+        else
+            return (double)(c1+c2)/2.0;
+        
     }
 };
