@@ -1,37 +1,33 @@
 class Solution {
 public:
     double myPow(double x, int n) {
-        double ans=1.0;
-        bool flag=0;
-        int temp1=n;
+         double res=1;
+          bool flag=0;
         if(x<0){
-            flag=1;
             x*=-1;
-        } 
-        bool flag1=0;
-        long long temp=n;
+            flag=1;
+        }
+          long long n1=n;
+          n1=abs(n);
+        double ans=1;
+         while(n1>0){
+             if(n1 &1){  
+                 // 
+                 n1-=1;
+                 res*=x;
+             }
+             else{
+                 x*=x;
+                 n1/=2;
+             }
+         }
+        if(flag && (n%2)){
+            res*=-1;
+        }
         if(n<0){
-            flag1=1;
-            temp*=-1;
+            return 1/(double)res;
         }
-        while(temp>0){
-            if(temp%2==0){
-                x=x*x;
-                temp/=2;
-            }
-            else{
-                ans*=x;
-                temp-=1;
-            }
-        }
-        if(flag){
-            if(temp1%2)
-                ans*=-1;
-        }
-        if(flag1){
-            return 1/(ans);
-        }
-        return ans;
-        
+         else
+             return res;
     }
 };
