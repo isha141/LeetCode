@@ -5,38 +5,38 @@ using namespace std;
 // } Driver Code Ends
 class Solution { 
     private:
-    bool solve(int node,vector<int>&vis,vector<int>&dfsvis,vector<int>adj[]){
+    bool solve(int node,vector<int>&vis,vector<int>&bfsvis,vector<int>adj[]){
         vis[node]=1;
-        dfsvis[node]=1;
-        for(auto itr: adj[node]){
-            if(!vis[itr]){
-                if(solve(itr,vis,dfsvis,adj))
-                  return 1;
+        bfsvis[node]=1;
+        for(auto itt: adj[node]){
+            if(!vis[itt]){
+                if(solve(itt,vis,bfsvis,adj))
+                 return 1;
             }
-            else if(dfsvis[itr]) 
-            return 1;
-        } 
-        dfsvis[node]=0;
-        return 0;
+            else if(bfsvis[itt]){
+                return 1;
+            }
+        }
+        bfsvis[node]=0;
+         return 0;
     }
 public:
-	bool isPossible(int n, vector<pair<int, int> >& pre) {
+	bool isPossible(int n,int P, vector<pair<int, int> >& pre) {
 	    // Code here
 	    vector<int>adj[n];
-	    for(auto itr: pre){
-	        adj[itr.second].push_back(itr.first);
+	    for(auto itt: pre){
+	        adj[itt.first].push_back(itt.second);
 	    }
 	    vector<int>vis(n,0);
-	    vector<int>dfsvis(n,0);
+	     vector<int>bfsvis(n,0);
 	    for(int i=0;i<n;++i){
 	        if(!vis[i]){
-	            if(solve(i,vis,dfsvis,adj))
+	            if(solve(i,vis,bfsvis,adj))
 	              return 0;
 	        }
 	    }
 	    return 1;
 	}
-	
 };
 
 //{ Driver Code Starts.
@@ -56,7 +56,7 @@ int main(){
         // string s;
         // cin>>s;
         Solution ob;
-        if (ob.isPossible(N, prerequisites))
+        if (ob.isPossible(N,P, prerequisites))
             cout << "Yes";
         else
             cout << "No";
