@@ -1,29 +1,32 @@
 class Solution {
 public:
-    int trap(vector<int>& he) {
-        int n=he.size();
-        int left=0;
-        int right=0;
-        int l=0;
-        int h=n-1;
-        int ans=0;
-        while(l<=h){
-            if(he[l]<=he[h]){
-                if(he[l]>=left)
-                    left=he[l];
-                else
-                    ans+=left-he[l];
-                l++;
-            }
-            else {
-                if(right<=he[h]){
-                    right=he[h];
+    int trap(vector<int>& h) {
+          int n=h.size();
+          int ans=0;
+          int low=0;
+          int high=n-1;
+          int leftMax=0;
+          int rightMax=0;
+         while(low<high){
+            if(h[low]<h[high]){
+                if(leftMax<h[low]){
+                    leftMax=h[low++];
                 }
-                else
-                    ans+=right-he[h];
-                h--;
+                else{
+                    ans+=leftMax-h[low];
+                    low++;
+                }
             }
-        }
-        return ans;
+            else{
+                if(rightMax<h[high]){
+                    rightMax=h[high--];
+                }
+                else{
+                    ans+=rightMax-h[high];
+                    high--;
+                }
+            }
+         }
+         return ans;
     }
 };
