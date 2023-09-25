@@ -1,29 +1,24 @@
-class Solution { 
-    int factorial(int n){
-        if(n<=1)
-            return 1;
-        return n* factorial(n-1);
-    }
+class Solution {
 public:
     string getPermutation(int n, int k) {
-        // if(n==1)
-        //     return "1";
-        vector<int>ds(n);
-        for(int i=0;i<n;++i)
-            ds[i]=i+1;
-        string ans="";
-        int fact=factorial(n-1);
-        k--;
-        // cout<<fact<<" "<<k<<endl;
-        while(true){
-            ans+=to_string(ds[k/fact]); 
-            ds.erase(ds.begin()+(k/fact));
-            if(ds.size()==0)
-                break;
-            k=k%fact;
-             fact=fact/ds.size();
-        }
-        return ans;
-        
+            string ans="";
+            vector<int>ds;
+            int fact=1;
+            for(int i=1;i<n;++i){
+                ds.push_back(i);
+                fact=fact*i;
+            }
+           ds.push_back(n);
+           k-=1;
+          while(1){
+              ans+=to_string(ds[k/fact]);
+              ds.erase(ds.begin()+k/fact);
+              if(ds.size()==0)
+                    return ans;
+              k%=fact;
+              fact=fact/ds.size();
+          }
+         return "";
+           
     }
 };
