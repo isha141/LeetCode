@@ -1,25 +1,53 @@
-class Solution {
-public:
-    int longestStrChain(vector<string>& words) {
-        vector<unordered_set<string>> W(17);
-        for (auto word : words) 
-            W[word.size()].insert(word);
-        unordered_map<string, int> dp;
-        int best = 1;
-        for (int i = 16; i; i--) {
-            if (W[i-1].empty()) continue;
-            for (auto word : W[i]) {
-                int wVal = dp[word] ? dp[word] : 1;
-                for (int j = 0; j < word.size(); j++) {
-                    string pred = word.substr(0,j) + word.substr(j+1);
-                    int pVal = dp[pred] ? dp[pred] : 1;
-                    if (W[i-1].find(pred) != W[i-1].end() && wVal >= pVal) {
-                        dp[pred] = wVal + 1;
-                        best = max(best, wVal + 1);
-                    }
-                }
+bool cmp(string &a,string &b){
+    if(a.size()==b.size())
+          return a<b;
+    return a.size()<b.size();
+}
+class Solution { 
+    private:
+    int n; 
+    bool ok(string &a,string &b){
+        int i=0;
+        int j=0;
+        int m=a.size();
+        int t=b.size();
+        if((t-m)!=1)
+              return 0;
+        while(i<m){
+               bool flag=0;
+              while(j<t && b[j]!=a[i]){
+                  j++;
+              }
+            if(j<t && b[j]==a[i]){
+                i++; 
+                j++;
+            }
+            else
+                return 0;
+        }
+        if(i>=m)return 1;
+         return 0;
+    }
+    int solve(int i,vector<string>&words,string temp,map<string,int>&mp){
+        if(i>=n)
+              return 0;
+        if(mp.find(temp)!=mp.end())
+              return mp[temp];
+       int ans=0; 
+        for(int j=i;j<n;++j){
+            if((temp.size()==0) || ok(temp,words[j])){
+                 // cout<<j<<"->"<<temp<<"-->"<<words[j]<<endl;
+                ans=max(ans,1+solve(j+1,words,words[j],mp));
             }
         }
-        return best;
+        // cout<<i<<"-->"<<ans<<"-->"<<temp<<endl;
+        return mp[temp]=ans;
+    }
+public:
+    int longestStrChain(vector<string>& words) {
+           n=words.size(); 
+           map<string,int>mp;
+          sort(words.begin(),words.end(),cmp); 
+          return solve(0,words,"",mp);
     }
 };
