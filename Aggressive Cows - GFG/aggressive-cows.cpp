@@ -7,41 +7,40 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution {
+class Solution { 
     private:
-    bool ok(int mid,vector<int>&stalls,int n,int k){
-        int c=1;
+    int ok(int mid,vector<int>&stalls,int n,int k){
+        int count=1;
         int sum=0;
         for(int i=1;i<n;++i){
-           int a=stalls[i]-stalls[i-1];
-           sum+=a;
-           if(sum>=mid){
-               c+=1;
-               sum=0;
-           }
+            sum+=stalls[i]-stalls[i-1];
+            if(sum>=mid){
+                sum=0;
+                count+=1;
+            }
         }
-        if(c<k)
+        if(count>=k)
+          return 1;
         return 0;
-        return 1;
     }
 public:
-
     int solve(int n, int k, vector<int> &stalls) {
-        sort(stalls.begin(),stalls.end());
-        int low=0;
-        int ans=0;
-        int high=stalls[n-1];
-        while(low<=high){
-            int mid=(low+high)>>1;
-            if(ok(mid,stalls,n,k)){
-                ans=mid;
-                low=mid+1;
-            }
-            else{
-                high=mid-1;
-            }
-        }
-        return ans;
+     sort(stalls.begin(),stalls.end());
+      long low=0;
+      long high=stalls[n-1];
+      long ans=0;
+      while(low<=high){
+          long mid=(low+high)>>1;
+          if(ok(mid,stalls,n,k)){
+              ans=mid;
+              low=mid+1;
+          }
+          else{
+              high=mid-1;
+          }
+      }
+      return ans;
+        // Write your code here
     }
 };
 
