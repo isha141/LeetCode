@@ -1,27 +1,33 @@
+int dp[102][102];
 class Solution {
-public:
-    int strangePrinter(string s) {
-        int n = s.size();
-        vector dp(n, vector<int>(n, n));
-        for (int length = 1; length <= n; length++) {
-            for (int left = 0; left <= n - length; left++) {
-                int right = left + length - 1;
-                int j = -1;
-                for (int i = left; i < right; i++) {
-                    if (s[i] != s[right] && j == -1) {
-                        j = i;
-                    }
-                    if (j != -1) {
-                        dp[left][right] = min(dp[left][right], 1 + dp[j][i] + dp[i + 1][right]);
-                    }
-                }
-                
-                if (j == -1) {
-                    dp[left][right] = 0;
+    private:
+    int n;
+    int solve(int l,int r,string &s){
+            if(l==r) return 1;
+            if(l>=r) return 0;
+            int ans=INT_MAX;
+            if(dp[l][r]!=-1)
+                 return dp[l][r];
+            int i=l+1;
+            while(i<=r && s[i]==s[l]){
+                i++;
+            }
+            if(i==r+1) 
+                return 1;
+            ans=1+solve(i,r,s);
+            int temp=INT_MAX;
+            for(int j=i;j<=r;++j){
+                if(s[j]==s[l]){
+                   int temp1=solve(i,j-1,s)+solve(j,r,s);
+                    temp=min(temp,temp1);
                 }
             }
-        }
-        
-        return dp[0][n - 1] + 1;
+          return dp[l][r]=min(temp,ans);
+    }
+public:
+    int strangePrinter(string s) {
+         n=s.size();
+         memset(dp,-1,sizeof(dp));
+        return solve(0,n-1,s);  
     }
 };
