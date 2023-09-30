@@ -49,38 +49,22 @@ public:
             ListNode *next=p->next;
             prev->next=next;
             next->prev=prev;
-            mp[key]=p;
-            p->val=value;
-            next=head->next;
-            p->next=next;
-            next->prev=p;
-            head->next=p;
-            p->prev=head;
-        }
-        else if(mp.size()+1<=size){
-            ListNode *p=new ListNode(key,value);
-            ListNode *next=head->next;
-            p->next=next;
-            next->prev=p;
-            head->next=p;
-            p->prev=head;
-            mp[key]=p;
         }
         else if(mp.size()==size){
-            ListNode *p=new ListNode(key,value);
             ListNode *del=tail->prev;
             ListNode *prev=del->prev;
             prev->next=tail;
             tail->prev=prev;
             mp.erase(del->key);
             delete(del);
+        }
+        ListNode *p=new ListNode(key,value);
             ListNode *next=head->next;
             p->next=next;
             next->prev=p;
             head->next=p;
             p->prev=head;
             mp[key]=p;
-        }
         return ;
     }
 };
