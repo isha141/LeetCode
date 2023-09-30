@@ -1,74 +1,87 @@
-
-class LRUCache { 
-    class node{
-        public:
-        int key;
-        node * next;
-        node * prev;
-        int val;
-        node(int key,int val){
-            this->key=key;
-            this->val=val;
-        }
-    };
-public: 
-    int cap=0;
-    node * head=new node(0,0);
-    node * tail=new node(0,0);
-      int size=0;
-    map<int,node* >mp;
+class LRUCache {
+    class ListNode{
+     public:
+    ListNode *prev;
+    ListNode *next;
+    int key;
+    int val;
+       ListNode(int key,int val){
+           this->key=key;
+           this->val=val;
+       } 
+};
+    private:
+    private:
+    ListNode *head=NULL;
+    ListNode *tail=NULL;
+    int size=0;
+    map<int,ListNode*>mp;
+public:
     LRUCache(int capacity) {
+        head=new ListNode(0,0);
+        head->prev=NULL;
+        tail=new ListNode(0,0);
+        head->next=tail;
+        tail->prev=head;
+        tail->next=NULL;
         size=capacity;
-         head->next=tail;
-         head->prev=NULL;
-         tail->prev=head;
     }
     
     int get(int key) {
-        if(mp.find(key)!=mp.end()){
-            node *temp=mp[key]; 
-            int val=temp->val;
-            node * temp1=temp->next;
-            temp1->prev=temp->prev;
-            temp->prev->next=temp1; 
-            node * a=new node(key,val);
-            node *b=head->next;
-            a->next=head->next;
-            a->prev=head;
-            head->next=a;
-            b->prev=a;
-            mp[key]=a;
-            return val;
-        } 
-        return -1;
-        
+       if(mp.find(key)==mp.end())
+             return -1;
+        ListNode *temp=mp[key];
+        ListNode *prev=temp->prev;
+        ListNode *next=temp->next;
+        prev->next=next;
+        next->prev=prev;
+        temp->next=head->next;
+        head->next->prev=temp;
+        temp->prev=head;
+        head->next=temp;
+        return temp->val; 
     }
     
     void put(int key, int value) {
         if(mp.find(key)!=mp.end()){
-             cap--;
-            node *a=mp[key];
-            mp.erase(a->key);  
-            node *b=a->next;
-            b->prev=a->prev;
-            a->prev->next=b;
+            ListNode *p=mp[key];
+            ListNode *prev=p->prev;
+            ListNode *next=p->next;
+            prev->next=next;
+            next->prev=prev;
+            mp[key]=p;
+            p->val=value;
+            next=head->next;
+            p->next=next;
+            next->prev=p;
+            head->next=p;
+            p->prev=head;
         }
-       else if(cap>=size){ 
-            cap--;
-            node *a=tail->prev;
-            mp.erase(a->key); 
-            node* b=a->prev;
-            b->next=tail;
-            tail->prev=b;
+        else if(mp.size()+1<=size){
+            ListNode *p=new ListNode(key,value);
+            ListNode *next=head->next;
+            p->next=next;
+            next->prev=p;
+            head->next=p;
+            p->prev=head;
+            mp[key]=p;
         }
-        node * a=new node(key,value);
-            node *b=head->next;
-            a->next=head->next;
-            a->prev=head;
-            head->next=a;
-            b->prev=a;
-            mp[key]=a;
-            cap++;
+        else if(mp.size()==size){
+            ListNode *p=new ListNode(key,value);
+            ListNode *del=tail->prev;
+            ListNode *prev=del->prev;
+            prev->next=tail;
+            tail->prev=prev;
+            mp.erase(del->key);
+            delete(del);
+            ListNode *next=head->next;
+            p->next=next;
+            next->prev=p;
+            head->next=p;
+            p->prev=head;
+            mp[key]=p;
+        }
+        return ;
     }
 };
 
