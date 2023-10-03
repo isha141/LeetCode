@@ -10,35 +10,23 @@
  * };
  */
 class Solution {
-    private:
-      void solve(TreeNode *root,vector<int>&ans){ 
-            stack<TreeNode*>s;
-             // s.push(root); 
-             // for(auto iit: ans)
-                   // cout<<iit<<";;;"<<endl;
-             while(1){
-                   while(root!=NULL){
-                       s.push(root);
-                       root=root->left;
-                   }
-                 if(s.empty()){
-                     return;
-                 }
-                 else{
-                     auto itr=s.top();
-                      s.pop();
-                     ans.push_back(itr->val);
-                      root=itr->right;
-                 }
-             }
-          return ;
-      }
 public:
-    vector<int> inorderTraversal(TreeNode* root) { 
-          if(root==NULL)
-                return {};
-           vector<int>ans;
-           solve(root,ans);
-           return ans;
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>ans;
+        if(root==NULL) return ans;
+        stack<TreeNode*>s;
+        while(root!=NULL || !s.empty()){
+            if(root !=NULL){
+                s.push(root);
+                root=root->left;
+            }
+            else{
+                auto itr=s.top();
+                s.pop();
+                ans.push_back(itr->val);
+                root=itr->right;
+            }
+        }
+        return ans;
     }
 };
