@@ -1,48 +1,48 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-          int n=nums.size();
           vector<int>ans;
-          int first=INT_MAX;
-          int second=INT_MAX;
-          int freq1=0;
-          int freq2=0;
-          for(auto itr: nums){
-               if(freq1==0 && second!=itr){
-                   first=itr;
-                   freq1+=1;
-               }
-              else if(first==itr){
-                  freq1+=1;
-                  continue;
+          int c1=0;
+          int c2=0;
+          int a1=-1;
+          int n=nums.size();
+          int a2=-1;
+          for(int i=0;i<n;++i){
+              if(c1==0 && a2!=nums[i]){
+                    a1=nums[i];
+                  c1+=1;
               }
-               else if(freq2==0 && first!=itr){
-                   second=itr;
-                    freq2+=1;
-               }
-              else if(second==itr){
-                   freq2+=1;
+              else if(a1==nums[i]){
+                  c1+=1;
+              }
+              else if(c2==0){
+                  c2+=1;
+                  a2=nums[i];
+              }
+              else if(a2==nums[i]){
+                  c2+=1;
+                  a2=nums[i];
               }
               else{
-                  freq1--;
-                  freq2--;
+                  c1-=1;
+                  c2-=1;
               }
           }
-          freq1=0;
-          freq2=0;
+          c1=0;
+          c2=0;
           for(auto itr: nums){
-              if(itr==first){
-                  freq1+=1;
+              if(itr==a1){
+                  c1+=1;
               }
-              else if(itr==second){
-                  freq2+=1;
+              else if(itr==a2){
+                  c2+=1;
               }
-          }
-        if(freq1>(n/3)){
-            ans.push_back(first);
+         }
+        if(c1>(n/3)){
+            ans.push_back(a1);
         }
-        if(freq2>(n/3)){
-            ans.push_back(second);
+        if(c2>(n/3)){
+            ans.push_back(a2);
         }
         return ans;
     }
