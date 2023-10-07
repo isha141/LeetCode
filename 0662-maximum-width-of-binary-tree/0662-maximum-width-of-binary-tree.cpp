@@ -10,35 +10,40 @@
  * };
  */
 class Solution {
-    int ans=0;
+    private:
     int solve(TreeNode *root){
-        queue<pair<TreeNode *,int>>q;
+        queue<pair<TreeNode *,int>>q; // root,index;
+        int ans=0;
         q.push({root,0});
-         while(!q.empty()){
-             int t=q.size();
-             int mini=INT_MAX;
-             int maxi=INT_MIN;
-             while(t--){
-                 auto itr=q.front();
-                 q.pop();
-                 int x=itr.second;
-                 TreeNode *root=itr.first;
-                 mini=min(mini,itr.second);
-                 maxi=max(maxi,itr.second);
-                 if(root->left)
-                     q.push({root->left,2*1ll*(x-mini)+1});
-                 if(root->right)
-                     q.push({root->right,2*1ll*(x-mini)+2});
-             }
-             ans=max(ans,maxi-mini+1);
-         }
-        return ans;
+        while(!q.empty()){
+              int t=q.size();
+              int mini=q.front().second;
+              int leftIndex=INT_MAX;
+              int rightIndex=INT_MIN;
+            while(t--){
+                auto itr=q.front();
+                q.pop();
+                TreeNode *node=itr.first;
+                // cout<<node->val<<"-->";
+                int index=itr.second;
+                leftIndex=min(leftIndex,index);
+                rightIndex=max(rightIndex,index);
+                if(node->left!=NULL){
+                  q.push({node->left,2*1ll*(index-mini)+1});  
+                }
+                if(node->right!=NULL){
+                    q.push({node->right,2*1ll*(index-mini)+2});
+                }
+            } 
+            // cout<<endl;
+            ans=max(ans,rightIndex-leftIndex+1);
+        }
+         return ans;
     }
-    
 public:
     int widthOfBinaryTree(TreeNode* root) {
-        if(root==NULL)
-               return 0;
-        return solve(root);
+          if(root==NULL)
+                return 0;
+          return solve(root);
     }
 };
