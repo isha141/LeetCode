@@ -1,35 +1,42 @@
-class Solution { 
-    bool solve(string s,string s1,string s2){
-        string temp="";
-        while(temp.size()<s1.size()){
-            temp+=s;
+class Solution {
+    private:
+    bool ok(string &ans,string &a,string &b){
+        int i=0;
+        int n=a.size();
+        int m=b.size();
+        int t=ans.size();
+        while(i<n){
+            string temp=a.substr(i,t);
+            if(temp!=ans)
+                  return 0;
+            i+=t;
         }
-        string temp2="";
-        while(temp2.size()<s2.size()){
-            temp2+=s;
+        if(i>n || i<n) return 0;
+        i=0;
+        while(i<m){
+            string temp=b.substr(i,t);
+            if(temp!=ans)
+                  return 0;
+            i+=t;
         }
-        if(temp==s1 && temp2==s2)
-            return 1;
-        return 0;
+        if(i>m || i<m) return 0;
+        return 1;
     }
 public:
     string gcdOfStrings(string str1, string str2) {
-         string s="";
+        int n=str1.size();
+        int m=str2.size();
+        string ans="";
         int i=0;
         int j=0;
-        int m=str1.size();
-        int n=str2.size();
-        string ans="";
-        while(i<m && j<n){
-            if(str1[i]!=str2[j])
-                return "";
-            s+=str1[i];
-            if(solve(s,str1,str2)){
-                ans=s;
+        string res="";
+        while(i<min(n,m)){
+            ans+=str1[i];
+            if(ok(ans,str1,str2)){
+                res=ans;
             }
             i++;
-            j++;
         }
-        return ans;
+        return res;
     }
 };
