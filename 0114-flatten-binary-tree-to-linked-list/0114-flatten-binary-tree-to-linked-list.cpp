@@ -9,21 +9,24 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution { 
-    TreeNode *next=NULL;
+class Solution {
+    private:
+    TreeNode *prev=NULL;
     void solve(TreeNode *root){
-        if(root==NULL)
-              return ;
-        solve(root->right); 
+          if(root==NULL)
+               return;
+         // if(root->right==NULL)
+               // return ;
+        solve(root->right);
         solve(root->left);
-        root->right=next;
+        root->right=prev;
         root->left=NULL;
-        next=root;
+        prev=root;
     }
 public:
     void flatten(TreeNode* root) {
-         if(root==NULL) return;
-          solve(root);
-         // return next;
+        if(root==NULL)
+              return ;
+        solve(root);
     }
 };
