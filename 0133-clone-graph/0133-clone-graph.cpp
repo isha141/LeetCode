@@ -20,27 +20,29 @@ public:
 */
 
 class Solution {
-    void solve(Node * node,vector<Node*>&vis,Node* root){
-          vis[node->val]=root;
-        for(auto itr: node->neighbors){
-            if(!vis[itr->val]){
-                Node * temp=new Node(itr->val);
-                root->neighbors.push_back(temp);
-                solve(itr,vis,temp);
-            } 
-            else{
-                root->neighbors.push_back(vis[itr->val]);
-                
-            }
-        }
+    private:
+    void solve(Node*node,Node *root,vector<Node*>&vis){
+         if(node==NULL)
+               return ;
+        vis[root->val]=root;
+         for(auto itr: node->neighbors){
+               if(vis[itr->val]==NULL){
+                   Node* curr=new Node(itr->val);
+                   root->neighbors.push_back(curr);
+                   solve(itr,curr,vis);
+               }
+               else{
+                   root->neighbors.push_back(vis[itr->val]);
+               }
+         }
+        return ;
     }
 public:
     Node* cloneGraph(Node* node) {
-        if(node==NULL) return NULL;
-        Node * root=new Node(node->val);
-        vector<Node*>vis(101,NULL);
-         solve(node,vis,root); 
-        return root;
-        
+         if(node==NULL) return {NULL};
+         Node *root=new Node(node->val);
+         vector<Node*>vis(101,NULL);
+          solve(node,root,vis);
+          return root;
     }
 };
