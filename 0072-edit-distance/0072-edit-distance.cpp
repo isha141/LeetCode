@@ -28,7 +28,27 @@ public:
     int minDistance(string w1, string w2) {
         n=w1.size();
         m=w2.size();
-        memset(dp,-1,sizeof(dp));
-        return solve(0,0,w1,w2);
+        memset(dp,0,sizeof(dp));
+        for(int i=0;i<=n;++i){
+            dp[i][0]=i;  // deleteions
+        }
+        for(int j=0;j<=m;++j){
+            dp[0][j]=j;
+        }
+        for(int i=1;i<=n;++i){
+            for(int j=1;j<=m;++j){
+                int equal=1e9;
+                int not_equal=1e9;
+                if(w1[i-1]==w2[j-1]){
+                    equal=dp[i-1][j-1];
+                }
+                else{
+                    not_equal=1+min(dp[i][j-1],min(dp[i-1][j],dp[i-1][j-1]));
+                }
+                dp[i][j]=min(equal,not_equal);
+            }
+        }
+        return dp[n][m];
+        
     }
 };
