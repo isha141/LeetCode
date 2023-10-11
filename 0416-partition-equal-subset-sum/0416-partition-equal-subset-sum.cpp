@@ -20,7 +20,21 @@ public:
         int n=nums.size();
         int sum=accumulate(nums.begin(),nums.end(),0);
         if(sum%2) return 0;
-        vector<vector<int>>dp(n,vector<int>((sum)/2+1,-1));
-        return solve(n-1,nums,sum/2,dp);
+        vector<vector<int>>dp(n+1,vector<int>((sum)/2+1,0));
+        for(int i=0;i<n;++i){
+            dp[i][0]=1;
+        }
+        for(int i=1;i<=n;++i){
+            for(int j=0;j<=(sum/2);++j){
+                int take=0;
+                int not_take=0;
+                if(j>=nums[i-1]){
+                    take=dp[i-1][j-nums[i-1]];
+                }
+                not_take=dp[i-1][j];
+                dp[i][j]=(take|not_take);
+            }
+        }
+        return dp[n][sum/2];
     }
 };
