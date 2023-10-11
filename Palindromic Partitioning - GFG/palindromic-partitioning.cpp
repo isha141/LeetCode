@@ -43,8 +43,20 @@ public:
     int palindromicPartition(string str)
     {
         n=str.size();
-        memset(dp,-1,sizeof(dp));
-       return solve(0,str)-1;
+        memset(dp,0,sizeof(dp)); 
+        dp[n]=0;
+        for(int i=n-1;i>=0;--i){
+             int ans=INT_MAX;
+            for(int j=i;j<n;++j){
+                string temp=str.substr(i,j-i+1);
+                if(ok(temp)){
+                    ans=min(ans,1+dp[j+1]);
+                }
+            }
+            dp[i]=ans;
+        }
+        return dp[0]-1;
+        
     }
 };
 
