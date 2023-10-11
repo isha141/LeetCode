@@ -1,32 +1,29 @@
-long long dp[1005][105][2];
-class Solution { 
+int dp[1003][103][3];
+class Solution {
     private:
     int n;
-    long long solve(int i,vector<int>&p,int k,bool flag){ 
-          if(i>=n && flag){
-                return -1e9;
-          } 
-           if(k<=0){
-               return 0;
-           }
-           if(i>=n) 
-               return 0 ;  
+    int solve(int i,vector<int>&prices,int k, bool flag){
+        if(i>=n){
+            return 0;
+        }
+        if(k==0)
+              return 0;
         if(dp[i][k][flag]!=-1)
              return dp[i][k][flag];
-        long long take=INT_MIN; 
-        long long not_take=INT_MIN;
+        int buy=0;
+        int sell=0;
         if(!flag){
-            take=max(solve(i+1,p,k,flag),-p[i]+solve(i+1,p,k,!flag));
+            buy=max(-prices[i]+solve(i+1,prices,k,!flag),solve(i+1,prices,k,flag));
         }
         else{
-            not_take=max(solve(i+1,p,k,flag),p[i]+solve(i+1,p,k-1,!flag));
+            sell=max(prices[i]+solve(i+1,prices,k-1,!flag),solve(i+1,prices,k,flag));
         }
-        return dp[i][k][flag]=max(take,not_take);
+        return dp[i][k][flag]=max(buy,sell);
     }
 public:
-    int maxProfit(int k, vector<int>& p) {
-         n=p.size(); 
-        memset(dp,-1,sizeof(dp));
-        return solve(0,p,k,0);
+    int maxProfit(int k, vector<int>& prices) {
+         n=prices.size();
+         memset(dp,-1,sizeof(dp));
+         return solve(0,prices,k,0);
     }
 };
