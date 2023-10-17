@@ -1,11 +1,9 @@
 class Solution {
 public:
-    int strStr(string hay, string s) {
-        int n=hay.size();
-        auto ind=hay.find(s); 
-        if(ind!=string::npos){
-            return ind;
-        }
+    int strStr(string hay, string needle) {
+       auto itr=hay.find(needle);
+        if(itr!=string::npos)
+             return itr;
         return -1;
     }
 };
