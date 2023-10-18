@@ -8,39 +8,40 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution {
+class Solution { 
+  private:
+  bool ok(int node,vector<int>&vis,vector<int>&dfsvis,vector<int>adj[]){
+       vis[node]=1;
+       dfsvis[node]=1;
+       for(auto iit: adj[node]){
+           if(vis[iit]==0){
+              if(ok(iit,vis,dfsvis,adj))
+              return 1;
+           }
+           else if(dfsvis[iit]==1){
+               return 1;
+           }
+       }
+       dfsvis[node]=0;
+       return 0;
+  }
   public:
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
         // code here 
-        vector<int>indeg(V,0);
-        vector<int>adj1[V];
-        for(int i=0;i<V;++i){
-            for(auto itr: adj[i]){
-                adj1[itr].push_back(i); 
-            }
-        }
-        for(int i=0;i<V;++i){
-            for(auto itr: adj1[i]){
-                indeg[itr]++;
-            }
-        }
-        queue<int>q;
-        for(int i=0;i<V;++i){
-            if(indeg[i]==0)
-            q.push(i);
-        } 
         vector<int>ans;
-        while(!q.empty()){
-            auto itr=q.front();
-            q.pop();
-            ans.push_back(itr);
-            for(auto it: adj1[itr]){
-                indeg[it]--;
-                if(indeg[it]==0)
-                q.push(it);
+        map<int,int>mp;
+        vector<int>vis(V,0);
+        vector<int>dfsvis(V,0);
+        for(int i=0;i<V;++i){
+           if(ok(i,vis,dfsvis,adj)){
+               mp[i]++;
+           }
+        }
+        for(int i=0;i<V;++i){
+            if(mp.find(i)==mp.end()){
+                ans.push_back(i);
             }
         }
-        sort(ans.begin(),ans.end());
         return ans;
     }
 };
