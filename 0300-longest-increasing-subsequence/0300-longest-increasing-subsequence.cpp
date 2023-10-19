@@ -16,7 +16,20 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         n=nums.size();
-        memset(dp,-1,sizeof(dp));
-        return solve(0,nums,-1);
+        vector<int>ds;
+        for(int i=0;i<n;++i){
+            if(ds.size()==0){
+                ds.push_back(nums[i]);
+                continue;
+            }
+            if(ds.size() && ds.back()<nums[i]){
+                ds.push_back(nums[i]);
+            }
+            else{
+                auto itr=lower_bound(ds.begin(),ds.end(),nums[i])-ds.begin();
+                ds[itr]=nums[i];
+            }
+        }
+        return ds.size();
     }
 };
