@@ -7,25 +7,15 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-void solve(int node,vector<int>adj[],stack<char>&st,vector<int>&vis){
-      vis[node]=1;
-      for(auto iit: adj[node]){
-          if(!vis[iit]){
-              vis[iit]=1;
-              solve(iit,adj,st,vis);
-          }
-      }
-      st.push(node+'a');
-      return;
-}
 class Solution{
     public:
     string findOrder(string dict[], int n, int k) {
-        //code here
-        vector<int>adj[26];
-        for(int i=1;i<n;++i){
-            string a=dict[i-1];
-            string b=dict[i];
+        //code here 
+        string ans="";
+        vector<int>adj[k];
+        for(int i=0;i<n-1;++i){
+            string a=dict[i];
+            string b=dict[i+1];
             for(int j=0;j<min(a.size(),b.size());++j){
                 if(a[j]!=b[j]){
                     adj[a[j]-'a'].push_back(b[j]-'a');
@@ -33,23 +23,34 @@ class Solution{
                 }
             }
         }
-        stack<char>st;
-        vector<int>vis(26,0);
-        for(int i=0;i<26;++i){
-            if(vis[i]==0 && adj[i].size()){
-                solve(i,adj,st,vis);
+        vector<int>indeg(k,0);
+        for(int i=0;i<k;++i){
+            for(auto it: adj[i]){
+                indeg[it]++;
             }
         }
-        string ans="";
-        while(!st.empty()){
-            auto it=st.top();
-            st.pop();
-            ans+=it;
+        queue<int>q;
+        for(int i=0;i<k;++i){
+            if(indeg[i]==0 && adj[i].size()){
+                q.push(i);
+            }
         }
-        // cout<<ans<<";;"<<endl;
+        while(!q.empty()){
+            auto itr=q.front();
+            q.pop();
+            ans+=(itr+'a');
+            indeg[itr]--;
+            for(auto iit: adj[itr]){
+                indeg[iit]--;
+                if(indeg[iit]==0)
+                q.push(iit);
+            }
+        }
         return ans;
-    }
-};
+    } 
+}; 
+
+
 
 //{ Driver Code Starts.
 string order;
