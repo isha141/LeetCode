@@ -82,64 +82,74 @@ Node *buildTree(string str) {
 // } Driver Code Ends
 //User function Template for C++
 
-class Solution { 
+/*
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+class Solution {
     private:
     map<Node*,Node*>mp;
-    Node * head;
-    void find_parent(Node* root,int target){
+    Node *head=NULL;
+    void findparent(Node *root,int target){
         if(root==NULL)
-          return ;
-          if(root->data==target){
-              head=root;
-          }
-          if(root->left==NULL && root->right==NULL)
-            return ;
-            find_parent(root->left,target);
-            find_parent(root->right,target);
-            if(root->left)
-            mp[root->left]=root;
-            if(root->right)
-            mp[root->right]=root;
-            return ;
-    } 
-    int solve(Node* root){
-        queue<Node*>q;
+         return;
+        if(root->data==target){
+            head=root;
+        }
+        findparent(root->left,target);
+        findparent(root->right,target);
+        if(root->left)
+        mp[root->left]=root;
+        if(root->right)
+        mp[root->right]=root;
+    }
+    int solve(){
+        queue<Node *>q;
         q.push(head);
-        int c=-1; 
-        map<Node*,bool>vis;
+        int ans=0;
+        map<Node*,int>vis;
+        vis[head]=1;
         while(!q.empty()){
-            int n=q.size();
-            while(n--){
+            int t=q.size();
+            while(t--){
                 auto itr=q.front();
                 q.pop();
-                vis[itr]=1;
-                if(itr->left && vis.find(itr->left)==vis.end()){
-                    q.push(itr->left);
+                // cout<<itr->data<<"-->"<<endl;
+                if(itr->left  && vis.find(itr->left)==vis.end()){
                     vis[itr->left]=1;
+                    q.push(itr->left);
                 }
                 if(itr->right && vis.find(itr->right)==vis.end()){
-                    q.push(itr->right);
                     vis[itr->right]=1;
+                    q.push(itr->right);
                 }
                 if(mp.find(itr)!=mp.end() && vis.find(mp[itr])==vis.end()){
-                    vis[mp[itr]]=1;
+                    vis[mp[itr]]++;
                     q.push(mp[itr]);
                 }
             }
-            c++;
+            if(q.size())
+            ans+=1;
         }
-        return c;
+        return ans;
     }
   public:
     int minTime(Node* root, int target) 
     {
-        // Your code goes here  
-        if(root==NULL)
-          return 0;
-        find_parent(root,target);   
-        return solve(root);
+       if(root==NULL) return 0;
+       findparent(root,target); 
+       return solve();
     }
-};
+}; 
+
 
 //{ Driver Code Starts.
 
