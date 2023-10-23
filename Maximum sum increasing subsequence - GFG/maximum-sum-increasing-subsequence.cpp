@@ -4,29 +4,30 @@ using namespace std;
 
 // } Driver Code Ends
 
-int dp[1002][1003];
+int dp[1001][1002];
 class Solution{
 	private:
-	int solve(int i,int prev,int arr[],int n){
-	    if(i>=n)
-	     return 0;
-	    int take=0;
-	    int not_take=0;
-	    if(dp[i][prev+1]!=-1)
-	      return dp[i][prev+1];
-	    if(arr[prev]<arr[i] || prev==-1){
-	        take=arr[i]+solve(i+1,i,arr,n);
-	    }
-	    not_take=solve(i+1,prev,arr,n);
-	    return dp[i][prev+1]=max(take,not_take);
+	int solve(int i,int arr[],int n,int last){
+	      if(i>=n){
+	            return 0;
+	      }
+	      if(dp[i][last+1]!=-1)
+	        return dp[i][last+1];
+	      int take=0;
+	      int not_take=0;
+	      if(last==-1 || arr[last]<arr[i]){
+	          take=arr[i]+solve(i+1,arr,n,i);
+	      }
+	      not_take=solve(i+1,arr,n,last);
+	      return dp[i][last+1]=max(take,not_take);
 	}
 	public:
 	int maxSumIS(int arr[], int n)  
-	{   
+	{  
 	    memset(dp,-1,sizeof(dp));
-	    return solve(0,-1,arr,n);
-	}   
-}; 
+	   return solve(0,arr,n,-1);
+	}  
+};
 
 //{ Driver Code Starts.
 int main() 
