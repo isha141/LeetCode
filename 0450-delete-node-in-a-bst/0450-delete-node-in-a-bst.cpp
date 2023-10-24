@@ -9,46 +9,44 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {  
-    private:
-    TreeNode * helper(TreeNode * root){
-        while(root->right!=NULL)
-              root=root->right;
-        return root;
-    }
-    private:
-    TreeNode * solve(TreeNode * root){
-         if(root->left==NULL) return root->right;
-        if(root->right==NULL) return root->left;
-        TreeNode * rightchild=root->right;
-        TreeNode * lastchild=helper(root->left);
-        lastchild->right=rightchild;
-        return root->left;
+class Solution {
+    TreeNode *insuc(TreeNode *root){
+         while(root && root->left!=NULL){
+             root=root->left;
+         }
+          return root;
     }
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
-         if(root==NULL) return root; 
-        if(root->val==key)
-        return solve(root); 
-        TreeNode * dummy=root;
-        while(root!=NULL){
-            if(root->val>key){
-                if(root->left!=NULL && root->left->val==key){
-                    root->left=solve(root->left);
-                    break;
-                }
-                else
-                    root=root->left;
+        if(root==NULL)
+          return root;
+        if(root->val<key){
+            root->right=deleteNode(root->right,key);
+        }
+        else if(root->val>key){
+            root->left=deleteNode(root->left,key);
+        }
+        else{
+            if(root->left==NULL && root->right==NULL){
+               delete(root);
+                return NULL;
+             }
+            else if(root->left==NULL && root->right!=NULL){
+                TreeNode *temp=root->right;
+                delete(root);
+                 return temp;
             }
-            else if(root->val<key){
-                if(root->right!=NULL && root->right->val==key){
-                    root->right=solve(root->right); 
-                    break;
-                }
-                else
-                    root=root->right;
+            else if(root->left && root->right==NULL){
+                   TreeNode *temp=root->left;
+                   delete(root);
+                   return  temp;
+            }
+            else{
+                TreeNode *temp=insuc(root->right);
+                root->val=temp->val;
+                root->right=deleteNode(root->right,temp->val);
             }
         }
-        return dummy;
+        return root;
     }
 };
