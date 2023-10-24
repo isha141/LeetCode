@@ -7,48 +7,29 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution{ 
+int dp[1001][1001];
+class Solution{
     private:
-    int solve(int i,int n,int w, int val[],int wt[],int curr,vector<vector<int>>&dp){
-        if(i>=n)
+    int solve(int i,int weight,int val[],int wt[]){
+         if(i<0) 
          return 0;
-        int take=INT_MIN; 
-        if(dp[i][curr]!=-1)
-          return dp[i][curr];
-        if((wt[i]+curr)<=w){
-            take=val[i]+solve(i,n,w,val,wt,curr+wt[i],dp);
-        }
-        int not_take=solve(i+1,n,w,val,wt,curr,dp);
-        return dp[i][curr]=max(take,not_take);
+         if(weight==0)
+           return 0;
+          if(dp[i][weight]!=-1)
+            return dp[i][weight];
+         int take=0;
+         int not_take=0;
+         if(wt[i]<=weight){
+             take=val[i]+solve(i,weight-wt[i],val,wt);
+         }
+         not_take=solve(i-1,weight,val,wt);
+        return dp[i][weight]=max(take,not_take);
     }
 public:
     int knapSack(int n, int w, int val[], int wt[])
-    {
-        // code here
-        vector<vector<int>>dp(n,vector<int>(w+1,0));
-        for(int i=0;i<=w;++i){
-            //   if(i>=wt[0]){
-               int temp=(i/wt[0]);
-               dp[0][i]=(temp*val[0]); 
-            // }
-        }
-        for(int i=1;i<n;++i){
-            for(int j=0;j<=w;++j){
-                int not_take=dp[i-1][j];
-                int take=0;
-                if(j>=wt[i]){
-                    take=dp[i][j-wt[i]]+val[i];
-                }
-                dp[i][j]=max(take,not_take);
-            }
-        } 
-        // for(int i=0;i<n;++i){
-        //      for(int j=0;j<=w;++j){
-        //          cout<<dp[i][j]<<" ";
-        //      }
-        //      cout<<endl;
-        // }
-        return dp[n-1][w];
+    {  
+        memset(dp,-1,sizeof(dp));
+        return solve(n-1,w,val,wt);
     }
 };
 
