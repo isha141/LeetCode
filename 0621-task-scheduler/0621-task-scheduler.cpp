@@ -1,35 +1,38 @@
 class Solution {
 public:
-    int leastInterval(vector<char>& t, int n) {
-        int ans=0;
+    int leastInterval(vector<char>&tasks, int n) {
         map<char,int>mp;
-        for(auto itr: t){
+        for(auto itr: tasks){
             mp[itr]++;
         }
         priority_queue<int>pq;
-        for(auto &[x,y]: mp){
-            pq.push(y);
-        }
-        queue<int>q; 
+        for(auto itr: mp){
+            pq.push(itr.second);
+        } 
+        queue<int>q;
+        int ans=0;
         while(!pq.empty()){
-              auto itr=pq.top();
-              pq.pop(); 
-             ans+=1;
-            if(itr-1>0)
+            auto itr=pq.top();
+            pq.pop();
+            ans+=1;
+            if((itr-1)>0)
                 q.push(itr-1);
             for(int i=0;i<n;++i){
-                if(pq.size()==0 && q.size()==0) return ans; 
+                if(pq.size()==0 && q.size()==0)
+                      return ans;
                 if(pq.size()){
-                 auto itr=pq.top();
-                 pq.pop();
-                if(itr-1>0)
+                auto itr=pq.top();
+                pq.pop();
+                if(itr-1>0){
                     q.push(itr-1);
                 }
-                ans+=1;
+              }
+              ans+=1;
             }
             while(!q.empty()){
-                pq.push(q.front());
+                auto itr=q.front();
                 q.pop();
+                pq.push(itr);
             }
         }
         return ans;
