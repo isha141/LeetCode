@@ -1,40 +1,55 @@
-class Solution { 
-    private: 
+class Solution {
+    private:
+    vector<vector<string>>ans; 
     int n;
-     vector<vector<string>>ans; 
-    bool solve(int ind,vector<string>&ds,vector<int>&left,vector<int>&lower,vector<int>&right){
-        if(ind>=n){
-            ans.push_back(ds);
-            return 1;
-        } 
-        for(int i=0;i<n;++i){    
-            if(ds[i][ind]=='.'){
-        if(!left[i] && !lower[i+ind] && !right[n-1+ind-i] ){
-              left[i]=1;
-            lower[i+ind]=1;
-            right[n-1+ind-i]=1;
-            ds[i][ind]='Q'; 
-            solve(ind+1,ds,left,lower,right);
-            left[i]=0;
-            lower[i+ind]=0;
-            right[n-1+ind-i]=0;
-            ds[i][ind]='.'; 
+    bool canPlace(int row,int col,vector<string>&ds){
+        int column=col;
+        int r=row;
+        while(column>=0){
+            if(ds[row][column]=='Q')
+                  return 0;
+            column--;
         }
+         column=col;
+        while(row>=0 && column>=0){
+            if(ds[row][column]=='Q') 
+                  return 0;
+            row--;
+            column--;
         }
+        column=col;
+        // r=row;
+        while(r<n && column>=0){
+            if(ds[r][column]=='Q')
+                  return 0;
+            r++;
+            column--;
         }
-        return 0;
+        return 1;
+    }
+    void solve(int col,vector<string>&ds,int n){
+          if(col>=n){
+              ans.push_back(ds);
+              return;
+          }
+          for(int i=0;i<n;++i){
+              if(canPlace(i,col,ds)){
+                  ds[i][col]='Q';
+                  solve(col+1,ds,n);
+                  ds[i][col]='.';
+              }
+          }
+        return ;
     }
 public:
     vector<vector<string>> solveNQueens(int n) {
-        this->n=n;
-        vector<string>ds(n);
+         this->n=n;
         string s(n,'.');
-        for(int i=0;i<n;++i)
+          vector<string>ds(n);
+         for(int i=0;i<n;++i){
              ds[i]=s;
-        vector<int>left(n,0);
-        vector<int>lower(2*n+1,0);
-        vector<int>right(2*n+1,0);
-        solve(0,ds,left,lower,right);
-        return ans;
+         }
+         solve(0,ds,n);
+         return ans;
     }
 };
