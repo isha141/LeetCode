@@ -3,31 +3,34 @@
 using namespace std;
 
 // } Driver Code Ends
+
+
+
 class Solution{
-    private:
-    vector<string>ans;
-    int n;
-    void solve(int i,string &s,string &temp){
-           if(i>=n){
-               if(temp.size()>0)
-             ans.push_back(temp);
-             return ;
-           }
-           temp+=s[i];
-           solve(i+1,s,temp);
-           temp.pop_back();
-           solve(i+1,s,temp);
-           return;
-    }
 	public:
 		vector<string> AllPossibleStrings(string s){
-		      n=s.size();
-		      string temp="";
-		      solve(0,s,temp);
-		      sort(ans.begin(),ans.end());
-		      return ans;
+                 vector<string>ans;
+                  int n=s.size();
+                  int subset_size=(1<<n);
+                for(int i=0;i<subset_size;++i){
+                      string ds="";
+                      for(int j=0;j<n;++j){
+                          if((1<<j) & i){
+                              ds+=s[j];
+                          }
+                      }
+                      if(ds.size()>0)
+                      ans.push_back(ds);
+                }
+                sort(ans.begin(),ans.end());
+            return ans;
 		}
 };
+
+
+
+
+
 
 //{ Driver Code Starts.
 int main(){
