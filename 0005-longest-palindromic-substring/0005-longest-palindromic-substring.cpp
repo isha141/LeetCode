@@ -2,10 +2,9 @@ class Solution {
 public:
     string longestPalindrome(string s) {
         int n=s.size();
-        string ans="";
         int start=0;
-        int end=0;
-        vector<vector<int>>dp(n,vector<int>(n,0));
+        int end=1;
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
         for(int i=0;i<n;++i){
             dp[i][i]=1;
             start=i;
