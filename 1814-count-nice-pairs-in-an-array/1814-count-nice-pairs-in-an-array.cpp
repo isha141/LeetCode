@@ -1,24 +1,21 @@
-class Solution { 
-    private:
-    long long mod=1e9+7;
-    long reverse1(long temp){
-        string s=to_string(temp); 
-        // cout<<s<<",,";
-        reverse(s.begin(),s.end());
-        return stol(s);
-    }
+class Solution {
 public:
     int countNicePairs(vector<int>& nums) {
-        int n=nums.size();
-        int ans=0;
-        map<int,int>mp;
-        for(int i=0;i<n;++i){
-        long temp=nums[i]-reverse1(nums[i]);
-            if(mp.find(temp)!=mp.end())
-                ans+=mp[temp];
-            ans%=mod;
-            mp[temp]++;
-        }
-        return ans;
+         int n=nums.size();
+         int ans=0;
+         int mod=1e9+7;
+         map<long long,int>mp;
+         for(int i=0;i<n;++i){
+             string s=to_string(nums[i]);
+             reverse(s.begin(),s.end());
+             int temp=stoll(s);
+             long rem=nums[i]-temp;
+             if(mp.find(rem)!=mp.end()){
+                 ans+=(mp[rem])%mod;
+                 ans%=mod;
+             }
+             mp[rem]+=1;
+         }
+         return ans;
     }
 };
